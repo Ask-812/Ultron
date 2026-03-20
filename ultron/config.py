@@ -4,7 +4,7 @@
     'starting_energy': 50,
     'energy_capacity': 150,
     'consumption_rate': 0.85,
-    'learning_rate': 0.1,
+    'learning_rate': 0.05,
     'prior_learning_rate': 0.001,
     'precision_learning_rate': 0.001,
     'update_cost_factor': 0.05,
