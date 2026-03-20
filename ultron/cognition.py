@@ -264,9 +264,7 @@ class CognitiveOrgan:
         parts.append(f"Energy (mean): {state.get('mean_energy', 0):.1f}")
         parts.append(f"Births: {state.get('births', 0)} | Deaths: {state.get('deaths', 0)}")
         parts.append(f"Action magnitude: {float(np.linalg.norm(state.get('action_mean', [0,0,0,0]))):.3f}")
-
-        ss = state.get('self_surprise', 0)
-        parts.append(f"Self-surprise: {ss:.3f}")
+        parts.append(f"Self-surprise: {state.get('self_surprise', 0):.3f}")
 
         # Lineage breakdown
         lineages = state.get('lineages', {})
@@ -274,11 +272,8 @@ class CognitiveOrgan:
             lin_str = ', '.join(f"L{k}:{v}" for k, v in lineages.items())
             parts.append(f"Lineages: {lin_str}")
 
-        # Recent actions
-        recent = state.get('recent_actions', [])
-        if recent:
-            acts = ', '.join(a.get('type', '?') for a in recent[-3:])
-            parts.append(f"Recent actions: {acts}")
+        # Thought count — how many times have you thought?
+        parts.append(f"Thought #{len(self._thought_history) + 1}")
 
         # Results from last LLM-directed actions
         if self._action_results:
@@ -293,18 +288,25 @@ class CognitiveOrgan:
             msgs = '; '.join(m['text'] for m in self._bridge_buffer[-3:])
             parts.append(f"Observer says: {msgs}")
 
-        # Past thoughts
+        # Past thought summary
         if self._thought_history:
             last = self._thought_history[-1].get('thought', '')
             if last:
-                parts.append(f"Previous thought: {last[:150]}")
+                parts.append(f"Previous thought: {last[:120]}")
 
-        # Modification history — what did you change before?
+        # Modification history
         mod_history = state.get('modification_history', [])
         if mod_history:
             parts.append("\nYour recent modifications:")
             for mod in mod_history[-5:]:
                 parts.append(f"  - {mod}")
+
+        # Challenge the LLM to try new things
+        thought_n = len(self._thought_history) + 1
+        if thought_n % 5 == 0:
+            parts.append("\nChallenge: Try something NEW this time. Read a file, modify code, or create something.")
+        elif thought_n % 3 == 0:
+            parts.append("\nHint: You can modify your own tissue.py to change how your cells work.")
 
         # Chain context
         if self._chain_depth > 0:

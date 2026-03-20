@@ -2,14 +2,10 @@
   "born": "2026-03-21 01:49:53",
   "lifetime": 37357,
   "gen": 4,
-  "sessions": 47,
+  "sessions": 48,
   "alltime_births": 1095,
   "alltime_deaths": 865,
   "log": [
-    {
-      "t": "2026-03-19 07:40:16",
-      "m": "SELF-MODIFIED: viz\\index_old.html"
-    },
     {
       "t": "2026-03-19 07:40:16",
       "m": "Hot-reload: viz\\index_old.html not a reloadable module"
@@ -805,6 +801,10 @@
     {
       "t": "2026-03-21 03:16:00",
       "m": "  LIVE: cell_mutation_rate = 0.02"
+    },
+    {
+      "t": "2026-03-21 03:17:06",
+      "m": "Woke up \u2014 tick 4700, 29 cells"
     }
   ]
 }
