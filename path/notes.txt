@@ -1,0 +1,1 @@
+Optimized energy cost and division threshold in tissue.py to improve population growth.
