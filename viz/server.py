@@ -91,7 +91,7 @@ CONFIG = {
     'signal_noise': 0.01,
     'signal_energy_coupling': 1.0, 'signal_division_coupling': 0.15,
     'energy_leak_rate': 0.04,
-    'division_energy_threshold': 18, 'division_cost': 0.1,
+    'division_energy_threshold': 30, 'division_cost': 0.1,
     'apoptosis_threshold': 2.0, 'apoptosis_streak': 200,
     'cell_mutation_rate': 0.04, 'birth_trait_variation': 0.05,
     'phenotype_max_plasticity': 0.06, 'phenotype_lock_tau': 300.0,
