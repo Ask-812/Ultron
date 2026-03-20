@@ -548,6 +548,18 @@ class Ultron:
                         lin_counts[lid] = lin_counts.get(lid, 0) + 1
             thought_state['lineages'] = lin_counts
 
+            # Build modification history from LLM action log
+            mod_history = []
+            for act in self._agency.get_action_log(20):
+                atype = act.get('type', '')
+                if atype.startswith('llm_') and 'result' in act:
+                    r = act['result']
+                    if r.get('success'):
+                        desc = r.get('result', '')
+                        if isinstance(desc, str) and desc:
+                            mod_history.append(f"T{act.get('tick', '?')}: {desc[:80]}")
+            thought_state['modification_history'] = mod_history[-5:]
+
             def on_thought(result):
                 if 'thought' in result:
                     thought_text = result['thought']

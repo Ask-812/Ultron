@@ -2,7 +2,7 @@
     'observation_dim': 32,
     'model_dim': 64,
     'starting_energy': 100.0,
-    'energy_capacity': 100,
+    'energy_capacity': 80,
     'consumption_rate': 0.05,
     'learning_rate': 0.01,
     'prior_learning_rate': 0.001,

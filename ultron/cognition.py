@@ -299,6 +299,13 @@ class CognitiveOrgan:
             if last:
                 parts.append(f"Previous thought: {last[:150]}")
 
+        # Modification history — what did you change before?
+        mod_history = state.get('modification_history', [])
+        if mod_history:
+            parts.append("\nYour recent modifications:")
+            for mod in mod_history[-5:]:
+                parts.append(f"  - {mod}")
+
         # Chain context
         if self._chain_depth > 0:
             parts.append(f"\nThis is step {self._chain_depth + 1} of a multi-step thought chain.")
