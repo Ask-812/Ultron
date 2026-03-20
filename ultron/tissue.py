@@ -1,7 +1,7 @@
 """
 Tissue — the spatial substrate for multicellular Ultron.
 
-A Tissue is a 2D grid where each position either:
+A Tissue is a 2D grid that facilitates cellular interactions and growth.rid where each position either:
   - contains a living Cell
   - is empty (None)
 
