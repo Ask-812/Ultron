@@ -263,8 +263,15 @@ class CognitiveOrgan:
         parts.append(f"Cells: {state.get('cell_count', 0)}")
         parts.append(f"Energy (mean): {state.get('mean_energy', 0):.1f}")
         parts.append(f"Births: {state.get('births', 0)} | Deaths: {state.get('deaths', 0)}")
-        parts.append(f"Action magnitude: {float(np.linalg.norm(state.get('action_mean', [0,0,0,0]))):.3f}")
         parts.append(f"Self-surprise: {state.get('self_surprise', 0):.3f}")
+
+        # Population trend (from thought history)
+        if len(self._thought_history) >= 2:
+            prev_cells = self._thought_history[-1].get('cells', 0)
+            curr_cells = state.get('cell_count', 0)
+            delta = curr_cells - prev_cells
+            trend = "GROWING" if delta > 0 else "SHRINKING" if delta < 0 else "STABLE"
+            parts.append(f"Population trend: {trend} ({'+' if delta > 0 else ''}{delta} since last thought)")
 
         # Lineage breakdown
         lineages = state.get('lineages', {})
