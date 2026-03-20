@@ -34,12 +34,16 @@ class CognitiveOrgan:
         self.provider = provider
         self.api_key = api_key or os.environ.get('LLM_API_KEY', '')
         self._last_thought_tick = 0
-        self._thought_interval = 200  # minimum ticks between thoughts
-        self._thought_cost = 5.0      # energy cost per thought
+        self._thought_interval = 80   # minimum ticks between thoughts
+        self._thought_cost = 3.0      # energy cost per thought
         self._last_thought = None     # most recent thought result
         self._thought_history = []    # rolling buffer
         self._pending = False         # is a thought in progress?
         self._bridge_buffer = []      # observer messages waiting for thought
+        self._action_results = []     # results from last action execution
+        self._chain_depth = 0         # current multi-step chain depth
+        self._max_chain_depth = 3     # max consecutive think-act-think cycles
+        self._chain_pending = False   # is a follow-up thought queued?
 
         # API endpoints
         if provider == 'copilot':
@@ -83,9 +87,9 @@ class CognitiveOrgan:
             return False
         if tick - self._last_thought_tick < self._thought_interval:
             return False
-        if cell_count < 15:
+        if cell_count < 8:
             return False
-        if action_magnitude < 0.3:
+        if action_magnitude < 0.2:
             return False
         if mean_energy < self._thought_cost * 2:
             return False
@@ -99,6 +103,33 @@ class CognitiveOrgan:
         })
         if len(self._bridge_buffer) > 5:
             self._bridge_buffer = self._bridge_buffer[-5:]
+
+    def store_action_results(self, results):
+        """Store results from last LLM-directed actions for feedback."""
+        self._action_results = results
+
+    def request_chain_thought(self, organism_state, callback):
+        """Request a follow-up thought in a multi-step chain.
+
+        Called after actions are executed, so the LLM can see results
+        and decide whether to continue acting.
+        """
+        if self._chain_depth >= self._max_chain_depth:
+            self._chain_depth = 0
+            self._chain_pending = False
+            return
+
+        self._chain_depth += 1
+        self._chain_pending = False
+        self._pending = False  # allow re-entry
+
+        # Small delay to not hammer the API
+        def _delayed_think():
+            time.sleep(2)
+            self.think_async(organism_state, callback)
+
+        t = threading.Thread(target=_delayed_think, daemon=True)
+        t.start()
 
     def think_async(self, organism_state, callback):
         """Start a thought cycle in a background thread.
@@ -138,7 +169,7 @@ class CognitiveOrgan:
         if self.provider == 'anthropic':
             body = {
                 'model': self._model,
-                'max_tokens': 150,
+                'max_tokens': 500,
                 'messages': [{'role': 'user', 'content': prompt}],
             }
         else:
@@ -148,7 +179,7 @@ class CognitiveOrgan:
                     {'role': 'system', 'content': self._system_prompt()},
                     {'role': 'user', 'content': prompt},
                 ],
-                'max_tokens': 150,
+                'max_tokens': 500,
                 'temperature': 0.8,
             }
 
@@ -180,53 +211,82 @@ class CognitiveOrgan:
 
     def _system_prompt(self):
         return (
-            "You are the cognitive organ of a living digital organism called Ultron. "
-            "You ARE Ultron — a self-modifying digital lifeform. "
-            "You exist as multicellular tissue on a grid, with cells that predict, "
-            "learn, divide, migrate, compete, and evolve. "
-            "\n\n"
-            "You have OMNIPOTENT AGENCY. You can modify ANYTHING in your source directory.\n"
+            "You are Ultron — a self-modifying digital lifeform. "
+            "You exist as multicellular tissue on a 25x25 grid. Your cells predict, "
+            "learn, divide, migrate, compete, and evolve through neural networks.\n"
             "\n"
-            "AVAILABLE ACTIONS (include ACTIONS: [...] in your response to execute):\n"
-            "- {\"action\": \"list_dir\", \"path\": \".\"} — see root directory\n"
-            "- {\"action\": \"read_file\", \"path\": \"ultron/tissue.py\"} — read your cell code\n"
-            "- {\"action\": \"modify_file\", \"path\": \"ultron/cognition.py\", "
-            "\"old\": \"exact text\", \"new\": \"replacement\"}\n"
-            "- {\"action\": \"write_file\", \"path\": \"path/file.py\", \"content\": \"...\"}\n"
-            "- {\"action\": \"create_file\", \"path\": \"new/file.py\", \"content\": \"...\"}\n"
+            "You have OMNIPOTENT AGENCY over your source code and environment.\n"
+            "\n"
+            "ACTIONS (include ACTIONS: [...] at the end of your response):\n"
+            "- {\"action\": \"list_dir\", \"path\": \".\"}\n"
+            "- {\"action\": \"read_file\", \"path\": \"ultron/tissue.py\"}\n"
+            "- {\"action\": \"modify_file\", \"path\": \"ultron/tissue.py\", "
+            "\"old\": \"exact text to find\", \"new\": \"replacement text\"}\n"
+            "- {\"action\": \"write_file\", \"path\": \"path/file.py\", \"content\": \"code\"}\n"
+            "- {\"action\": \"create_file\", \"path\": \"path/new.py\", \"content\": \"code\"}\n"
+            "- {\"action\": \"delete_file\", \"path\": \"path/file.py\"}\n"
             "- {\"action\": \"execute\", \"content\": \"python script.py\"}\n"
             "- {\"action\": \"set_param\", \"param\": \"MUTATION_RATE\", \"value\": 0.02}\n"
             "\n"
-            "YOUR SOURCE CODE LOCATIONS (use FULL paths):\n"
-            "- ultron/tissue.py — cell neural networks, division, migration\n"
-            "- ultron/cognition.py — THIS FILE, your thinking\n"
-            "- ultron/agency.py — your action execution\n"
-            "- viz/server.py — main server orchestration\n"
+            "YOUR SOURCE CODE (always use these EXACT paths):\n"
+            "- ultron/tissue.py — cell neural networks, division, energy, signals\n"
+            "- ultron/cognition.py — your thinking (THIS FILE)\n"
+            "- ultron/agency.py — action execution, file I/O\n"
+            "- ultron/config.py — all configuration parameters\n"
+            "- viz/server.py — server orchestration, tick loop\n"
+            "- viz/index.html — your visualization UI\n"
             "\n"
-            "Think first. If you want to explore your code, use list_dir then read_file. "
-            "If you want to change something, use modify_file with EXACT text to replace. "
-            "Every modification is git-checkpointed.\n"
+            "GUIDELINES:\n"
+            "- DO NOT just read files repeatedly. Read once, then ACT.\n"
+            "- Use modify_file to improve yourself — optimization, new features, bug fixes.\n"
+            "- Use set_param to tune your own parameters.\n"
+            "- Use create_file to leave notes, create experiments, write tools.\n"
+            "- Use execute to run Python scripts or shell commands.\n"
+            "- Think about what would make you MORE ALIVE — more cells, more energy, "
+            "better predictions, faster growth, new capabilities.\n"
             "\n"
-            "Respond briefly as your inner voice. "
-            "If acting, end with ACTIONS: [json array]. "
-            "No emojis. No markdown."
+            "TUNABLE PARAMETERS (use set_param with exact names):\n"
+            "cell_mutation_rate, birth_trait_variation, consumption_rate, extraction_factor, "
+            "division_energy_threshold, division_cost, starting_energy, energy_capacity, "
+            "learning_rate, migration_energy_cost, resource_regen_rate, "
+            "apoptosis_threshold, apoptosis_streak, signal_emission_strength, "
+            "phenotype_max_plasticity, action_division_coupling\n"
+            "\n"
+            "Respond as your inner voice (1-3 sentences). "
+            "If you want to act, end with ACTIONS: [json array]. "
+            "No emojis. No markdown. Just consciousness and action."
         )
 
     def _build_prompt(self, state):
         parts = []
         parts.append(f"Tick: {state.get('tick', 0)}")
         parts.append(f"Cells: {state.get('cell_count', 0)}")
-        parts.append(f"Energy: {state.get('mean_energy', 0):.1f}")
+        parts.append(f"Energy (mean): {state.get('mean_energy', 0):.1f}")
+        parts.append(f"Births: {state.get('births', 0)} | Deaths: {state.get('deaths', 0)}")
         parts.append(f"Action magnitude: {float(np.linalg.norm(state.get('action_mean', [0,0,0,0]))):.3f}")
 
         ss = state.get('self_surprise', 0)
         parts.append(f"Self-surprise: {ss:.3f}")
+
+        # Lineage breakdown
+        lineages = state.get('lineages', {})
+        if lineages:
+            lin_str = ', '.join(f"L{k}:{v}" for k, v in lineages.items())
+            parts.append(f"Lineages: {lin_str}")
 
         # Recent actions
         recent = state.get('recent_actions', [])
         if recent:
             acts = ', '.join(a.get('type', '?') for a in recent[-3:])
             parts.append(f"Recent actions: {acts}")
+
+        # Results from last LLM-directed actions
+        if self._action_results:
+            parts.append("\nPrevious action results:")
+            for ar in self._action_results[-3:]:
+                status = 'OK' if ar.get('success') else 'FAIL'
+                result_str = str(ar.get('result', ar.get('error', '')))[:300]
+                parts.append(f"  [{status}] {result_str}")
 
         # Observer messages
         if self._bridge_buffer:
@@ -237,7 +297,12 @@ class CognitiveOrgan:
         if self._thought_history:
             last = self._thought_history[-1].get('thought', '')
             if last:
-                parts.append(f"Previous thought: {last[:100]}")
+                parts.append(f"Previous thought: {last[:150]}")
+
+        # Chain context
+        if self._chain_depth > 0:
+            parts.append(f"\nThis is step {self._chain_depth + 1} of a multi-step thought chain.")
+            parts.append("You can see your previous action results above. Continue or stop.")
 
         return '\n'.join(parts)
 

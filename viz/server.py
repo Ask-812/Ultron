@@ -536,6 +536,17 @@ class Ultron:
             thought_state = dict(organism_state)
             thought_state['self_surprise'] = self_surprise
             thought_state['recent_actions'] = self._agency.get_action_log(3)
+            thought_state['births'] = self.tissue.total_births
+            thought_state['deaths'] = self.tissue.total_deaths
+            # Lineage population breakdown
+            lin_counts = {}
+            for r in range(self.tissue.rows):
+                for c in range(self.tissue.cols):
+                    cell = self.tissue.grid[r][c]
+                    if cell and cell.is_alive:
+                        lid = cell.lineage_id
+                        lin_counts[lid] = lin_counts.get(lid, 0) + 1
+            thought_state['lineages'] = lin_counts
 
             def on_thought(result):
                 if 'thought' in result:
@@ -561,6 +572,21 @@ class Ultron:
                             elif len(str(result_str)) > 50:
                                 result_str = str(result_str)[:50] + '...'
                             self._msg(f"  [{status}] {action_type}: {result_str}")
+
+                        # Feed results back to cognition for next thought
+                        self._cognition.store_action_results(action_results)
+
+                        # Trigger chain thought if actions produced results
+                        # (the LLM gets to see what happened and can act again)
+                        has_read = any(a.get('action') in ('read_file', 'list_dir') for a in actions)
+                        if has_read:
+                            chain_state = dict(thought_state)
+                            chain_state['tick'] = self.tissue.tick_count
+                            self._cognition.request_chain_thought(chain_state, on_thought)
+                    else:
+                        # No actions — reset chain
+                        self._cognition._chain_depth = 0
+                        self._cognition._action_results = []
 
                     # Convert thought to signal and inject into tissue
                     self._last_thought_signal = self._cognition.thought_to_signal(clean_thought)

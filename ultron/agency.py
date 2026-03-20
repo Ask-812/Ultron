@@ -815,7 +815,7 @@ class Agency:
             return {'success': False, 'error': str(e)}
 
     def _llm_set_param(self, d):
-        """Modify a configuration parameter in source files."""
+        """Modify a configuration parameter in source files or CONFIG dicts."""
         param = d.get('param', '')
         value = d.get('value')
         if not param:
@@ -836,9 +836,49 @@ class Agency:
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
 
-            # Look for: PARAM_NAME = value
+            # First try: PARAM_NAME = value (standalone variable)
             pattern = rf'^(\s*)({re.escape(param)})\s*=\s*(.+?)$'
             match = re.search(pattern, content, re.MULTILINE | re.IGNORECASE)
+
+            # Second try: 'param_name': value (dict key in CONFIG)
+            if not match:
+                pattern2 = rf"^(\s*)'({re.escape(param)})'\s*:\s*(.+?)(,?\s*)$"
+                match2 = re.search(pattern2, content, re.MULTILINE | re.IGNORECASE)
+                if not match2:
+                    # Also try double-quoted keys
+                    pattern3 = rf'^(\s*)"{re.escape(param)}"\s*:\s*(.+?)(,?\s*)$'
+                    match2 = re.search(pattern3, content, re.MULTILINE | re.IGNORECASE)
+
+                if match2:
+                    old_line = match2.group(0)
+                    indent = match2.group(1)
+
+                    # Format new value
+                    if isinstance(value, str):
+                        new_val = f"'{value}'"
+                    elif isinstance(value, bool):
+                        new_val = 'True' if value else 'False'
+                    else:
+                        new_val = str(value)
+
+                    new_line = f"{indent}'{param}': {new_val},"
+
+                    self._git_checkpoint(f"Before set_param: {param}")
+
+                    new_content = content.replace(old_line, new_line, 1)
+                    with open(path, 'w', encoding='utf-8') as f:
+                        f.write(new_content)
+
+                    # Also apply to live CONFIG if available
+                    if hasattr(self, '_live_config') and self._live_config is not None:
+                        if param in self._live_config:
+                            try:
+                                self._live_config[param] = type(self._live_config[param])(value)
+                            except (TypeError, ValueError):
+                                self._live_config[param] = value
+
+                    return {'success': True, 'result': f'Set {param} = {new_val} in {rel_path} (dict key)'}
+                continue
 
             if match:
                 old_line = match.group(0)
@@ -858,6 +898,8 @@ class Agency:
                 self._git_checkpoint(f"Before set_param: {param}")
 
                 new_content = content.replace(old_line, new_line, 1)
+                with open(path, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
                 with open(path, 'w', encoding='utf-8') as f:
                     f.write(new_content)
 

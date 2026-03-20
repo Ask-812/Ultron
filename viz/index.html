@@ -122,6 +122,7 @@ input[type=range]{background:#161622;border:1px solid #222;border-radius:2px}
   <div class="sec">
     <div class="sec-t" style="color:#ffb74d">Consciousness</div>
     <div id="thought-display" style="font-size:9px;color:#997733;font-style:italic;min-height:20px;line-height:1.4"></div>
+    <div id="action-results" style="font-size:8px;color:#66aa66;margin-top:4px;max-height:80px;overflow-y:auto;font-family:monospace"></div>
   </div>
   <div class="sec">
     <div class="sec-t">Activity</div>
@@ -539,9 +540,25 @@ function ui(){
   // Consciousness — display organism's thoughts from LLM
   if(S.thought && S.thought.thought){
     const td=document.getElementById('thought-display');
-    td.textContent='"'+S.thought.thought+'"';
+    // Clean thought text (remove ACTIONS: [...] portion)
+    let tt=S.thought.thought;
+    const actIdx=tt.indexOf('ACTIONS:');
+    if(actIdx>0) tt=tt.substring(0,actIdx).trim();
+    td.textContent='"'+tt+'"';
     td.style.color='#cc9944';
     setTimeout(()=>{td.style.color='#997733'},3000);
+  }
+  // Show action results from activity log
+  const arDiv=document.getElementById('action-results');
+  if(arDiv && S.log){
+    const actionLogs=S.log.filter(l=>l.includes('[OK]')||l.includes('[FAIL]')||l.includes('ACTIONS:'));
+    if(actionLogs.length>0){
+      arDiv.innerHTML=actionLogs.slice(-5).map(l=>{
+        const isOk=l.includes('[OK]');
+        const color=isOk?'#55aa55':'#aa5555';
+        return'<div style="color:'+color+';margin:1px 0">'+l.replace(/^\d{2}:\d{2}:\d{2}\s*/,'')+'</div>';
+      }).join('');
+    }
   }
 
   updateStream();
