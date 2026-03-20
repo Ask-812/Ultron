@@ -100,7 +100,7 @@ CONFIG = {
     'resource_depletion_rate': 0.0008, 'resource_regen_rate': 0.0005,
     'migration_enabled': True,
     'migration_energy_cost': 1.5, 'migration_resource_threshold': 0.35,
-    'action_division_coupling': 2.5,
+    'action_division_coupling': 0.5,
     'action_weight_scale': 0.20, 'action_mutation_rate': 0.04,
     'displacement_energy_ratio': 2.0,
     'landscape_type': 'patches', 'landscape_base': 0.25,
