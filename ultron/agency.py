@@ -661,8 +661,8 @@ class Agency:
         try:
             with open(path, 'r', encoding='utf-8', errors='replace') as f:
                 content = f.read()
-            if len(content) > 15000:
-                content = content[:15000] + '\n... [truncated]'
+            if len(content) > 4000:
+                content = content[:4000] + '\n... [truncated at 4000 chars — use line numbers to read more]'
             return {'success': True, 'result': content}
         except Exception as e:
             return {'success': False, 'error': str(e)}
