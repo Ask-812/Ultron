@@ -1,0 +1,434 @@
+[
+  {
+    "params": {
+      "extraction_factor": 0.2,
+      "signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.2,
+      "signal_ratio": 0.5
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.2,
+      "signal_ratio": 0.6
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.2,
+      "signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.2,
+      "signal_ratio": 0.8
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.2,
+      "signal_ratio": 1.0
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.25,
+      "signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.25,
+      "signal_ratio": 0.5
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.25,
+      "signal_ratio": 0.6
+    },
+    "n_seeds": 1,
+    "survival_rate": 0.0,
+    "survival_count": 0,
+    "mean_energy": 0.0,
+    "mean_error": 0.0,
+    "mean_fitness": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.25,
+      "signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 6.888206685211378,
+    "mean_error": 3.491892536430849,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.25,
+      "signal_ratio": 0.8
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 69.7094122133569,
+    "mean_error": 3.247722993674238,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.25,
+      "signal_ratio": 1.0
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 118.01965834596622,
+    "mean_error": 3.0655271411808678,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 31.421063388368882,
+    "mean_error": 3.8736684585407537,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "signal_ratio": 0.5
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 42.246759173694834,
+    "mean_error": 3.823501810687838,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "signal_ratio": 0.6
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 69.79437696213802,
+    "mean_error": 3.7051558070604913,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 125.4140490608482,
+    "mean_error": 3.497099085248932,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "signal_ratio": 0.8
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.8150943750495,
+    "mean_error": 3.25387901936741,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "signal_ratio": 1.0
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.80399453766088,
+    "mean_error": 3.070077647626262,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.35,
+      "signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 133.09090427323133,
+    "mean_error": 3.876684678413655,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.35,
+      "signal_ratio": 0.5
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 145.79803697761253,
+    "mean_error": 3.8266508720957186,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.35,
+      "signal_ratio": 0.6
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 178.3375834640461,
+    "mean_error": 3.7088325193829403,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.35,
+      "signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.89162659229743,
+    "mean_error": 3.5003196801168692,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.35,
+      "signal_ratio": 0.8
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.92238455180404,
+    "mean_error": 3.2564106704710998,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.35,
+      "signal_ratio": 1.0
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.91739604552095,
+    "mean_error": 3.0712859978585207,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 200.0,
+    "mean_error": 3.8798037027038865,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "signal_ratio": 0.5
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.9996809400016,
+    "mean_error": 3.8294287096193678,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "signal_ratio": 0.6
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.99400475206392,
+    "mean_error": 3.7103102115533866,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.98245209424712,
+    "mean_error": 3.501859665549686,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "signal_ratio": 0.8
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.9805001442386,
+    "mean_error": 3.2575558784299594,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "signal_ratio": 1.0
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.99860429949206,
+    "mean_error": 3.071841983468749,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 200.0,
+    "mean_error": 3.8808247000673566,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "signal_ratio": 0.5
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 200.0,
+    "mean_error": 3.830328486463147,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "signal_ratio": 0.6
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 200.0,
+    "mean_error": 3.712345068167034,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 200.0,
+    "mean_error": 3.50355381122222,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "signal_ratio": 0.8
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 199.99912601509158,
+    "mean_error": 3.2594625940798374,
+    "mean_fitness": 0.9764548138768109
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "signal_ratio": 1.0
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 200.0,
+    "mean_error": 3.072388717499245,
+    "mean_fitness": 0.9764548138768109
+  }
+]

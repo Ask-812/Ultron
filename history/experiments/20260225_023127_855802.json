@@ -1,0 +1,55 @@
+{
+  "experiment_id": "20260225_023127_855802",
+  "timestamp": "2026-02-25T02:31:27.860324",
+  "config": {
+    "observation_dim": 32,
+    "model_dim": 64,
+    "starting_energy": 100.0,
+    "energy_capacity": 200.0,
+    "consumption_rate": 0.3,
+    "learning_rate": 0.01,
+    "prior_learning_rate": 0.001,
+    "precision_learning_rate": 0.001,
+    "update_cost_factor": 0.05,
+    "prediction_reward_factor": 0.5,
+    "observation_noise": 0.01,
+    "low_energy_threshold": 20.0
+  },
+  "summary": {
+    "total_ticks": 2000,
+    "is_alive": true,
+    "final_energy": 188.68118255199923,
+    "min_energy": 103.98638566611724,
+    "max_energy": 199.72329863929883,
+    "mean_energy": 175.02598284830958,
+    "final_error": 5.683972063215421,
+    "min_error": 5.607666714558191,
+    "max_error": 5.7171206892024236,
+    "mean_error": 5.659084781587095,
+    "total_accumulated_error": 11318.169563174193,
+    "near_death_events": 0,
+    "model_updates": 2000,
+    "birth_hash": "542777e4da7187e0",
+    "final_hash": "d3f87e31fda008fe"
+  },
+  "birth_tests": {
+    "irreversibility": true,
+    "survival_pressure": {
+      "status": "insufficient_contrast"
+    },
+    "unprogrammed_behavior": {
+      "model_divergence": 0.011660462733806566,
+      "prior_entropy": 3.3221821239791223,
+      "precision_variance": 379784822.0208504,
+      "weight_mean": -0.0002936919320285268,
+      "weight_range": 0.07617599436076425
+    }
+  },
+  "metadata": {
+    "config_type": "stable",
+    "environment": "mixed",
+    "max_ticks": 2000,
+    "feed_interval": 40,
+    "feed_amount": 15.0
+  }
+}

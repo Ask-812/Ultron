@@ -1,0 +1,5 @@
+PROTO-BRAIN: Signal propagation with decay (20x20)
+env_dim=8, signal_dim=4, obs_dim=12
+signal_hop_decay=0.9, emission_strength=0.3
+Ticks: 15000
+

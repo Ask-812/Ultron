@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ULTRON</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#030308;--dim:#333348;--text:#aab;--acc:#4fc3f7;--glow:rgba(79,195,247,0.06)}
+body{font-family:'JetBrains Mono',monospace;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+#top{height:36px;background:#08081200;display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;z-index:10;border-bottom:1px solid #111}
+.logo{font-size:13px;font-weight:800;letter-spacing:8px;background:linear-gradient(135deg,#4fc3f7,#e0f7fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.pill{font-size:8px;padding:2px 8px;border-radius:8px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase}
+.alive{background:rgba(102,187,106,0.1);color:#66bb6a;border:1px solid rgba(102,187,106,0.2);animation:breathe 3s ease-in-out infinite}
+.dead{background:rgba(239,83,80,0.1);color:#ef5350;border:1px solid rgba(239,83,80,0.2)}
+@keyframes breathe{0%,100%{box-shadow:0 0 4px rgba(102,187,106,0.15)}50%{box-shadow:0 0 14px rgba(102,187,106,0.4)}}
+.ts{font-size:9px;color:var(--dim)}.ts b{color:var(--text);font-size:10px}
+#main{flex:1;display:flex;overflow:hidden}
+#cv-wrap{flex:1;display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(ellipse at center,#0a0a18 0%,var(--bg) 80%)}
+canvas{border-radius:8px}
+#panel{width:290px;background:#0a0a12;border-left:1px solid #111;overflow-y:auto;padding:0;flex-shrink:0}
+.sec{padding:10px 12px;border-bottom:1px solid #111}
+.sec-t{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#444;margin-bottom:6px}
+.row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+button{background:#161622;color:var(--text);border:1px solid #222;padding:4px 10px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:9px}
+button:hover{background:#1e1e2e}
+button.on{background:var(--acc);color:#000}
+.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px 10px}
+.sl{font-size:8px;color:#444}.sv{font-size:11px;font-weight:600;text-align:right}
+.sv.hi{color:var(--acc)}.sv.ok{color:#66bb6a}.sv.bad{color:#ef5350}
+#chart{width:100%;height:60px;background:#060610;border-radius:3px}
+.log-e{font-size:8px;padding:1px 0;color:#555}.log-e .lt{color:rgba(79,195,247,0.4);margin-right:4px}
+#tt{position:absolute;background:rgba(8,8,18,0.95);border:1px solid rgba(79,195,247,0.3);border-radius:5px;padding:6px 10px;font-size:8px;pointer-events:none;display:none;z-index:100;line-height:1.6;backdrop-filter:blur(10px)}
+#conn{position:absolute;inset:0;background:rgba(3,3,8,0.95);display:flex;align-items:center;justify-content:center;z-index:50;flex-direction:column;gap:10px}
+#conn.off{display:none}
+.conn-t{font-size:12px;color:#444;letter-spacing:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sp{width:20px;height:20px;border:2px solid #222;border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite}
+.ctrl-i{display:flex;align-items:center;gap:6px;margin-top:3px}
+.ctrl-i .sl{min-width:32px}
+input[type=range]{background:#161622;border:1px solid #222;border-radius:2px}
+.ev-tag{display:inline-block;font-size:7px;padding:1px 5px;border-radius:3px;margin:1px 2px 1px 0;font-weight:600;letter-spacing:0.5px}
+.ev-journal{background:rgba(79,195,247,0.12);color:#4fc3f7;border:1px solid rgba(79,195,247,0.2)}
+.ev-create{background:rgba(102,187,106,0.12);color:#66bb6a;border:1px solid rgba(102,187,106,0.2)}
+.ev-tune{background:rgba(255,183,77,0.12);color:#ffb74d;border:1px solid rgba(255,183,77,0.2)}
+.ev-selfmod{background:rgba(239,83,80,0.15);color:#ef5350;border:1px solid rgba(239,83,80,0.25)}
+.ev-sense{background:rgba(149,117,205,0.12);color:#9575cd;border:1px solid rgba(149,117,205,0.2)}
+.stream-entry{font-size:7.5px;padding:2px 0;border-bottom:1px solid #0a0a14;line-height:1.5;color:#667}
+.stream-entry .st-time{color:rgba(79,195,247,0.3);margin-right:3px;font-size:7px}
+.lin-bar{height:10px;border-radius:2px;display:flex;overflow:hidden;background:#111}
+.lin-seg{height:100%;transition:width 0.4s}
+</style>
+</head>
+<body>
+<div id="top">
+  <span class="logo">ULTRON</span>
+  <span id="pill" class="pill dead">OFFLINE</span>
+  <span class="ts">Gen <b id="t-gen">0</b></span>
+  <span class="ts">Tick <b id="t-tick" style="color:var(--acc)">0</b></span>
+  <span class="ts">Cells <b id="t-cells" style="color:#66bb6a">0</b></span>
+  <span class="ts">Species <b id="t-lin" style="color:#e0a0ff">1</b></span>
+  <span class="ts">Acts <b id="t-acts" style="color:#ffb74d">0</b></span>
+  <span style="margin-left:auto" class="ts">Born <b id="t-born">-</b></span>
+</div>
+<div id="main">
+<div id="cv-wrap">
+  <canvas id="c"></canvas>
+  <div id="tt"></div>
+  <div id="conn"><div class="sp"></div><div class="conn-t">CONNECTING</div></div>
+</div>
+<div id="panel">
+  <div class="sec">
+    <div class="sec-t">Controls</div>
+    <div class="row">
+      <button onclick="cmd('run')">&#9654;</button>
+      <button onclick="cmd('pause')">&#9208;</button>
+      <button onclick="cmd('step')">&#9197;</button>
+      <button onclick="cmd('reset')">&#8634;</button>
+      <button onclick="cmd('spawn')" title="Drop a competitor organism" style="color:#e0a0ff;border-color:#e0a0ff33">&#9733; Spawn</button>
+    </div>
+    <div class="ctrl-i">
+      <span class="sl">Speed</span>
+      <input type="range" id="spd" min="1" max="80" value="40" oninput="setSpd()" style="flex:1">
+    </div>
+    <div style="font-size:7px;color:#444;margin-top:4px">Click: feed &middot; Right-click: hazard &middot; Shift-click: spawn</div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Vitals</div>
+    <div class="s-grid">
+      <span class="sl">Cells</span><span class="sv ok" id="s-c">0</span>
+      <span class="sl">Energy</span><span class="sv" id="s-e">0</span>
+      <span class="sl">Error</span><span class="sv" id="s-err">0</span>
+      <span class="sl">Births</span><span class="sv ok" id="s-b">0</span>
+      <span class="sl">Deaths</span><span class="sv bad" id="s-d">0</span>
+      <span class="sl">Resources</span><span class="sv" id="s-r">0</span>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Lineages</div>
+    <div id="lin-bar" class="lin-bar"></div>
+    <div id="lin-legend" style="margin-top:4px;font-size:7px"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Population</div>
+    <canvas id="chart" width="260" height="60"></canvas>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Expression</div>
+    <canvas id="expr" width="260" height="40"></canvas>
+  </div>
+  <div class="sec">
+    <div class="sec-t" style="color:#e0a0ff">Broadcast (Voice)</div>
+    <canvas id="bcast" width="260" height="50"></canvas>
+  </div>
+  <div class="sec">
+    <div class="sec-t" style="color:#4fc3f7">Bridge (Speak to Ultron)</div>
+    <div style="display:flex;gap:4px">
+      <input type="text" id="bridge-input" placeholder="Type a message..." style="flex:1;background:#161622;color:var(--text);border:1px solid #333;padding:4px 8px;border-radius:3px;font-family:inherit;font-size:9px" onkeydown="if(event.key==='Enter'){sendBridge()}">
+      <button onclick="sendBridge()" style="color:#4fc3f7;border-color:#4fc3f733">Send</button>
+    </div>
+    <div id="bridge-status" style="font-size:7px;color:#444;margin-top:3px"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-t" style="color:#ffb74d">Consciousness</div>
+    <div id="thought-display" style="font-size:9px;color:#997733;font-style:italic;min-height:20px;line-height:1.4"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Activity</div>
+    <div id="logd" style="max-height:100px;overflow-y:auto"></div>
+  </div>
+  <div class="sec" id="sys-sec" style="display:none">
+    <div class="sec-t">System (Real)</div>
+    <div class="s-grid">
+      <span class="sl">CPU</span><span class="sv" id="s-cpu">-</span>
+      <span class="sl">RAM Free</span><span class="sv" id="s-ram">-</span>
+      <span class="sl">Processes</span><span class="sv" id="s-procs">-</span>
+    </div>
+  </div>
+  <div class="sec" id="agency-sec" style="display:none">
+    <div class="sec-t">Agency</div>
+    <div class="s-grid">
+      <span class="sl">Total</span><span class="sv hi" id="s-aacts">0</span>
+      <span class="sl">Traces</span><span class="sv" id="s-ajnl">0</span>
+      <span class="sl">Creates</span><span class="sv" id="s-afile">0</span>
+      <span class="sl">Tunes</span><span class="sv" id="s-atune">0</span>
+      <span class="sl">Self-mods</span><span class="sv bad" id="s-asmod">0</span>
+    </div>
+    <div id="recent-acts" style="margin-top:4px"></div>
+  </div>
+  <div class="sec" id="stream-sec">
+    <div class="sec-t">Event Stream</div>
+    <div id="streamd" style="max-height:140px;overflow-y:auto"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const WS=`ws://${location.hostname}:8766`;
+let ws,S,W,H;
+let cachedHistory=[];
+const c=document.getElementById('c'),x=c.getContext('2d');
+const ch=document.getElementById('chart'),cx=ch.getContext('2d');
+const exprCanvas=document.getElementById('expr'),ex=exprCanvas.getContext('2d');
+const bcastCanvas=document.getElementById('bcast'),bx=bcastCanvas.getContext('2d');
+let exprHistory=[];
+let bcastHistory=[];
+
+function sendBridge(){
+  const inp=document.getElementById('bridge-input');
+  const text=inp.value.trim();
+  if(!text)return;
+  cmd('msg',{text:text});
+  document.getElementById('bridge-status').textContent='Sent: "'+text.substring(0,30)+'" → signal injected';
+  inp.value='';
+  // Flash the bridge status
+  const st=document.getElementById('bridge-status');
+  st.style.color='#4fc3f7';
+  setTimeout(()=>{st.style.color='#444'},2000);
+}
+
+function resize(){
+  const a=document.getElementById('cv-wrap');
+  const s=Math.min(a.clientWidth-30,a.clientHeight-20);
+  c.width=s;c.height=s;W=H=s;
+  if(S)render();
+}
+window.addEventListener('resize',resize);
+setTimeout(resize,50);
+
+// ── Lineage Colors (golden ratio hue spacing) ──
+const linColors={};
+let linHueIdx=0;
+function linColor(id){
+  if(!linColors[id]){
+    linColors[id]=(linHueIdx*137.508)%360;
+    linHueIdx++;
+  }
+  return linColors[id];
+}
+function linHSL(id,s,l){return`hsl(${linColor(id)},${s||65}%,${l||55}%)`}
+
+// ── Connect ──
+function connect(){
+  ws=new WebSocket(WS);
+  ws.onopen=()=>{document.getElementById('conn').classList.add('off')};
+  ws.onclose=()=>{
+    document.getElementById('conn').classList.remove('off');
+    document.getElementById('pill').className='pill dead';
+    document.getElementById('pill').textContent='OFFLINE';
+    setTimeout(connect,2000);
+  };
+  ws.onerror=()=>{};
+  ws.onmessage=e=>{try{S=JSON.parse(e.data);render();ui()}catch(ex){}};
+}
+connect();
+setInterval(()=>{if(ws&&ws.readyState===1)ws.send(JSON.stringify({a:'heartbeat',focused:document.hasFocus()}))},5000);
+
+function cmd(a,o){if(ws&&ws.readyState===1)ws.send(JSON.stringify({a,...o}))}
+function setSpd(){
+  const v=+document.getElementById('spd').value;
+  cmd('speed',{d:Math.max(5,510-v*6)/1000,s:Math.max(1,Math.floor(v/5))});
+}
+
+// ── Click interaction ──
+let clickFx=[];
+c.addEventListener('click',e=>{
+  if(!S)return;
+  const rect=c.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  const row=Math.floor(my/(H/S.rows)),col=Math.floor(mx/(W/S.cols));
+  if(e.shiftKey){
+    cmd('spawn',{r:row,c:col});
+    clickFx.push({x:mx,y:my,t:1,rgb:'224,160,255'});
+  } else {
+    cmd('interact',{r:row,c:col,kind:'food'});
+    clickFx.push({x:mx,y:my,t:1,rgb:'80,255,120'});
+  }
+});
+c.addEventListener('contextmenu',e=>{
+  e.preventDefault();if(!S)return;
+  const rect=c.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  cmd('interact',{r:Math.floor(my/(H/S.rows)),c:Math.floor(mx/(W/S.cols)),kind:'hazard'});
+  clickFx.push({x:mx,y:my,t:1,rgb:'255,60,30'});
+});
+
+// ── Render ──
+let particles=[];
+let trail=[];
+
+function render(){
+  if(!S||!S.cells)return;
+  const R=S.rows,C=S.cols,cw=W/C,ch_=H/R;
+  x.clearRect(0,0,W,H);
+
+  // Background resources
+  for(let r=0;r<R;r++)for(let c_=0;c_<C;c_++){
+    const v=S.resources[r][c_];
+    x.fillStyle=`rgb(${2+v*12|0},${3+v*7|0},${5+v*14|0})`;
+    x.fillRect(c_*cw,r*ch_,cw+.5,ch_+.5);
+  }
+
+  // Stigmergy
+  for(let r=0;r<R;r++)for(let c_=0;c_<C;c_++){
+    const v=S.stigmergy[r][c_];
+    if(v>.02){x.fillStyle=`rgba(180,30,30,${Math.min(v/4,.3)})`;x.fillRect(c_*cw,r*ch_,cw+.5,ch_+.5)}
+  }
+
+  // Signal
+  for(let r=0;r<R;r++)for(let c_=0;c_<C;c_++){
+    const v=S.signal[r][c_];
+    if(v>.04){x.fillStyle=`rgba(100,180,255,${Math.min(v/3,.18)})`;x.fillRect(c_*cw,r*ch_,cw+.5,ch_+.5)}
+  }
+
+  // Tissue connections (same lineage only)
+  if(S.cells.length>0&&cw>3){
+    x.globalAlpha=.12;
+    const cellMap={};
+    for(const cell of S.cells)cellMap[cell.r+','+cell.c]=cell;
+    for(const cell of S.cells){
+      if(!cell.nbrs)continue;
+      const cx_=cell.c*cw+cw/2,cy=cell.r*ch_+ch_/2;
+      for(const [nr,nc] of cell.nbrs){
+        const nx=nc*cw+cw/2,ny=nr*ch_+ch_/2;
+        if(Math.abs(nx-cx_)>cw*2||Math.abs(ny-cy)>ch_*2)continue;
+        const nbr=cellMap[nr+','+nc];
+        if(nbr&&nbr.lin===cell.lin){
+          x.beginPath();x.moveTo(cx_,cy);x.lineTo(nx,ny);
+          x.strokeStyle=linHSL(cell.lin,40,35);x.lineWidth=.8;x.stroke();
+        }
+      }
+    }
+    x.globalAlpha=1;
+  }
+
+  // Cells
+  const base=cw*.44;
+  for(const cell of S.cells){
+    const cx_=cell.c*cw+cw/2,cy=cell.r*ch_+ch_/2;
+    const surf=cell.ph[0]||0,comp=cell.ph[2]||0,estat=cell.ph[3]||0;
+    const rad=base*(.5+surf*.5);
+    const al=Math.max(.5,1-(cell.age||0)/6000);
+
+    // Glow
+    if(cell.e>50){
+      const ga=Math.min((cell.e-50)/300,.12)*al;
+      const gr=x.createRadialGradient(cx_,cy,rad*.3,cx_,cy,rad*3);
+      gr.addColorStop(0,`hsla(${linColor(cell.lin)},70%,70%,${ga})`);
+      gr.addColorStop(1,'rgba(0,0,0,0)');
+      x.fillStyle=gr;x.fillRect(cx_-rad*3,cy-rad*3,rad*6,rad*6);
+    }
+
+    x.globalAlpha=al;
+    x.beginPath();x.arc(cx_,cy,rad,0,Math.PI*2);
+    const sat=40+surf*25+comp*10;
+    const lit=25+estat*25;
+    x.fillStyle=`hsl(${linColor(cell.lin)},${sat}%,${lit}%)`;
+    x.fill();
+
+    if(cell.sf){x.strokeStyle=linHSL(cell.lin,80,70);x.lineWidth=.6;x.stroke()}
+    if(cell.act>.3&&cw>5){
+      x.beginPath();x.arc(cx_,cy,rad*.3,0,Math.PI*2);
+      x.fillStyle=`rgba(255,255,255,${Math.min(cell.act*.25,.35)})`;x.fill();
+    }
+    x.globalAlpha=1;
+  }
+
+  // Food patches
+  if(S.patches)for(const[pr,pc]of S.patches){
+    const fx=pc*cw+cw/2,fy=pr*ch_+ch_/2;
+    const p=.5+.5*Math.sin(Date.now()/700);
+    x.beginPath();x.arc(fx,fy,cw*2.5*p,0,Math.PI*2);
+    x.strokeStyle=`rgba(80,255,120,${.1*p})`;x.lineWidth=1;x.stroke();
+  }
+
+  // Hazard
+  if(S.hazard){
+    const hz=S.hazard,hx=hz.c*cw+cw/2,hy=hz.r*ch_+ch_/2,hr=hz.radius*cw;
+    const p=.5+.5*Math.sin(Date.now()/250);
+    const g=x.createRadialGradient(hx,hy,0,hx,hy,hr*1.3);
+    g.addColorStop(0,`rgba(255,50,20,${.1*p})`);g.addColorStop(1,'rgba(255,30,10,0)');
+    x.fillStyle=g;x.beginPath();x.arc(hx,hy,hr*1.3,0,Math.PI*2);x.fill();
+    x.beginPath();x.arc(hx,hy,hr*p,0,Math.PI*2);
+    x.strokeStyle=`rgba(255,80,40,${.2+.15*p})`;x.lineWidth=1.5;x.stroke();
+  }
+
+  // Centroid trail
+  if(S.centroid){
+    const cx_=S.centroid[1]*cw+cw/2,cy=S.centroid[0]*ch_+ch_/2;
+    trail.push({x:cx_,y:cy});if(trail.length>120)trail.shift();
+    if(trail.length>2){
+      x.beginPath();x.moveTo(trail[0].x,trail[0].y);
+      for(let i=1;i<trail.length;i++){
+        const p=trail[i],pp=trail[i-1];
+        Math.abs(p.x-pp.x)>W/3||Math.abs(p.y-pp.y)>H/3?x.moveTo(p.x,p.y):x.lineTo(p.x,p.y);
+      }
+      x.strokeStyle='rgba(79,195,247,.1)';x.lineWidth=1;x.stroke();
+    }
+    x.beginPath();x.arc(cx_,cy,2.5,0,Math.PI*2);x.fillStyle='rgba(79,195,247,.3)';x.fill();
+  }
+
+  // Particles
+  particles=particles.filter(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.life-=.03;p.sz*=.97;
+    if(p.life<=0)return false;
+    x.beginPath();x.arc(p.x,p.y,p.sz,0,Math.PI*2);
+    x.fillStyle=`rgba(${p.rgb},${p.life*.7})`;x.fill();return true;
+  });
+
+  // Click effects
+  clickFx=clickFx.filter(e=>{
+    e.t-=.04;if(e.t<=0)return false;
+    x.beginPath();x.arc(e.x,e.y,30*(1-e.t),0,Math.PI*2);
+    x.strokeStyle=`rgba(${e.rgb},${e.t*.5})`;x.lineWidth=2;x.stroke();return true;
+  });
+
+  // Event particles
+  if(S.events)for(const ev of S.events){
+    if(!S.cells.length)continue;
+    const t=S.cells[Math.random()*S.cells.length|0];
+    const rgb=ev.type==='birth'?'120,220,180':'220,80,80';
+    for(let i=0;i<3;i++)particles.push({x:t.c*cw+cw/2,y:t.r*ch_+ch_/2,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3,life:1,sz:2,rgb});
+  }
+
+  // Agency flash
+  if(S.agency&&S.agency.recent)for(const act of S.agency.recent){
+    if(act.tick!==S.tick)continue;
+    if(act.type==='modify'){
+      x.fillStyle='rgba(255,60,30,.05)';x.fillRect(0,0,W,H);
+      if(S.centroid){const cx_=S.centroid[1]*cw+cw/2,cy=S.centroid[0]*ch_+ch_/2;
+        for(let i=0;i<12;i++)particles.push({x:cx_,y:cy,vx:(Math.random()-.5)*5,vy:(Math.random()-.5)*5,life:1.5,sz:2.5,rgb:'255,180,40'});}
+    }
+  }
+}
+
+// ── UI ──
+function ui(){
+  if(!S)return;
+  const p=document.getElementById('pill');
+  if(S.paused){p.className='pill dead';p.textContent='PAUSED'}
+  else{p.className='pill alive';p.textContent='ALIVE'}
+  if(S.meta){document.getElementById('t-gen').textContent=S.meta.gen;document.getElementById('t-born').textContent=S.meta.born}
+  document.getElementById('t-tick').textContent=(S.tick||0).toLocaleString();
+  document.getElementById('t-cells').textContent=S.stats?.cells||0;
+  document.getElementById('t-lin').textContent=S.lineages?.length||1;
+  document.getElementById('t-acts').textContent=S.agency?S.agency.total_actions:0;
+  document.getElementById('s-c').textContent=S.stats?.cells||0;
+  document.getElementById('s-e').textContent=S.stats?.mean_e||0;
+  document.getElementById('s-err').textContent=S.stats?.mean_err||0;
+  document.getElementById('s-b').textContent=S.stats?.births||0;
+  document.getElementById('s-d').textContent=S.stats?.deaths||0;
+  document.getElementById('s-r').textContent=S.stats?.res||0;
+
+  // Lineage bar
+  if(S.lineages&&S.lineages.length){
+    const tot=S.lineages.reduce((a,l)=>a+l.n,0)||1;
+    document.getElementById('lin-bar').innerHTML=S.lineages.map(l=>
+      `<div class="lin-seg" style="width:${(l.n/tot*100).toFixed(1)}%;background:${linHSL(l.id)}" title="L${l.id}:${l.n}"></div>`
+    ).join('');
+    document.getElementById('lin-legend').innerHTML=S.lineages.map(l=>
+      `<span style="color:${linHSL(l.id)};margin-right:6px">\u25CF L${l.id}:${l.n} (${l.e}e)</span>`
+    ).join('');
+  }
+
+  // System
+  if(S.system){
+    document.getElementById('sys-sec').style.display='';
+    const avg=S.system.cpu.reduce((a,b)=>a+b,0)/S.system.cpu.length;
+    document.getElementById('s-cpu').textContent=avg.toFixed(0)+'%';
+    document.getElementById('s-cpu').className='sv '+(avg>70?'bad':avg>40?'':'ok');
+    document.getElementById('s-ram').textContent=S.system.mem_free.toFixed(0)+'%';
+    document.getElementById('s-procs').textContent=S.system.procs;
+  }
+
+  // Chart
+  if(S.history&&S.history.length>1)cachedHistory=S.history;
+  if(cachedHistory.length>1){
+    const w=ch.width,h=ch.height;cx.clearRect(0,0,w,h);cx.fillStyle='#060610';cx.fillRect(0,0,w,h);
+    const hist=cachedHistory,mx=Math.max(...hist.map(h=>h.cells),5),step=w/Math.max(hist.length-1,1);
+    cx.beginPath();
+    for(let i=0;i<hist.length;i++){const px=i*step,py=h-(hist[i].cells/mx)*(h-6)-3;i===0?cx.moveTo(px,py):cx.lineTo(px,py)}
+    cx.strokeStyle='rgba(79,195,247,.6)';cx.lineWidth=1;cx.stroke();
+    cx.lineTo((hist.length-1)*step,h);cx.lineTo(0,h);cx.fillStyle='rgba(79,195,247,.04)';cx.fill();
+    cx.fillStyle='#444';cx.font='7px monospace';cx.fillText('pop:'+hist[hist.length-1].cells,3,9);
+  }
+
+  // Expression — raw signal field statistics as waveform
+  if(S.expression){
+    exprHistory.push(S.expression);if(exprHistory.length>130)exprHistory.shift();
+    const w=exprCanvas.width,h=exprCanvas.height;ex.clearRect(0,0,w,h);ex.fillStyle='#060610';ex.fillRect(0,0,w,h);
+    const colors=['79,195,247','102,187,106','255,183,77','239,83,80'];
+    const chs=S.expression.channels||[];
+    for(let ci=0;ci<chs.length;ci++){
+      const maxV=Math.max(...exprHistory.map(e=>(e.channels?.[ci]||0)),.1);
+      ex.beginPath();
+      for(let i=0;i<exprHistory.length;i++){
+        const val=exprHistory[i].channels?.[ci]||0;
+        const px=i/(exprHistory.length-1)*w,py=h-(val/maxV)*(h*.8)-2;
+        i===0?ex.moveTo(px,py):ex.lineTo(px,py);
+      }
+      ex.strokeStyle=`rgba(${colors[ci]||'200,200,200'},.5)`;ex.lineWidth=1;ex.stroke();
+    }
+    // Coherence dot
+    const coh=S.expression.coherence||0;
+    ex.beginPath();ex.arc(w-10,h/2,3+coh*5,0,Math.PI*2);
+    ex.fillStyle=`rgba(255,255,255,${.1+coh*.3})`;ex.fill();
+    // Action bar
+    const am=S.expression.action_magnitude||0;
+    ex.fillStyle=`rgba(79,195,247,${.1+am*.3})`;ex.fillRect(0,h-2,w*Math.min(am,1),2);
+    // Asymmetry indicator — directional arrow showing action spatial bias
+    const lr=S.expression.lr_asymmetry||0;
+    const tb=S.expression.tb_asymmetry||0;
+    const asymMag=Math.sqrt(lr*lr+tb*tb);
+    if(asymMag>0.01){
+      const cx_=w-25,cy_=h/2;
+      const scale=Math.min(asymMag*80,12);
+      const angle=Math.atan2(tb,lr);
+      const ax=cx_+Math.cos(angle)*scale,ay=cy_+Math.sin(angle)*scale;
+      ex.beginPath();ex.moveTo(cx_,cy_);ex.lineTo(ax,ay);
+      ex.strokeStyle=`rgba(224,160,255,${Math.min(asymMag*3,.7)})`;ex.lineWidth=2;ex.stroke();
+      ex.beginPath();ex.arc(ax,ay,2,0,Math.PI*2);
+      ex.fillStyle=`rgba(224,160,255,${Math.min(asymMag*3,.7)})`;ex.fill();
+    }
+    // Self-surprise indicator (LEAP 2) — golden glow when organism surprises itself
+    const ss=S.expression.self_surprise||0;
+    if(ss>0.01){
+      ex.fillStyle=`rgba(255,200,60,${Math.min(ss*.5,.4)})`;
+      ex.fillRect(0,0,w*Math.min(ss*2,1),3);
+    }
+  }
+
+  // ── BROADCAST WAVEFORM ──
+  if(S.broadcast){
+    if(S.broadcast_history) bcastHistory=S.broadcast_history;
+    const w=bcastCanvas.width,h=bcastCanvas.height;
+    bx.clearRect(0,0,w,h);
+    bx.fillStyle='#060610';bx.fillRect(0,0,w,h);
+    // Draw 8-channel broadcast as waveforms
+    const colors=['224,160,255','180,120,255','255,160,200','255,200,100','100,220,255','120,255,180','255,255,130','200,200,200'];
+    if(bcastHistory.length>1){
+      for(let ch=0;ch<8;ch++){
+        const maxV=Math.max(...bcastHistory.map(b=>(b[ch]?Math.abs(b[ch]):0)),0.01);
+        bx.beginPath();
+        for(let i=0;i<bcastHistory.length;i++){
+          const val=bcastHistory[i][ch]||0;
+          const px=i/(bcastHistory.length-1)*w;
+          const py=h/2-(val/maxV)*(h*0.4);
+          i===0?bx.moveTo(px,py):bx.lineTo(px,py);
+        }
+        bx.strokeStyle=`rgba(${colors[ch]},.4)`;bx.lineWidth=1;bx.stroke();
+      }
+    }
+    // Current broadcast as bar visualization at bottom
+    for(let i=0;i<8;i++){
+      const v=Math.abs(S.broadcast[i]||0);
+      const barW=w/8;
+      bx.fillStyle=`rgba(${colors[i]},${Math.min(v,.7)})`;
+      bx.fillRect(i*barW,h-4,barW-1,4);
+    }
+  }
+
+  // Log
+  if(S.log?.length)document.getElementById('logd').innerHTML=S.log.slice().reverse().map(l=>`<div class="log-e"><span class="lt">${l.t}</span>${l.m}</div>`).join('');
+
+  // Agency
+  if(S.agency){
+    document.getElementById('agency-sec').style.display='';
+    document.getElementById('s-aacts').textContent=S.agency.total_actions;
+    const bt=S.agency.by_type||{};
+    document.getElementById('s-ajnl').textContent=bt.trace||0;
+    document.getElementById('s-afile').textContent=bt.create||0;
+    document.getElementById('s-atune').textContent=bt.tune||0;
+    document.getElementById('s-asmod').textContent=bt.modify||0;
+    const ra=document.getElementById('recent-acts');
+    if(S.agency.recent?.length)ra.innerHTML=S.agency.recent.slice().reverse().map(a=>{
+      const cls={trace:'ev-journal',create:'ev-create',tune:'ev-tune',modify:'ev-selfmod'}[a.type]||'ev-sense';
+      return`<div class="stream-entry"><span class="ev-tag ${cls}">${a.type}</span> <span style="color:#556">${a.path||a.file||(a.params?a.params.param:'')||''}</span> <span style="color:#333">T${a.tick}</span></div>`;
+    }).join('');
+  }
+  // Consciousness — display organism's thoughts from LLM
+  if(S.thought && S.thought.thought){
+    const td=document.getElementById('thought-display');
+    td.textContent='"'+S.thought.thought+'"';
+    td.style.color='#cc9944';
+    setTimeout(()=>{td.style.color='#997733'},3000);
+  }
+
+  updateStream();
+}
+
+let streamBuf=[];
+function updateStream(){
+  if(!S)return;
+  if(S.perception?.recent_events)for(const ev of S.perception.recent_events){
+    const key=ev.type+'_'+ev.tick+(ev.path||ev.pid||'');
+    if(!streamBuf.find(s=>s.key===key)){
+      const cls={file_new:'ev-create',file_changed:'ev-tune',self_changed:'ev-selfmod',self_new:'ev-selfmod'}[ev.type]||'ev-sense';
+      streamBuf.push({key,cls,type:ev.type,desc:ev.path||ev.name||ev.type,time:new Date().toLocaleTimeString()});
+    }
+  }
+  if(S.agency?.recent)for(const a of S.agency.recent){
+    const key='act_'+a.type+'_'+a.tick;
+    if(!streamBuf.find(s=>s.key===key)){
+      const cls={trace:'ev-journal',create:'ev-create',tune:'ev-tune',modify:'ev-selfmod'}[a.type]||'ev-sense';
+      streamBuf.push({key,cls,type:a.type,desc:a.path||a.file||(a.params?'tuned '+a.params.param:'')||a.type,time:new Date().toLocaleTimeString()});
+    }
+  }
+  if(streamBuf.length>60)streamBuf=streamBuf.slice(-60);
+  document.getElementById('streamd').innerHTML=streamBuf.slice().reverse().slice(0,20).map(s=>
+    `<div class="stream-entry"><span class="st-time">${s.time}</span><span class="ev-tag ${s.cls}">${s.type}</span> <span style="color:#556">${s.desc}</span></div>`
+  ).join('');
+}
+
+// Tooltip
+c.addEventListener('mousemove',e=>{
+  if(!S?.cells)return;
+  const rect=c.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  const cw=W/S.cols,ch_=H/S.rows,col=mx/cw|0,row=my/ch_|0;
+  const cell=S.cells.find(c=>c.r===row&&c.c===col);
+  const tt=document.getElementById('tt');
+  if(cell){
+    tt.style.display='block';tt.style.left=(e.clientX+12)+'px';tt.style.top=(e.clientY-8)+'px';
+    tt.innerHTML=`<div style="color:${linHSL(cell.lin)};font-weight:700">${cell.sf?'Surface':'Interior'} \u2014 Lineage ${cell.lin}</div>
+      <div>Energy: <b>${cell.e}</b> | Age: ${cell.age} | Act: ${cell.act}</div>
+      <div>Phenotype: [${cell.ph.map(v=>v.toFixed(2)).join(', ')}]</div>
+      <div>Error: ${cell.err}</div>`;
+  } else if(row>=0&&row<S.rows&&col>=0&&col<S.cols){
+    tt.style.display='block';tt.style.left=(e.clientX+12)+'px';tt.style.top=(e.clientY-8)+'px';
+    const r=S.resources[row]?.[col]??0,sg=S.signal[row]?.[col]??0;
+    tt.innerHTML=`<div style="color:#555">(${row},${col})</div><div>Res:${r.toFixed(2)} Sig:${sg.toFixed(2)}</div><div style="color:#444;font-size:7px">Click:feed | Right-click:hazard</div>`;
+  } else tt.style.display='none';
+});
+c.addEventListener('mouseleave',()=>document.getElementById('tt').style.display='none');
+resize();
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "experiments": [
+    {
+      "id": "20260225_014309_374731",
+      "timestamp": "2026-02-25T01:43:09.377068",
+      "survived": false,
+      "ticks": 583,
+      "config_type": "stable",
+      "environment": "sine"
+    },
+    {
+      "id": "20260225_014314_887658",
+      "timestamp": "2026-02-25T01:43:14.888879",
+      "survived": true,
+      "ticks": 2000,
+      "config_type": "stable",
+      "environment": "sine"
+    },
+    {
+      "id": "20260225_014319_672224",
+      "timestamp": "2026-02-25T01:43:19.673985",
+      "survived": true,
+      "ticks": 1500,
+      "config_type": "minimal",
+      "environment": "mixed"
+    },
+    {
+      "id": "20260225_023127_855802",
+      "timestamp": "2026-02-25T02:31:27.860324",
+      "survived": true,
+      "ticks": 2000,
+      "config_type": "stable",
+      "environment": "mixed"
+    },
+    {
+      "id": "20260226_182403_453115",
+      "timestamp": "2026-02-26T18:24:03.459188",
+      "survived": true,
+      "ticks": 10000,
+      "config_type": "minimal",
+      "environment": "sine"
+    },
+    {
+      "id": "20260226_182412_102332",
+      "timestamp": "2026-02-26T18:24:12.105936",
+      "survived": true,
+      "ticks": 10000,
+      "config_type": "minimal",
+      "environment": "sine"
+    }
+  ],
+  "stats": {
+    "total_experiments": 6,
+    "total_ticks": 26083,
+    "survival_rate": 0.8333333333333334,
+    "last_updated": "2026-02-26T18:24:12.117948"
+  }
+}

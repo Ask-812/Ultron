@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pyc
+ultron_state.pkl
+ultron_home/backups/
+.playwright-mcp/

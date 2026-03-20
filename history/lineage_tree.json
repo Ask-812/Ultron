@@ -1,0 +1,59 @@
+{
+  "roots": [
+    "20260225_014309_374731",
+    "20260225_014314_887658",
+    "20260225_014319_672224",
+    "20260225_023127_855802",
+    "20260226_182403_453115",
+    "20260226_182412_102332"
+  ],
+  "nodes": {
+    "20260225_014309_374731": {
+      "parent": null,
+      "generation": 0,
+      "timestamp": "2026-02-25T01:43:09.379893",
+      "survived": false,
+      "ticks": 583
+    },
+    "20260225_014314_887658": {
+      "parent": null,
+      "generation": 0,
+      "timestamp": "2026-02-25T01:43:14.900912",
+      "survived": true,
+      "ticks": 2000
+    },
+    "20260225_014319_672224": {
+      "parent": null,
+      "generation": 0,
+      "timestamp": "2026-02-25T01:43:19.676433",
+      "survived": true,
+      "ticks": 1500
+    },
+    "20260225_023127_855802": {
+      "parent": null,
+      "generation": 0,
+      "timestamp": "2026-02-25T02:31:27.863789",
+      "survived": true,
+      "ticks": 2000
+    },
+    "20260226_182403_453115": {
+      "parent": null,
+      "generation": 0,
+      "timestamp": "2026-02-26T18:24:03.473790",
+      "survived": true,
+      "ticks": 10000
+    },
+    "20260226_182412_102332": {
+      "parent": null,
+      "generation": 0,
+      "timestamp": "2026-02-26T18:24:12.119344",
+      "survived": true,
+      "ticks": 10000
+    }
+  },
+  "stats": {
+    "total_instances": 6,
+    "max_generation": 0,
+    "last_updated": "2026-02-26T18:24:12.120864"
+  }
+}

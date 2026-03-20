@@ -1,0 +1,1226 @@
+{
+  "order": {
+    "signal_ratio": 0.8,
+    "survival_rate": 1.0,
+    "results": [
+      {
+        "id": 0,
+        "weight_scale": 0.1001952540157093,
+        "alive": true,
+        "final_energy": 199.56542404683256,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13071.926156646481
+      },
+      {
+        "id": 1,
+        "weight_scale": 0.09830523315749584,
+        "alive": true,
+        "final_energy": 199.53682819732498,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13190.356275465265
+      },
+      {
+        "id": 2,
+        "weight_scale": 0.10005577337509075,
+        "alive": true,
+        "final_energy": 199.51604528129155,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13005.668331119197
+      },
+      {
+        "id": 3,
+        "weight_scale": 0.09819489952323651,
+        "alive": true,
+        "final_energy": 199.65303635989454,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13340.697240444066
+      },
+      {
+        "id": 4,
+        "weight_scale": 0.10091605496915648,
+        "alive": true,
+        "final_energy": 199.72866734917145,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13086.197828491813
+      },
+      {
+        "id": 5,
+        "weight_scale": 0.09983221979289636,
+        "alive": true,
+        "final_energy": 199.4918378837368,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13086.708260014286
+      },
+      {
+        "id": 6,
+        "weight_scale": 0.09949816047538945,
+        "alive": true,
+        "final_energy": 199.66626800605894,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13308.254787177852
+      },
+      {
+        "id": 7,
+        "weight_scale": 0.09920385782342367,
+        "alive": true,
+        "final_energy": 199.56801220224347,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13285.654863172444
+      },
+      {
+        "id": 8,
+        "weight_scale": 0.10193676740217031,
+        "alive": true,
+        "final_energy": 199.62110298567367,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13108.742017434639
+      },
+      {
+        "id": 9,
+        "weight_scale": 0.10021576409000235,
+        "alive": true,
+        "final_energy": 199.75547721272386,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13349.955559984719
+      },
+      {
+        "id": 10,
+        "weight_scale": 0.10170992215447583,
+        "alive": true,
+        "final_energy": 199.6051061074383,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13301.972168891632
+      },
+      {
+        "id": 11,
+        "weight_scale": 0.10167643612719673,
+        "alive": true,
+        "final_energy": 199.62618510280387,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13185.29842849923
+      },
+      {
+        "id": 12,
+        "weight_scale": 0.09818416397452595,
+        "alive": true,
+        "final_energy": 199.53541032726287,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13105.300539320102
+      },
+      {
+        "id": 13,
+        "weight_scale": 0.0988040143844719,
+        "alive": true,
+        "final_energy": 199.68588825088625,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13197.181311960358
+      },
+      {
+        "id": 14,
+        "weight_scale": 0.10092906899227541,
+        "alive": true,
+        "final_energy": 199.6903518408513,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 12994.466861276374
+      },
+      {
+        "id": 15,
+        "weight_scale": 0.09833495969558553,
+        "alive": true,
+        "final_energy": 199.7173252251625,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 12855.738702127115
+      },
+      {
+        "id": 16,
+        "weight_scale": 0.09950022851549314,
+        "alive": true,
+        "final_energy": 199.7244220257604,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13356.466732375316
+      },
+      {
+        "id": 17,
+        "weight_scale": 0.10139137501024847,
+        "alive": true,
+        "final_energy": 199.67064123589395,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 12949.06997681507
+      },
+      {
+        "id": 18,
+        "weight_scale": 0.0984206885088707,
+        "alive": true,
+        "final_energy": 199.67887392301373,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13193.639352235366
+      },
+      {
+        "id": 19,
+        "weight_scale": 0.09967803446539483,
+        "alive": true,
+        "final_energy": 199.56460323108763,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13200.26000039667
+      },
+      {
+        "id": 20,
+        "weight_scale": 0.10099162206598543,
+        "alive": true,
+        "final_energy": 199.60326673895992,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13221.762852991264
+      },
+      {
+        "id": 21,
+        "weight_scale": 0.0994667822775911,
+        "alive": true,
+        "final_energy": 199.56790626108082,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 12961.44130363836
+      },
+      {
+        "id": 22,
+        "weight_scale": 0.10003089507346906,
+        "alive": true,
+        "final_energy": 199.5556139806838,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13309.551278853502
+      },
+      {
+        "id": 23,
+        "weight_scale": 0.10176269442273665,
+        "alive": true,
+        "final_energy": 199.7184479113788,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 12687.381019248549
+      },
+      {
+        "id": 24,
+        "weight_scale": 0.10039119500197731,
+        "alive": true,
+        "final_energy": 199.44281543034882,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13014.851784276028
+      },
+      {
+        "id": 25,
+        "weight_scale": 0.10120835138612308,
+        "alive": true,
+        "final_energy": 199.5800683251639,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 12886.641152212856
+      },
+      {
+        "id": 26,
+        "weight_scale": 0.10150626878280089,
+        "alive": true,
+        "final_energy": 199.385189426609,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13212.628862471494
+      },
+      {
+        "id": 27,
+        "weight_scale": 0.09969083694299245,
+        "alive": true,
+        "final_energy": 199.51949802827284,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13192.882079651867
+      },
+      {
+        "id": 28,
+        "weight_scale": 0.10075803710198164,
+        "alive": true,
+        "final_energy": 199.65486603762295,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13272.660428409516
+      },
+      {
+        "id": 29,
+        "weight_scale": 0.10139160024128045,
+        "alive": true,
+        "final_energy": 199.56929615393997,
+        "min_energy": 100.0,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 13125.966797762256
+      }
+    ]
+  },
+  "margin": {
+    "signal_ratio": 0.55,
+    "survival_rate": 0.9666666666666667,
+    "results": [
+      {
+        "id": 0,
+        "weight_scale": 0.1001952540157093,
+        "alive": true,
+        "final_energy": 12.531978704170314,
+        "min_energy": 10.691610309690214,
+        "dormancy_tick": 42420,
+        "death_tick": null,
+        "w_norm": 2851.3120181381464
+      },
+      {
+        "id": 1,
+        "weight_scale": 0.09830523315749584,
+        "alive": true,
+        "final_energy": 13.970275950173434,
+        "min_energy": 11.825521788747698,
+        "dormancy_tick": 49565,
+        "death_tick": null,
+        "w_norm": 3039.0036900067557
+      },
+      {
+        "id": 2,
+        "weight_scale": 0.10005577337509075,
+        "alive": true,
+        "final_energy": 10.868245497051133,
+        "min_energy": 5.966338107483537,
+        "dormancy_tick": 40492,
+        "death_tick": null,
+        "w_norm": 2778.8160893471104
+      },
+      {
+        "id": 3,
+        "weight_scale": 0.09819489952323651,
+        "alive": true,
+        "final_energy": 16.317360473557578,
+        "min_energy": 15.582456906060134,
+        "dormancy_tick": 56548,
+        "death_tick": null,
+        "w_norm": 3231.6875049150362
+      },
+      {
+        "id": 4,
+        "weight_scale": 0.10091605496915648,
+        "alive": true,
+        "final_energy": 13.75310260960083,
+        "min_energy": 10.937643323772097,
+        "dormancy_tick": 45655,
+        "death_tick": null,
+        "w_norm": 2984.2842048876896
+      },
+      {
+        "id": 5,
+        "weight_scale": 0.09983221979289636,
+        "alive": true,
+        "final_energy": 12.433957122772112,
+        "min_energy": 10.062909550067188,
+        "dormancy_tick": 46116,
+        "death_tick": null,
+        "w_norm": 2930.191629326092
+      },
+      {
+        "id": 6,
+        "weight_scale": 0.09949816047538945,
+        "alive": true,
+        "final_energy": 5.108388409843575,
+        "min_energy": 2.3793615104388963,
+        "dormancy_tick": 37584,
+        "death_tick": null,
+        "w_norm": 2716.0994474129466
+      },
+      {
+        "id": 7,
+        "weight_scale": 0.09920385782342367,
+        "alive": true,
+        "final_energy": 10.983108365994093,
+        "min_energy": 10.601326432346102,
+        "dormancy_tick": 44563,
+        "death_tick": null,
+        "w_norm": 2947.0573868768693
+      },
+      {
+        "id": 8,
+        "weight_scale": 0.10193676740217031,
+        "alive": true,
+        "final_energy": 8.883224415739889,
+        "min_energy": 3.9620084936377067,
+        "dormancy_tick": 32993,
+        "death_tick": null,
+        "w_norm": 2672.4557837297816
+      },
+      {
+        "id": 9,
+        "weight_scale": 0.10021576409000235,
+        "alive": true,
+        "final_energy": 10.118578983900091,
+        "min_energy": 9.762417952432179,
+        "dormancy_tick": 65634,
+        "death_tick": null,
+        "w_norm": 3113.905773137234
+      },
+      {
+        "id": 10,
+        "weight_scale": 0.10170992215447583,
+        "alive": true,
+        "final_energy": 27.176103823753532,
+        "min_energy": 25.121192012717252,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 3650.9521885520976
+      },
+      {
+        "id": 11,
+        "weight_scale": 0.10167643612719673,
+        "alive": true,
+        "final_energy": 19.34250243044889,
+        "min_energy": 18.771690242981208,
+        "dormancy_tick": 67624,
+        "death_tick": null,
+        "w_norm": 3316.0228645271895
+      },
+      {
+        "id": 12,
+        "weight_scale": 0.09818416397452595,
+        "alive": true,
+        "final_energy": 12.287527101662107,
+        "min_energy": 9.06332471421785,
+        "dormancy_tick": 45393,
+        "death_tick": null,
+        "w_norm": 2981.1798732682773
+      },
+      {
+        "id": 13,
+        "weight_scale": 0.0988040143844719,
+        "alive": true,
+        "final_energy": 8.090151716895635,
+        "min_energy": 0.41704307426147585,
+        "dormancy_tick": 34290,
+        "death_tick": null,
+        "w_norm": 2525.963595258609
+      },
+      {
+        "id": 14,
+        "weight_scale": 0.10092906899227541,
+        "alive": true,
+        "final_energy": 14.361328551132223,
+        "min_energy": 10.550693097917952,
+        "dormancy_tick": 49973,
+        "death_tick": null,
+        "w_norm": 3051.506130552398
+      },
+      {
+        "id": 15,
+        "weight_scale": 0.09833495969558553,
+        "alive": true,
+        "final_energy": 11.050009049943728,
+        "min_energy": 7.0672987540229455,
+        "dormancy_tick": 38921,
+        "death_tick": null,
+        "w_norm": 2751.6256609948205
+      },
+      {
+        "id": 16,
+        "weight_scale": 0.09950022851549314,
+        "alive": true,
+        "final_energy": 14.144601978595388,
+        "min_energy": 13.568893489547866,
+        "dormancy_tick": 56806,
+        "death_tick": null,
+        "w_norm": 3116.949981455183
+      },
+      {
+        "id": 17,
+        "weight_scale": 0.10139137501024847,
+        "alive": true,
+        "final_energy": 21.68289926272282,
+        "min_energy": 20.2351339461316,
+        "dormancy_tick": null,
+        "death_tick": null,
+        "w_norm": 3492.129429430839
+      },
+      {
+        "id": 18,
+        "weight_scale": 0.0984206885088707,
+        "alive": true,
+        "final_energy": 5.514180317563337,
+        "min_energy": 3.7524672028394095,
+        "dormancy_tick": 41609,
+        "death_tick": null,
+        "w_norm": 2733.5201774966768
+      },
+      {
+        "id": 19,
+        "weight_scale": 0.09967803446539483,
+        "alive": true,
+        "final_energy": 7.348974701696877,
+        "min_energy": 5.731322468310581,
+        "dormancy_tick": 41918,
+        "death_tick": null,
+        "w_norm": 2791.018121566238
+      },
+      {
+        "id": 20,
+        "weight_scale": 0.10099162206598543,
+        "alive": true,
+        "final_energy": 12.044179637464058,
+        "min_energy": 11.57905336038384,
+        "dormancy_tick": 68567,
+        "death_tick": null,
+        "w_norm": 3125.827601534471
+      },
+      {
+        "id": 21,
+        "weight_scale": 0.0994667822775911,
+        "alive": true,
+        "final_energy": 11.793021384992842,
+        "min_energy": 5.310431330965709,
+        "dormancy_tick": 38104,
+        "death_tick": null,
+        "w_norm": 2711.7515993973534
+      },
+      {
+        "id": 22,
+        "weight_scale": 0.10003089507346906,
+        "alive": true,
+        "final_energy": 12.829600030092742,
+        "min_energy": 8.967229655046642,
+        "dormancy_tick": 45499,
+        "death_tick": null,
+        "w_norm": 2890.4548727924057
+      },
+      {
+        "id": 23,
+        "weight_scale": 0.10176269442273665,
+        "alive": true,
+        "final_energy": 11.680214674518112,
+        "min_energy": 10.335711102666265,
+        "dormancy_tick": 42322,
+        "death_tick": null,
+        "w_norm": 2930.0284972214235
+      },
+      {
+        "id": 24,
+        "weight_scale": 0.10039119500197731,
+        "alive": true,
+        "final_energy": 5.351975433320568,
+        "min_energy": 4.6316839412974415,
+        "dormancy_tick": 41942,
+        "death_tick": null,
+        "w_norm": 2771.625046046996
+      },
+      {
+        "id": 25,
+        "weight_scale": 0.10120835138612308,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 33084,
+        "death_tick": 68301,
+        "w_norm": 2008.3774374213888
+      },
+      {
+        "id": 26,
+        "weight_scale": 0.10150626878280089,
+        "alive": true,
+        "final_energy": 10.133138072972022,
+        "min_energy": 9.75833290660312,
+        "dormancy_tick": 54940,
+        "death_tick": null,
+        "w_norm": 3065.372191900209
+      },
+      {
+        "id": 27,
+        "weight_scale": 0.09969083694299245,
+        "alive": true,
+        "final_energy": 7.642830815355714,
+        "min_energy": 3.5495370933909745,
+        "dormancy_tick": 40028,
+        "death_tick": null,
+        "w_norm": 2709.132103379228
+      },
+      {
+        "id": 28,
+        "weight_scale": 0.10075803710198164,
+        "alive": true,
+        "final_energy": 9.8246651005126,
+        "min_energy": 7.110493931758309,
+        "dormancy_tick": 41754,
+        "death_tick": null,
+        "w_norm": 2830.3657772655743
+      },
+      {
+        "id": 29,
+        "weight_scale": 0.10139160024128045,
+        "alive": true,
+        "final_energy": 10.896937870169186,
+        "min_energy": 8.108217981789373,
+        "dormancy_tick": 50602,
+        "death_tick": null,
+        "w_norm": 2905.5530438535784
+      }
+    ]
+  },
+  "boundary": {
+    "signal_ratio": 0.52,
+    "survival_rate": 0.03333333333333333,
+    "results": [
+      {
+        "id": 0,
+        "weight_scale": 0.1001952540157093,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 26280,
+        "death_tick": 46673,
+        "w_norm": 1491.2649113051496
+      },
+      {
+        "id": 1,
+        "weight_scale": 0.09830523315749584,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 30301,
+        "death_tick": 60056,
+        "w_norm": 1759.2840263838818
+      },
+      {
+        "id": 2,
+        "weight_scale": 0.10005577337509075,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27982,
+        "death_tick": 44480,
+        "w_norm": 1469.9096956416658
+      },
+      {
+        "id": 3,
+        "weight_scale": 0.09819489952323651,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27959,
+        "death_tick": 47622,
+        "w_norm": 1552.0648460445948
+      },
+      {
+        "id": 4,
+        "weight_scale": 0.10091605496915648,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 30950,
+        "death_tick": 50905,
+        "w_norm": 1618.4511443973176
+      },
+      {
+        "id": 5,
+        "weight_scale": 0.09983221979289636,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27380,
+        "death_tick": 48986,
+        "w_norm": 1578.7715545958229
+      },
+      {
+        "id": 6,
+        "weight_scale": 0.09949816047538945,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 28711,
+        "death_tick": 42132,
+        "w_norm": 1439.2899030528902
+      },
+      {
+        "id": 7,
+        "weight_scale": 0.09920385782342367,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27612,
+        "death_tick": 54493,
+        "w_norm": 1610.8245984052785
+      },
+      {
+        "id": 8,
+        "weight_scale": 0.10193676740217031,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 26513,
+        "death_tick": 52948,
+        "w_norm": 1578.1728285150173
+      },
+      {
+        "id": 9,
+        "weight_scale": 0.10021576409000235,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 29462,
+        "death_tick": 66299,
+        "w_norm": 1889.45672845768
+      },
+      {
+        "id": 10,
+        "weight_scale": 0.10170992215447583,
+        "alive": true,
+        "final_energy": 4.436455094784823,
+        "min_energy": 2.4957646712799404,
+        "dormancy_tick": 37040,
+        "death_tick": null,
+        "w_norm": 2599.582427730679
+      },
+      {
+        "id": 11,
+        "weight_scale": 0.10167643612719673,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 31351,
+        "death_tick": 63045,
+        "w_norm": 1901.3293272481023
+      },
+      {
+        "id": 12,
+        "weight_scale": 0.09818416397452595,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 30883,
+        "death_tick": 54635,
+        "w_norm": 1721.084327368539
+      },
+      {
+        "id": 13,
+        "weight_scale": 0.0988040143844719,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 25189,
+        "death_tick": 41446,
+        "w_norm": 1369.0939008250307
+      },
+      {
+        "id": 14,
+        "weight_scale": 0.10092906899227541,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 30951,
+        "death_tick": 54939,
+        "w_norm": 1742.7398242856173
+      },
+      {
+        "id": 15,
+        "weight_scale": 0.09833495969558553,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 24022,
+        "death_tick": 46641,
+        "w_norm": 1434.2166568262871
+      },
+      {
+        "id": 16,
+        "weight_scale": 0.09950022851549314,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 28415,
+        "death_tick": 59529,
+        "w_norm": 1747.1970614005472
+      },
+      {
+        "id": 17,
+        "weight_scale": 0.10139137501024847,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 33253,
+        "death_tick": 71854,
+        "w_norm": 2039.005229219824
+      },
+      {
+        "id": 18,
+        "weight_scale": 0.0984206885088707,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 26577,
+        "death_tick": 46150,
+        "w_norm": 1496.7861211553477
+      },
+      {
+        "id": 19,
+        "weight_scale": 0.09967803446539483,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27797,
+        "death_tick": 48513,
+        "w_norm": 1549.4719673728632
+      },
+      {
+        "id": 20,
+        "weight_scale": 0.10099162206598543,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27422,
+        "death_tick": 69755,
+        "w_norm": 1882.5557617130364
+      },
+      {
+        "id": 21,
+        "weight_scale": 0.0994667822775911,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 25934,
+        "death_tick": 49798,
+        "w_norm": 1527.5880121152372
+      },
+      {
+        "id": 22,
+        "weight_scale": 0.10003089507346906,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 25725,
+        "death_tick": 50312,
+        "w_norm": 1536.5633017689388
+      },
+      {
+        "id": 23,
+        "weight_scale": 0.10176269442273665,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 28781,
+        "death_tick": 49675,
+        "w_norm": 1601.2071145045677
+      },
+      {
+        "id": 24,
+        "weight_scale": 0.10039119500197731,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 26194,
+        "death_tick": 46916,
+        "w_norm": 1494.405909056563
+      },
+      {
+        "id": 25,
+        "weight_scale": 0.10120835138612308,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 25392,
+        "death_tick": 42445,
+        "w_norm": 1388.1330944304489
+      },
+      {
+        "id": 26,
+        "weight_scale": 0.10150626878280089,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 29403,
+        "death_tick": 57962,
+        "w_norm": 1734.687180045611
+      },
+      {
+        "id": 27,
+        "weight_scale": 0.09969083694299245,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 24662,
+        "death_tick": 46953,
+        "w_norm": 1465.4108072250172
+      },
+      {
+        "id": 28,
+        "weight_scale": 0.10075803710198164,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 27150,
+        "death_tick": 43965,
+        "w_norm": 1471.7984755654456
+      },
+      {
+        "id": 29,
+        "weight_scale": 0.10139160024128045,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 25963,
+        "death_tick": 50853,
+        "w_norm": 1535.868470376374
+      }
+    ]
+  },
+  "chaos": {
+    "signal_ratio": 0.4,
+    "survival_rate": 0.0,
+    "results": [
+      {
+        "id": 0,
+        "weight_scale": 0.1001952540157093,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15662,
+        "death_tick": 22608,
+        "w_norm": 820.001208092763
+      },
+      {
+        "id": 1,
+        "weight_scale": 0.09830523315749584,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16701,
+        "death_tick": 23759,
+        "w_norm": 855.6988487583687
+      },
+      {
+        "id": 2,
+        "weight_scale": 0.10005577337509075,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16657,
+        "death_tick": 23651,
+        "w_norm": 858.998731663471
+      },
+      {
+        "id": 3,
+        "weight_scale": 0.09819489952323651,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15385,
+        "death_tick": 22296,
+        "w_norm": 817.3447608352863
+      },
+      {
+        "id": 4,
+        "weight_scale": 0.10091605496915648,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16307,
+        "death_tick": 22855,
+        "w_norm": 837.1746661190296
+      },
+      {
+        "id": 5,
+        "weight_scale": 0.09983221979289636,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16756,
+        "death_tick": 22800,
+        "w_norm": 854.6898788786019
+      },
+      {
+        "id": 6,
+        "weight_scale": 0.09949816047538945,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 17688,
+        "death_tick": 24090,
+        "w_norm": 882.3266487803363
+      },
+      {
+        "id": 7,
+        "weight_scale": 0.09920385782342367,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16960,
+        "death_tick": 25212,
+        "w_norm": 892.9779254136073
+      },
+      {
+        "id": 8,
+        "weight_scale": 0.10193676740217031,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 17103,
+        "death_tick": 22974,
+        "w_norm": 855.8928892082645
+      },
+      {
+        "id": 9,
+        "weight_scale": 0.10021576409000235,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15854,
+        "death_tick": 22782,
+        "w_norm": 831.5490119297759
+      },
+      {
+        "id": 10,
+        "weight_scale": 0.10170992215447583,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16181,
+        "death_tick": 24542,
+        "w_norm": 864.8650341066365
+      },
+      {
+        "id": 11,
+        "weight_scale": 0.10167643612719673,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16747,
+        "death_tick": 23560,
+        "w_norm": 862.2014210321656
+      },
+      {
+        "id": 12,
+        "weight_scale": 0.09818416397452595,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16716,
+        "death_tick": 22878,
+        "w_norm": 866.2289385327549
+      },
+      {
+        "id": 13,
+        "weight_scale": 0.0988040143844719,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16593,
+        "death_tick": 22219,
+        "w_norm": 818.8443375969294
+      },
+      {
+        "id": 14,
+        "weight_scale": 0.10092906899227541,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16708,
+        "death_tick": 23186,
+        "w_norm": 852.3774480302817
+      },
+      {
+        "id": 15,
+        "weight_scale": 0.09833495969558553,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15071,
+        "death_tick": 21061,
+        "w_norm": 779.2703174167858
+      },
+      {
+        "id": 16,
+        "weight_scale": 0.09950022851549314,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16091,
+        "death_tick": 23383,
+        "w_norm": 850.2726196109985
+      },
+      {
+        "id": 17,
+        "weight_scale": 0.10139137501024847,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15920,
+        "death_tick": 22389,
+        "w_norm": 817.4108733534589
+      },
+      {
+        "id": 18,
+        "weight_scale": 0.0984206885088707,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16225,
+        "death_tick": 23323,
+        "w_norm": 866.1815831122552
+      },
+      {
+        "id": 19,
+        "weight_scale": 0.09967803446539483,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16248,
+        "death_tick": 24236,
+        "w_norm": 853.4285659157789
+      },
+      {
+        "id": 20,
+        "weight_scale": 0.10099162206598543,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16174,
+        "death_tick": 22579,
+        "w_norm": 843.6903237482193
+      },
+      {
+        "id": 21,
+        "weight_scale": 0.0994667822775911,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15692,
+        "death_tick": 21294,
+        "w_norm": 811.1749520233255
+      },
+      {
+        "id": 22,
+        "weight_scale": 0.10003089507346906,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15589,
+        "death_tick": 21546,
+        "w_norm": 790.8515516590755
+      },
+      {
+        "id": 23,
+        "weight_scale": 0.10176269442273665,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 17305,
+        "death_tick": 25087,
+        "w_norm": 909.3306148641617
+      },
+      {
+        "id": 24,
+        "weight_scale": 0.10039119500197731,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16195,
+        "death_tick": 22489,
+        "w_norm": 833.8329184104564
+      },
+      {
+        "id": 25,
+        "weight_scale": 0.10120835138612308,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16401,
+        "death_tick": 24975,
+        "w_norm": 871.1754962056225
+      },
+      {
+        "id": 26,
+        "weight_scale": 0.10150626878280089,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16234,
+        "death_tick": 23558,
+        "w_norm": 859.124398877504
+      },
+      {
+        "id": 27,
+        "weight_scale": 0.09969083694299245,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 15555,
+        "death_tick": 21790,
+        "w_norm": 808.0783330200278
+      },
+      {
+        "id": 28,
+        "weight_scale": 0.10075803710198164,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 16437,
+        "death_tick": 22670,
+        "w_norm": 848.6208904159387
+      },
+      {
+        "id": 29,
+        "weight_scale": 0.10139160024128045,
+        "alive": false,
+        "final_energy": 0,
+        "min_energy": 0.0,
+        "dormancy_tick": 14869,
+        "death_tick": 21638,
+        "w_norm": 792.7929306511882
+      }
+    ]
+  }
+}

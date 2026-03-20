@@ -1,0 +1,825 @@
+{
+  "created": "2026-03-09T10:55:39.889802",
+  "cycle_count": 5,
+  "hypotheses": [
+    {
+      "id": "bootstrap_single_0",
+      "statement": "Map single-organism viability across extraction_factor x signal_ratio to establish baseline survival landscape.",
+      "test_plan": {
+        "scale": "single",
+        "sweep": {
+          "extraction_factor": [
+            0.15,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "signal_ratio": [
+            0.3,
+            0.5,
+            0.7,
+            0.9
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.02
+        },
+        "ticks": 15000,
+        "n_seeds": 3
+      },
+      "priority": 1.0,
+      "reasoning": "Need baseline single-organism data before anything else.",
+      "status": "supported",
+      "source": "brain",
+      "created": "2026-03-09T10:55:39.891566"
+    },
+    {
+      "id": "bootstrap_pop_1",
+      "statement": "Map population viability across extraction_factor x signal_ratio to see how competition changes the survival landscape.",
+      "test_plan": {
+        "scale": "population",
+        "sweep": {
+          "extraction_factor": [
+            0.25,
+            0.35,
+            0.5
+          ],
+          "signal_ratio": [
+            0.4,
+            0.6,
+            0.85
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.35,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.03,
+          "reproduction_cost": 60.0,
+          "mutation_rate": 0.015,
+          "initial_pop": 20,
+          "max_pop": 60,
+          "reproduction_threshold": 120.0,
+          "carrying_capacity": 30
+        },
+        "ticks": 15000,
+        "n_seeds": 3
+      },
+      "priority": 0.95,
+      "reasoning": "Need population baseline to compare against single-organism.",
+      "status": "supported",
+      "source": "brain",
+      "created": "2026-03-09T10:56:59.634483"
+    },
+    {
+      "id": "bootstrap_tissue_2",
+      "statement": "Map tissue viability across extraction_factor x base_signal_ratio to find where multicellular growth is possible.",
+      "test_plan": {
+        "scale": "tissue",
+        "sweep": {
+          "extraction_factor": [
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8
+          ],
+          "base_signal_ratio": [
+            0.4,
+            0.55,
+            0.7,
+            0.85
+          ]
+        },
+        "base_config": {
+          "env_dim": 8,
+          "signal_dim": 4,
+          "observation_dim": 12,
+          "model_dim": 20,
+          "initial_energy": 100.0,
+          "starting_energy": 180.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.6,
+          "update_cost_factor": 0.015,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.02,
+          "base_signal_ratio": 0.7,
+          "spatial_gradient": 0.2,
+          "signal_hop_decay": 0.9,
+          "signal_emission_strength": 0.3,
+          "signal_energy_coupling": 1.0,
+          "signal_division_coupling": 0.1,
+          "energy_leak_rate": 0.02,
+          "division_energy_threshold": 140.0,
+          "division_cost": 30.0,
+          "cell_mutation_rate": 0.005,
+          "apoptosis_threshold": 3.0,
+          "apoptosis_streak": 500,
+          "phenotype_max_plasticity": 0.05,
+          "phenotype_lock_tau": 200.0,
+          "phenotype_min_plasticity": 0.001,
+          "phenotype_emission_coupling": 2.0,
+          "phenotype_affinity_coupling": 2.0,
+          "resource_depletion_rate": 0.0,
+          "resource_regen_rate": 0.0,
+          "migration_energy_cost": 2.0,
+          "migration_resource_threshold": 0.5,
+          "displacement_energy_ratio": 3.0
+        },
+        "ticks": 5000,
+        "n_seeds": 3,
+        "run_kwargs": {
+          "rows": 12,
+          "cols": 12,
+          "ticks": 5000
+        }
+      },
+      "priority": 0.9,
+      "reasoning": "Need tissue baseline \u2014 this is the multicellular frontier.",
+      "status": "supported",
+      "source": "brain",
+      "created": "2026-03-09T11:35:08.546588"
+    },
+    {
+      "id": "refine_signal_ratio_population_3",
+      "statement": "Refine signal_ratio phase boundary in [0.4000, 0.4000] for population scale. Where exactly does viability flip?",
+      "test_plan": {
+        "scale": "population",
+        "sweep": {
+          "signal_ratio": [
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.35,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.03,
+          "reproduction_cost": 60.0,
+          "mutation_rate": 0.015,
+          "initial_pop": 20,
+          "max_pop": 60,
+          "reproduction_threshold": 120.0,
+          "carrying_capacity": 30
+        },
+        "ticks": 15000,
+        "n_seeds": 5,
+        "run_kwargs": {
+          "ticks": 15000
+        }
+      },
+      "priority": 0.85,
+      "reasoning": "Found boundary at signal_ratio~0.4, need finer resolution.",
+      "status": "completed",
+      "source": "brain",
+      "created": "2026-03-09T12:34:08.405405"
+    },
+    {
+      "id": "refine_signal_ratio_population_4",
+      "statement": "Refine signal_ratio phase boundary in [0.4000, 0.4000] for population scale. Where exactly does viability flip?",
+      "test_plan": {
+        "scale": "population",
+        "sweep": {
+          "signal_ratio": [
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.35,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.03,
+          "reproduction_cost": 60.0,
+          "mutation_rate": 0.015,
+          "initial_pop": 20,
+          "max_pop": 60,
+          "reproduction_threshold": 120.0,
+          "carrying_capacity": 30
+        },
+        "ticks": 15000,
+        "n_seeds": 5,
+        "run_kwargs": {}
+      },
+      "priority": 0.85,
+      "reasoning": "Found boundary at signal_ratio~0.4, need finer resolution.",
+      "status": "testing",
+      "source": "brain",
+      "created": "2026-03-09T13:15:15.471763"
+    }
+  ],
+  "experiments": [
+    {
+      "hypothesis_id": "bootstrap_single_0",
+      "original_plan": {
+        "scale": "single",
+        "sweep": {
+          "extraction_factor": [
+            0.15,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "signal_ratio": [
+            0.3,
+            0.5,
+            0.7,
+            0.9
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.02
+        },
+        "ticks": 15000,
+        "n_seeds": 3
+      },
+      "n_results": 24,
+      "elapsed_s": 68.75134038925171,
+      "timestamp": "2026-03-09T10:56:48.644059"
+    },
+    {
+      "hypothesis_id": "bootstrap_pop_1",
+      "original_plan": {
+        "scale": "population",
+        "sweep": {
+          "extraction_factor": [
+            0.25,
+            0.35,
+            0.5
+          ],
+          "signal_ratio": [
+            0.4,
+            0.6,
+            0.85
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.35,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.03,
+          "reproduction_cost": 60.0,
+          "mutation_rate": 0.015,
+          "initial_pop": 20,
+          "max_pop": 60,
+          "reproduction_threshold": 120.0,
+          "carrying_capacity": 30
+        },
+        "ticks": 15000,
+        "n_seeds": 3
+      },
+      "n_results": 9,
+      "elapsed_s": 2286.613029241562,
+      "timestamp": "2026-03-09T11:35:07.377880"
+    },
+    {
+      "hypothesis_id": "bootstrap_tissue_2",
+      "original_plan": {
+        "scale": "tissue",
+        "sweep": {
+          "extraction_factor": [
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8
+          ],
+          "base_signal_ratio": [
+            0.4,
+            0.55,
+            0.7,
+            0.85
+          ]
+        },
+        "base_config": {
+          "env_dim": 8,
+          "signal_dim": 4,
+          "observation_dim": 12,
+          "model_dim": 20,
+          "initial_energy": 100.0,
+          "starting_energy": 180.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.6,
+          "update_cost_factor": 0.015,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.02,
+          "base_signal_ratio": 0.7,
+          "spatial_gradient": 0.2,
+          "signal_hop_decay": 0.9,
+          "signal_emission_strength": 0.3,
+          "signal_energy_coupling": 1.0,
+          "signal_division_coupling": 0.1,
+          "energy_leak_rate": 0.02,
+          "division_energy_threshold": 140.0,
+          "division_cost": 30.0,
+          "cell_mutation_rate": 0.005,
+          "apoptosis_threshold": 3.0,
+          "apoptosis_streak": 500,
+          "phenotype_max_plasticity": 0.05,
+          "phenotype_lock_tau": 200.0,
+          "phenotype_min_plasticity": 0.001,
+          "phenotype_emission_coupling": 2.0,
+          "phenotype_affinity_coupling": 2.0,
+          "resource_depletion_rate": 0.0,
+          "resource_regen_rate": 0.0,
+          "migration_energy_cost": 2.0,
+          "migration_resource_threshold": 0.5,
+          "displacement_energy_ratio": 3.0
+        },
+        "ticks": 5000,
+        "n_seeds": 3,
+        "run_kwargs": {
+          "rows": 12,
+          "cols": 12,
+          "ticks": 5000
+        }
+      },
+      "n_results": 24,
+      "elapsed_s": 3539.8162384033203,
+      "timestamp": "2026-03-09T12:34:08.176257"
+    },
+    {
+      "hypothesis_id": "refine_signal_ratio_population_3",
+      "original_plan": {
+        "scale": "population",
+        "sweep": {
+          "signal_ratio": [
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4
+          ]
+        },
+        "base_config": {
+          "observation_dim": 8,
+          "model_dim": 16,
+          "initial_energy": 100.0,
+          "energy_capacity": 200.0,
+          "consumption_rate": 0.08,
+          "extraction_factor": 0.35,
+          "update_cost_factor": 0.02,
+          "learning_rate": 0.05,
+          "birth_trait_variation": 0.03,
+          "reproduction_cost": 60.0,
+          "mutation_rate": 0.015,
+          "initial_pop": 20,
+          "max_pop": 60,
+          "reproduction_threshold": 120.0,
+          "carrying_capacity": 30
+        },
+        "ticks": 15000,
+        "n_seeds": 5,
+        "run_kwargs": {
+          "ticks": 15000
+        }
+      },
+      "n_results": 7,
+      "elapsed_s": 2467.088906764984,
+      "timestamp": "2026-03-09T13:15:15.456075"
+    }
+  ],
+  "findings": [
+    {
+      "statement": "single: Phase boundary in extraction_factor ~ 0.2500 (between 0.2500 and 0.2500)",
+      "evidence": "hypothesis=bootstrap_single_0",
+      "confidence": 0.7,
+      "tags": [
+        "single",
+        "boundary",
+        "extraction_factor"
+      ],
+      "data": {
+        "param": "extraction_factor",
+        "low": 0.25,
+        "high": 0.25,
+        "boundary": 0.25,
+        "metric": "survival_rate",
+        "threshold": 0.5,
+        "scale": "single"
+      },
+      "experiment_ref": "bootstrap_single_0",
+      "timestamp": "2026-03-09T10:56:48.681411"
+    },
+    {
+      "statement": "single: Phase boundary in signal_ratio ~ 0.3000 (between 0.3000 and 0.3000)",
+      "evidence": "hypothesis=bootstrap_single_0",
+      "confidence": 0.7,
+      "tags": [
+        "single",
+        "boundary",
+        "signal_ratio"
+      ],
+      "data": {
+        "param": "signal_ratio",
+        "low": 0.3,
+        "high": 0.3,
+        "boundary": 0.3,
+        "metric": "survival_rate",
+        "threshold": 0.5,
+        "scale": "single"
+      },
+      "experiment_ref": "bootstrap_single_0",
+      "timestamp": "2026-03-09T10:56:48.681567"
+    },
+    {
+      "statement": "single: extraction_factor increases mean energy (r=0.96)",
+      "evidence": "hypothesis=bootstrap_single_0",
+      "confidence": 0.8785845124757072,
+      "tags": [
+        "single",
+        "parameter_effect",
+        "extraction_factor"
+      ],
+      "data": {
+        "param": "extraction_factor",
+        "correlation": 0.9571690249514145,
+        "scale": "single",
+        "values": [
+          0.15,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "energies": [
+          0.0,
+          0.0,
+          36.17674976308906,
+          103.64208377759924,
+          199.99707583929037,
+          200.0
+        ]
+      },
+      "experiment_ref": "bootstrap_single_0",
+      "timestamp": "2026-03-09T10:56:48.681737"
+    },
+    {
+      "statement": "single: signal_ratio increases mean energy (r=0.96)",
+      "evidence": "hypothesis=bootstrap_single_0",
+      "confidence": 0.8806764075622099,
+      "tags": [
+        "single",
+        "parameter_effect",
+        "signal_ratio"
+      ],
+      "data": {
+        "param": "signal_ratio",
+        "correlation": 0.9613528151244197,
+        "scale": "single",
+        "values": [
+          0.3,
+          0.5,
+          0.7,
+          0.9
+        ],
+        "energies": [
+          70.06172510628464,
+          73.31565446760142,
+          96.39517580217723,
+          120.10471754392246
+        ]
+      },
+      "experiment_ref": "bootstrap_single_0",
+      "timestamp": "2026-03-09T10:56:48.681876"
+    },
+    {
+      "statement": "population: Phase boundary in extraction_factor ~ 0.2500 (between 0.2500 and 0.2500)",
+      "evidence": "hypothesis=bootstrap_pop_1",
+      "confidence": 0.7,
+      "tags": [
+        "population",
+        "boundary",
+        "extraction_factor"
+      ],
+      "data": {
+        "param": "extraction_factor",
+        "low": 0.25,
+        "high": 0.25,
+        "boundary": 0.25,
+        "metric": "survival_rate",
+        "threshold": 0.5,
+        "scale": "population"
+      },
+      "experiment_ref": "bootstrap_pop_1",
+      "timestamp": "2026-03-09T11:35:07.560021"
+    },
+    {
+      "statement": "population: Phase boundary in signal_ratio ~ 0.4000 (between 0.4000 and 0.4000)",
+      "evidence": "hypothesis=bootstrap_pop_1",
+      "confidence": 0.7,
+      "tags": [
+        "population",
+        "boundary",
+        "signal_ratio"
+      ],
+      "data": {
+        "param": "signal_ratio",
+        "low": 0.4,
+        "high": 0.4,
+        "boundary": 0.4,
+        "metric": "survival_rate",
+        "threshold": 0.5,
+        "scale": "population"
+      },
+      "experiment_ref": "bootstrap_pop_1",
+      "timestamp": "2026-03-09T11:35:07.629062"
+    },
+    {
+      "statement": "population: extraction_factor increases mean energy (r=0.86)",
+      "evidence": "hypothesis=bootstrap_pop_1",
+      "confidence": 0.8308224223622532,
+      "tags": [
+        "population",
+        "parameter_effect",
+        "extraction_factor"
+      ],
+      "data": {
+        "param": "extraction_factor",
+        "correlation": 0.8616448447245064,
+        "scale": "population",
+        "values": [
+          0.25,
+          0.35,
+          0.5
+        ],
+        "energies": [
+          25.75920587642049,
+          75.614099312182,
+          82.15762595474938
+        ]
+      },
+      "experiment_ref": "bootstrap_pop_1",
+      "timestamp": "2026-03-09T11:35:07.679635"
+    },
+    {
+      "statement": "population: signal_ratio increases mean energy (r=0.80)",
+      "evidence": "hypothesis=bootstrap_pop_1",
+      "confidence": 0.7984273255096395,
+      "tags": [
+        "population",
+        "parameter_effect",
+        "signal_ratio"
+      ],
+      "data": {
+        "param": "signal_ratio",
+        "correlation": 0.7968546510192788,
+        "scale": "population",
+        "values": [
+          0.4,
+          0.6,
+          0.85
+        ],
+        "energies": [
+          55.88228546733345,
+          50.62758359328796,
+          77.02106208273044
+        ]
+      },
+      "experiment_ref": "bootstrap_pop_1",
+      "timestamp": "2026-03-09T11:35:07.744737"
+    },
+    {
+      "statement": "tissue: All 24 configs survived.",
+      "evidence": "hypothesis=bootstrap_tissue_2",
+      "confidence": 0.8,
+      "tags": [
+        "tissue",
+        "viability",
+        "all_survived"
+      ],
+      "data": {
+        "scale": "tissue",
+        "n_configs": 24
+      },
+      "experiment_ref": "bootstrap_tissue_2",
+      "timestamp": "2026-03-09T12:34:08.184695"
+    },
+    {
+      "statement": "tissue: extraction_factor increases mean energy (r=0.66)",
+      "evidence": "hypothesis=bootstrap_tissue_2",
+      "confidence": 0.73053102160273,
+      "tags": [
+        "tissue",
+        "parameter_effect",
+        "extraction_factor"
+      ],
+      "data": {
+        "param": "extraction_factor",
+        "correlation": 0.6610620432054599,
+        "scale": "tissue",
+        "values": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8
+        ],
+        "energies": [
+          48.202367072041895,
+          82.59526775340731,
+          83.89495219867554,
+          81.76338562388369,
+          83.53280496694413,
+          83.2641589481524
+        ]
+      },
+      "experiment_ref": "bootstrap_tissue_2",
+      "timestamp": "2026-03-09T12:34:08.185828"
+    },
+    {
+      "statement": "tissue: base_signal_ratio increases mean energy (r=0.54)",
+      "evidence": "hypothesis=bootstrap_tissue_2",
+      "confidence": 0.668373577308587,
+      "tags": [
+        "tissue",
+        "parameter_effect",
+        "base_signal_ratio"
+      ],
+      "data": {
+        "param": "base_signal_ratio",
+        "correlation": 0.5367471546171739,
+        "scale": "tissue",
+        "values": [
+          0.4,
+          0.55,
+          0.7,
+          0.85
+        ],
+        "energies": [
+          73.08319917095172,
+          78.02780551706196,
+          81.06622236887362,
+          76.65806398518265
+        ]
+      },
+      "experiment_ref": "bootstrap_tissue_2",
+      "timestamp": "2026-03-09T12:34:08.185948"
+    },
+    {
+      "statement": "tissue: Peak growth = 47 cells at {'extraction_factor': 0.8, 'base_signal_ratio': 0.7}",
+      "evidence": "hypothesis=bootstrap_tissue_2",
+      "confidence": 0.7,
+      "tags": [
+        "tissue",
+        "growth",
+        "peak"
+      ],
+      "data": {
+        "peak_cells": 47.0,
+        "best_params": {
+          "extraction_factor": 0.8,
+          "base_signal_ratio": 0.7
+        },
+        "scale": "tissue"
+      },
+      "experiment_ref": "bootstrap_tissue_2",
+      "timestamp": "2026-03-09T12:34:08.186032"
+    },
+    {
+      "statement": "population: All 7 configs survived.",
+      "evidence": "hypothesis=refine_signal_ratio_population_3",
+      "confidence": 0.8,
+      "tags": [
+        "population",
+        "viability",
+        "all_survived"
+      ],
+      "data": {
+        "scale": "population",
+        "n_configs": 7
+      },
+      "experiment_ref": "refine_signal_ratio_population_3",
+      "timestamp": "2026-03-09T13:15:15.457583"
+    }
+  ],
+  "open_questions": [
+    {
+      "question": "What mechanism causes the extraction_factor boundary at ~0.2500 for single?",
+      "timestamp": "2026-03-09T10:56:48.682022",
+      "resolved": false
+    },
+    {
+      "question": "What mechanism causes the signal_ratio boundary at ~0.3000 for single?",
+      "timestamp": "2026-03-09T10:56:48.682179",
+      "resolved": false
+    },
+    {
+      "question": "What mechanism causes the extraction_factor boundary at ~0.2500 for population?",
+      "timestamp": "2026-03-09T11:35:07.824811",
+      "resolved": false
+    },
+    {
+      "question": "What mechanism causes the signal_ratio boundary at ~0.4000 for population?",
+      "timestamp": "2026-03-09T11:35:07.919517",
+      "resolved": false
+    },
+    {
+      "question": "Tissue grew to 47 cells. What limits further growth? Grid size or energy?",
+      "timestamp": "2026-03-09T12:34:08.186116",
+      "resolved": false
+    }
+  ],
+  "knowledge": {
+    "explored_params": [
+      "extraction_factor",
+      "signal_ratio",
+      "base_signal_ratio"
+    ],
+    "single_viability_map": {
+      "extraction_boundary": 0.25,
+      "n_configs": 24,
+      "survival_rates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.3333333333333333,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "population_viability_map": {
+      "extraction_boundary": 0.25,
+      "n_configs": 9
+    },
+    "tissue_viability_map": {
+      "extraction_boundary": null,
+      "n_configs": 24
+    }
+  }
+}

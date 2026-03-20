@@ -1,0 +1,38 @@
+{
+  "lineage_id": "20260226_182412_102332",
+  "parent_id": null,
+  "timestamp": "2026-02-26T18:24:12.119344",
+  "birth_hash": "20991f24377b869e",
+  "config": {
+    "observation_dim": 8,
+    "model_dim": 16,
+    "starting_energy": 100.0,
+    "energy_capacity": 100.0,
+    "consumption_rate": 0.1,
+    "learning_rate": 0.1,
+    "prior_learning_rate": 0.01,
+    "precision_learning_rate": 0.01,
+    "update_cost_factor": 0.01,
+    "prediction_reward_factor": 1.0,
+    "observation_noise": 0.001,
+    "low_energy_threshold": 5.0
+  },
+  "summary": {
+    "total_ticks": 10000,
+    "is_alive": true,
+    "final_energy": 98.05086121591346,
+    "min_energy": 96.3653272959847,
+    "max_energy": 100.0,
+    "mean_energy": 98.7280892732588,
+    "final_error": 4.11852681491122,
+    "min_error": 0.002495446898027856,
+    "max_error": 5.021566273315607,
+    "mean_error": 3.1118464473461507,
+    "total_accumulated_error": 31118.464473461467,
+    "near_death_events": 0,
+    "model_updates": 10000,
+    "birth_hash": "20991f24377b869e",
+    "final_hash": "24e984bc862de65d"
+  },
+  "generation": 0
+}

@@ -1,0 +1,362 @@
+[
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "base_signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 75.50156520470051,
+    "mean_error": 4.366944350046986,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "base_signal_ratio": 0.55
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 81.10575404345343,
+    "mean_error": 3.0775192339556194,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "base_signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 93.28963699403778,
+    "mean_error": 2.4636552231901536,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.3,
+      "base_signal_ratio": 0.85
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 106.78548903053829,
+    "mean_error": 1.6121764598126707,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "base_signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 102.60499232339914,
+    "mean_error": 4.4283700225851685,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "base_signal_ratio": 0.55
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 110.03373270157984,
+    "mean_error": 3.1253484234553826,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "base_signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 126.0504579025773,
+    "mean_error": 2.5085446396679743,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.4,
+      "base_signal_ratio": 0.85
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 88.08177744233376,
+    "mean_error": 2.179974331155573,
+    "mean_cells": 3.0,
+    "mean_peak_cells": 3.0,
+    "mean_births": 2.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "base_signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 129.62834229652856,
+    "mean_error": 4.477861064147586,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "base_signal_ratio": 0.55
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 138.85721435359994,
+    "mean_error": 3.186520073415104,
+    "mean_cells": 2.0,
+    "mean_peak_cells": 2.0,
+    "mean_births": 1.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "base_signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 104.42794522008289,
+    "mean_error": 3.3901593601475972,
+    "mean_cells": 3.0,
+    "mean_peak_cells": 3.0,
+    "mean_births": 2.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.5,
+      "base_signal_ratio": 0.85
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 103.1144385272704,
+    "mean_error": 2.1031718156384103,
+    "mean_cells": 4.0,
+    "mean_peak_cells": 4.0,
+    "mean_births": 3.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.6,
+      "base_signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 102.75686385595377,
+    "mean_error": 3.7974137476597676,
+    "mean_cells": 3.0,
+    "mean_peak_cells": 3.0,
+    "mean_births": 2.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.6,
+      "base_signal_ratio": 0.55
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 114.068332739882,
+    "mean_error": 3.726556851945171,
+    "mean_cells": 3.0,
+    "mean_peak_cells": 3.0,
+    "mean_births": 2.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.6,
+      "base_signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 139.14685530033975,
+    "mean_error": 3.1729337292442157,
+    "mean_cells": 3.0,
+    "mean_peak_cells": 3.0,
+    "mean_births": 2.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.6,
+      "base_signal_ratio": 0.85
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 106.14076402372714,
+    "mean_error": 3.2441694584129834,
+    "mean_cells": 5.0,
+    "mean_peak_cells": 5.0,
+    "mean_births": 4.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.7,
+      "base_signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 131.29889066138102,
+    "mean_error": 4.891920723709898,
+    "mean_cells": 3.0,
+    "mean_peak_cells": 3.0,
+    "mean_births": 2.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.7,
+      "base_signal_ratio": 0.55
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 117.48263685876525,
+    "mean_error": 3.224105527147737,
+    "mean_cells": 4.0,
+    "mean_peak_cells": 4.0,
+    "mean_births": 3.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.7,
+      "base_signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 129.30138191992955,
+    "mean_error": 3.7878161313035386,
+    "mean_cells": 4.0,
+    "mean_peak_cells": 4.0,
+    "mean_births": 3.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.7,
+      "base_signal_ratio": 0.85
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 94.69518215896777,
+    "mean_error": 3.352710453484371,
+    "mean_cells": 7.0,
+    "mean_peak_cells": 7.0,
+    "mean_births": 6.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.8,
+      "base_signal_ratio": 0.4
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 118.24753255410408,
+    "mean_error": 4.265124738773485,
+    "mean_cells": 4.0,
+    "mean_peak_cells": 4.0,
+    "mean_births": 3.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.8,
+      "base_signal_ratio": 0.55
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 90.97540360731493,
+    "mean_error": 3.9564527997244334,
+    "mean_cells": 6.0,
+    "mean_peak_cells": 6.0,
+    "mean_births": 5.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.8,
+      "base_signal_ratio": 0.7
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 79.5041206798083,
+    "mean_error": 3.3106395774283834,
+    "mean_cells": 8.0,
+    "mean_peak_cells": 8.0,
+    "mean_births": 7.0,
+    "mean_deaths": 0.0
+  },
+  {
+    "params": {
+      "extraction_factor": 0.8,
+      "base_signal_ratio": 0.85
+    },
+    "n_seeds": 1,
+    "survival_rate": 1.0,
+    "survival_count": 1,
+    "mean_energy": 135.94141095876213,
+    "mean_error": 3.216391421579426,
+    "mean_cells": 7.0,
+    "mean_peak_cells": 7.0,
+    "mean_births": 6.0,
+    "mean_deaths": 0.0
+  }
+]
