@@ -573,6 +573,23 @@ class Ultron:
                                 result_str = str(result_str)[:50] + '...'
                             self._msg(f"  [{status}] {action_type}: {result_str}")
 
+                            # Live-apply set_param changes to running CONFIG
+                            if action_type == 'set_param' and ar.get('success'):
+                                pname = actions[i].get('param', '')
+                                pval = actions[i].get('value')
+                                if pname in CONFIG and pval is not None:
+                                    try:
+                                        CONFIG[pname] = type(CONFIG[pname])(pval)
+                                        self._msg(f"  LIVE: {pname} = {CONFIG[pname]}")
+                                    except (TypeError, ValueError):
+                                        pass
+
+                            # Hot-reload modified source files
+                            if action_type == 'modify_file' and ar.get('success'):
+                                mod_path = actions[i].get('path', '')
+                                if mod_path:
+                                    self._hot_reload(mod_path)
+
                         # Feed results back to cognition for next thought
                         self._cognition.store_action_results(action_results)
 
