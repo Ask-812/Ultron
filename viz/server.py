@@ -91,7 +91,7 @@ CONFIG = {
     'signal_noise': 0.01,
     'signal_energy_coupling': 1.0, 'signal_division_coupling': 0.15,
     'energy_leak_rate': 0.04,
-    'division_energy_threshold': 15,
+    'division_energy_threshold': 10,
     'apoptosis_threshold': 2.0, 'apoptosis_streak': 200,
     'cell_mutation_rate': 0.03,
     'phenotype_max_plasticity': 0.06, 'phenotype_lock_tau': 300.0,
@@ -329,6 +329,36 @@ class Ultron:
             self._session_deaths = 0
         except Exception as e:
             print(f"[!] Save error: {e}")
+
+        # Auto-commit Ultron's own changes to git
+        self._git_auto_commit()
+
+    def _git_auto_commit(self):
+        """Commit any changes Ultron has made to its source code."""
+        import subprocess
+        try:
+            # Check if there are uncommitted changes
+            result = subprocess.run(
+                ['git', 'diff', '--stat'],
+                cwd=SOURCE_ROOT, capture_output=True, text=True, timeout=10
+            )
+            if not result.stdout.strip():
+                return  # nothing to commit
+
+            subprocess.run(
+                ['git', 'add', '-A'],
+                cwd=SOURCE_ROOT, capture_output=True, timeout=10
+            )
+            tick = self.tissue.tick_count if self.tissue else 0
+            cells = self.tissue.cell_count if self.tissue else 0
+            msg = f"[ULTRON T{tick}] Self-modification checkpoint ({cells} cells)"
+            subprocess.run(
+                ['git', 'commit', '-m', msg],
+                cwd=SOURCE_ROOT, capture_output=True, timeout=10
+            )
+            self._msg("Git: auto-committed changes")
+        except Exception as e:
+            pass  # don't fail save over git issues
 
     def tick(self):
         if not self.tissue: return
