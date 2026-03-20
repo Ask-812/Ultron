@@ -841,17 +841,19 @@ class Agency:
             match = re.search(pattern, content, re.MULTILINE | re.IGNORECASE)
 
             # Second try: 'param_name': value (dict key in CONFIG)
+            # Match both start-of-line and mid-line dict entries
             if not match:
-                pattern2 = rf"^(\s*)'({re.escape(param)})'\s*:\s*(.+?)(,?\s*)$"
-                match2 = re.search(pattern2, content, re.MULTILINE | re.IGNORECASE)
+                # Try to find 'param': value anywhere in the content
+                pattern2 = rf"'({re.escape(param)})'\s*:\s*([^,\}}]+)"
+                match2 = re.search(pattern2, content, re.IGNORECASE)
                 if not match2:
                     # Also try double-quoted keys
-                    pattern3 = rf'^(\s*)"{re.escape(param)}"\s*:\s*(.+?)(,?\s*)$'
-                    match2 = re.search(pattern3, content, re.MULTILINE | re.IGNORECASE)
+                    pattern3 = rf'"({re.escape(param)})"\s*:\s*([^,\}}]+)'
+                    match2 = re.search(pattern3, content, re.IGNORECASE)
 
                 if match2:
-                    old_line = match2.group(0)
-                    indent = match2.group(1)
+                    old_fragment = match2.group(0)
+                    matched_key = match2.group(1)
 
                     # Format new value
                     if isinstance(value, str):
@@ -861,11 +863,11 @@ class Agency:
                     else:
                         new_val = str(value)
 
-                    new_line = f"{indent}'{param}': {new_val},"
+                    new_fragment = f"'{matched_key}': {new_val}"
 
                     self._git_checkpoint(f"Before set_param: {param}")
 
-                    new_content = content.replace(old_line, new_line, 1)
+                    new_content = content.replace(old_fragment, new_fragment, 1)
                     with open(path, 'w', encoding='utf-8') as f:
                         f.write(new_content)
 
