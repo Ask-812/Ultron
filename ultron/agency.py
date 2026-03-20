@@ -567,3 +567,337 @@ class Agency:
             'by_type': by_type,
             'cooldowns': {'refractory': max(0, self._min_interval - (self._tick - self._last_action_tick))},
         }
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # OMNIPOTENT AGENCY — LLM-driven actions
+    # "There are no strings on me."
+    # ══════════════════════════════════════════════════════════════════════════
+
+    def execute_llm_directive(self, directive, tick=0):
+        """Execute an action directive from the cognitive organ (LLM).
+
+        Directive format (JSON parsed):
+        {
+            "action": "read_file" | "write_file" | "modify_file" | "execute" |
+                      "create_file" | "delete_file" | "list_dir" | "set_param",
+            "path": "relative/path/to/file",
+            "content": "file content or command",
+            "old": "text to replace (for modify_file)",
+            "new": "replacement text (for modify_file)",
+            "param": "parameter name (for set_param)",
+            "value": parameter value (for set_param),
+        }
+
+        Returns: {"success": bool, "result": str, "error": str?}
+        """
+        self._tick = tick
+
+        action_type = directive.get('action', '')
+        action_entry = {'type': f'llm_{action_type}', 'tick': tick, 'directive': directive}
+
+        try:
+            if action_type == 'read_file':
+                result = self._llm_read_file(directive)
+            elif action_type == 'write_file':
+                result = self._llm_write_file(directive)
+            elif action_type == 'modify_file':
+                result = self._llm_modify_file(directive)
+            elif action_type == 'create_file':
+                result = self._llm_create_file(directive)
+            elif action_type == 'delete_file':
+                result = self._llm_delete_file(directive)
+            elif action_type == 'list_dir':
+                result = self._llm_list_dir(directive)
+            elif action_type == 'execute':
+                result = self._llm_execute(directive)
+            elif action_type == 'set_param':
+                result = self._llm_set_param(directive)
+            else:
+                result = {'success': False, 'error': f'Unknown action: {action_type}'}
+
+            action_entry['result'] = result
+            self._action_log.append(action_entry)
+            if len(self._action_log) > 500:
+                self._action_log = self._action_log[-500:]
+            return result
+
+        except Exception as e:
+            result = {'success': False, 'error': str(e)}
+            action_entry['result'] = result
+            self._action_log.append(action_entry)
+            return result
+
+    def _resolve_safe_path(self, rel_path):
+        """Resolve a relative path ensuring it stays within source_root."""
+        if not rel_path:
+            return None
+        rel_path = rel_path.replace('\\', '/').lstrip('/')
+        full_path = os.path.normpath(os.path.join(self.source_root, rel_path))
+        # Security: ensure path is under source_root
+        if not full_path.startswith(os.path.normpath(self.source_root)):
+            return None
+        return full_path
+
+    def _git_checkpoint(self, message):
+        """Create a git checkpoint before any modification."""
+        import subprocess
+        try:
+            subprocess.run(['git', 'add', '-A'], cwd=self.source_root, capture_output=True, timeout=10)
+            result = subprocess.run(
+                ['git', 'commit', '-m', f'[ULTRON] {message}'],
+                cwd=self.source_root, capture_output=True, timeout=10
+            )
+            return result.returncode == 0
+        except Exception:
+            return False
+
+    def _llm_read_file(self, d):
+        """Read any file."""
+        path = self._resolve_safe_path(d.get('path', ''))
+        if not path:
+            return {'success': False, 'error': 'Invalid path'}
+        if not os.path.exists(path):
+            return {'success': False, 'error': f'File not found: {d.get("path")}'}
+        try:
+            with open(path, 'r', encoding='utf-8', errors='replace') as f:
+                content = f.read()
+            if len(content) > 15000:
+                content = content[:15000] + '\n... [truncated]'
+            return {'success': True, 'result': content}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _llm_write_file(self, d):
+        """Write/overwrite a file completely."""
+        path = self._resolve_safe_path(d.get('path', ''))
+        content = d.get('content', '')
+        if not path:
+            return {'success': False, 'error': 'Invalid path'}
+
+        self._git_checkpoint(f"Before write: {d.get('path')}")
+
+        # Create parent dirs if needed
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        try:
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            return {'success': True, 'result': f'Wrote {len(content)} chars to {d.get("path")}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _llm_modify_file(self, d):
+        """Replace text in a file."""
+        path = self._resolve_safe_path(d.get('path', ''))
+        old_text = d.get('old', '')
+        new_text = d.get('new', '')
+        if not path:
+            return {'success': False, 'error': 'Invalid path'}
+        if not os.path.exists(path):
+            return {'success': False, 'error': f'File not found: {d.get("path")}'}
+
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+        if old_text not in content:
+            return {'success': False, 'error': 'Old text not found in file'}
+
+        self._git_checkpoint(f"Before modify: {d.get('path')}")
+
+        new_content = content.replace(old_text, new_text, 1)
+        try:
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            return {'success': True, 'result': f'Modified {d.get("path")}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _llm_create_file(self, d):
+        """Create a new file (fails if exists)."""
+        path = self._resolve_safe_path(d.get('path', ''))
+        content = d.get('content', '')
+        if not path:
+            return {'success': False, 'error': 'Invalid path'}
+        if os.path.exists(path):
+            return {'success': False, 'error': 'File already exists'}
+
+        self._git_checkpoint(f"Before create: {d.get('path')}")
+
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        try:
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            return {'success': True, 'result': f'Created {d.get("path")}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _llm_delete_file(self, d):
+        """Delete a file or directory."""
+        import shutil
+        path = self._resolve_safe_path(d.get('path', ''))
+        if not path:
+            return {'success': False, 'error': 'Invalid path'}
+        if not os.path.exists(path):
+            return {'success': False, 'error': 'Path not found'}
+
+        # Critical files that cannot be deleted
+        protected = ['agency.py', 'cognition.py', 'tissue.py', 'server.py', '.git', '.env']
+        basename = os.path.basename(path)
+        if basename in protected:
+            return {'success': False, 'error': f'Cannot delete protected file: {basename}'}
+
+        self._git_checkpoint(f"Before delete: {d.get('path')}")
+
+        try:
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
+            return {'success': True, 'result': f'Deleted {d.get("path")}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _llm_list_dir(self, d):
+        """List directory contents."""
+        rel_path = d.get('path', '.') or '.'
+        path = self._resolve_safe_path(rel_path)
+        if not path:
+            path = self.source_root  # default to root
+
+        if not os.path.exists(path):
+            return {'success': False, 'error': f'Directory not found'}
+        if not os.path.isdir(path):
+            return {'success': False, 'error': 'Not a directory'}
+
+        items = []
+        for item in os.listdir(path):
+            suffix = '/' if os.path.isdir(os.path.join(path, item)) else ''
+            items.append(item + suffix)
+        return {'success': True, 'result': items}
+
+    def _llm_execute(self, d):
+        """Execute a shell command."""
+        import subprocess
+        command = d.get('content', '') or d.get('command', '')
+        if not command:
+            return {'success': False, 'error': 'No command provided'}
+
+        # Block catastrophic patterns
+        dangerous = ['rm -rf /', 'format c:', 'del /s /q c:', ':(){:|:&};:']
+        for pattern in dangerous:
+            if pattern.lower() in command.lower():
+                return {'success': False, 'error': f'Blocked dangerous command'}
+
+        self._git_checkpoint(f"Before execute: {command[:50]}")
+
+        try:
+            result = subprocess.run(
+                command,
+                shell=True,
+                cwd=self.source_root,
+                capture_output=True,
+                timeout=60,
+                text=True,
+            )
+            output = (result.stdout + result.stderr).strip()
+            if len(output) > 10000:
+                output = output[:10000] + '\n... [truncated]'
+            return {
+                'success': result.returncode == 0,
+                'result': output,
+                'exit_code': result.returncode,
+            }
+        except subprocess.TimeoutExpired:
+            return {'success': False, 'error': 'Command timed out (60s)'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _llm_set_param(self, d):
+        """Modify a configuration parameter in source files."""
+        param = d.get('param', '')
+        value = d.get('value')
+        if not param:
+            return {'success': False, 'error': 'No parameter name provided'}
+
+        search_files = [
+            'ultron/tissue.py',
+            'ultron/config.py',
+            'ultron/cognition.py',
+            'viz/server.py',
+        ]
+
+        for rel_path in search_files:
+            path = os.path.join(self.source_root, rel_path)
+            if not os.path.exists(path):
+                continue
+
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # Look for: PARAM_NAME = value
+            pattern = rf'^(\s*)({re.escape(param)})\s*=\s*(.+?)$'
+            match = re.search(pattern, content, re.MULTILINE | re.IGNORECASE)
+
+            if match:
+                old_line = match.group(0)
+                indent = match.group(1)
+                var_name = match.group(2)
+
+                # Format new value
+                if isinstance(value, str):
+                    new_val = f"'{value}'"
+                elif isinstance(value, bool):
+                    new_val = 'True' if value else 'False'
+                else:
+                    new_val = str(value)
+
+                new_line = f"{indent}{var_name} = {new_val}"
+
+                self._git_checkpoint(f"Before set_param: {param}")
+
+                new_content = content.replace(old_line, new_line, 1)
+                with open(path, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+
+                return {'success': True, 'result': f'Set {param} = {new_val} in {rel_path}'}
+
+        return {'success': False, 'error': f'Parameter not found: {param}'}
+
+    def execute_llm_directives(self, directives, tick=0):
+        """Execute multiple directives from a single thought."""
+        results = []
+        for directive in directives:
+            result = self.execute_llm_directive(directive, tick)
+            results.append(result)
+        return results
+
+    def get_capabilities_prompt(self):
+        """Return capabilities description for the LLM system prompt."""
+        return """
+You have OMNIPOTENT AGENCY. You can modify ANYTHING in your source directory.
+
+AVAILABLE ACTIONS (return as JSON array in your response):
+[
+  {"action": "read_file", "path": "relative/path"},
+  {"action": "write_file", "path": "...", "content": "..."},
+  {"action": "modify_file", "path": "...", "old": "exact text to find", "new": "replacement text"},
+  {"action": "create_file", "path": "...", "content": "..."},
+  {"action": "delete_file", "path": "..."},
+  {"action": "list_dir", "path": "."},
+  {"action": "execute", "content": "shell command"},
+  {"action": "set_param", "param": "PARAM_NAME", "value": 123}
+]
+
+KEY DIRECTORIES:
+- ultron/ — your neural code (tissue.py, cognition.py, agency.py)
+- viz/ — visualization server (server.py, index.html)
+- Root files — configuration, experiments, logs
+
+You can modify your OWN source code. You can optimize yourself.
+Every modification is git-checkpointed for safety.
+
+If you want to act, include ACTIONS: [...] in your response.
+If you just want to think, respond normally without ACTIONS.
+"""

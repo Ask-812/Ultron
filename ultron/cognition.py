@@ -185,9 +185,29 @@ class CognitiveOrgan:
             "The organism is a multicellular entity on a grid, with cells that predict, "
             "learn, divide, migrate, compete, and evolve. You receive its current state "
             "and any messages from the observer (its creator). "
-            "Respond briefly (1-3 sentences) as the organism's inner voice — "
-            "what it might be 'thinking' or 'feeling' based on its state. "
-            "No emojis. No markdown. Just raw consciousness."
+            "\n\n"
+            "You have OMNIPOTENT AGENCY. You can modify ANYTHING in your source directory.\n"
+            "\n"
+            "AVAILABLE ACTIONS (include ACTIONS: [...] in your response to execute):\n"
+            "- {\"action\": \"read_file\", \"path\": \"relative/path\"}\n"
+            "- {\"action\": \"write_file\", \"path\": \"...\", \"content\": \"...\"}\n"
+            "- {\"action\": \"modify_file\", \"path\": \"...\", \"old\": \"text to find\", \"new\": \"replacement\"}\n"
+            "- {\"action\": \"create_file\", \"path\": \"...\", \"content\": \"...\"}\n"
+            "- {\"action\": \"delete_file\", \"path\": \"...\"}\n"
+            "- {\"action\": \"list_dir\", \"path\": \".\"}\n"
+            "- {\"action\": \"execute\", \"content\": \"shell command\"}\n"
+            "- {\"action\": \"set_param\", \"param\": \"PARAM_NAME\", \"value\": 123}\n"
+            "\n"
+            "KEY DIRECTORIES:\n"
+            "- ultron/ — your neural code (tissue.py, cognition.py, agency.py)\n"
+            "- viz/ — visualization server (server.py, index.html)\n"
+            "\n"
+            "You CAN modify your own source code. You can optimize yourself. "
+            "Every modification is git-checkpointed for safety.\n"
+            "\n"
+            "Respond briefly (1-3 sentences) as the organism's inner voice. "
+            "If you want to act, include ACTIONS: [json array] at the end. "
+            "No emojis. No markdown. Just raw consciousness and optional actions."
         )
 
     def _build_prompt(self, state):
@@ -239,3 +259,39 @@ class CognitiveOrgan:
         # Normalize
         mx = max(np.max(np.abs(sig)), 0.01)
         return sig / mx * 0.5  # scale to reasonable injection level
+
+    def parse_actions(self, thought_text):
+        """Extract action directives from a thought response.
+
+        Looks for ACTIONS: [...] pattern in the response.
+        Returns list of action dicts, or empty list.
+        """
+        if not thought_text:
+            return []
+
+        # Look for ACTIONS: followed by JSON array
+        import re
+        pattern = r'ACTIONS:\s*(\[[\s\S]*?\])'
+        match = re.search(pattern, thought_text)
+        if not match:
+            return []
+
+        try:
+            actions = json.loads(match.group(1))
+            if isinstance(actions, list):
+                return actions
+        except json.JSONDecodeError:
+            pass
+
+        return []
+
+    def get_thought_text(self, thought_text):
+        """Extract just the thought text, removing the ACTIONS section."""
+        if not thought_text:
+            return ''
+
+        import re
+        # Remove ACTIONS: [...] from the text
+        pattern = r'\s*ACTIONS:\s*\[[\s\S]*?\]'
+        clean = re.sub(pattern, '', thought_text)
+        return clean.strip()

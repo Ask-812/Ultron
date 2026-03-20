@@ -539,9 +539,31 @@ class Ultron:
 
             def on_thought(result):
                 if 'thought' in result:
-                    self._msg(f"THOUGHT: {result['thought'][:80]}")
+                    thought_text = result['thought']
+
+                    # Parse actions from the thought
+                    actions = self._cognition.parse_actions(thought_text)
+                    clean_thought = self._cognition.get_thought_text(thought_text)
+
+                    self._msg(f"THOUGHT: {clean_thought[:80]}")
+
+                    # Execute any actions the organism requested
+                    if actions:
+                        self._msg(f"ACTIONS: {len(actions)} directive(s)")
+                        tick = self.tissue.tick_count
+                        action_results = self._agency.execute_llm_directives(actions, tick)
+                        for i, ar in enumerate(action_results):
+                            status = "OK" if ar.get('success') else "FAIL"
+                            action_type = actions[i].get('action', '?')
+                            result_str = ar.get('result', ar.get('error', ''))
+                            if isinstance(result_str, list):
+                                result_str = f'{len(result_str)} items'
+                            elif len(str(result_str)) > 50:
+                                result_str = str(result_str)[:50] + '...'
+                            self._msg(f"  [{status}] {action_type}: {result_str}")
+
                     # Convert thought to signal and inject into tissue
-                    self._last_thought_signal = self._cognition.thought_to_signal(result['thought'])
+                    self._last_thought_signal = self._cognition.thought_to_signal(clean_thought)
                 elif 'error' in result:
                     self._msg(f"Thought failed: {result['error'][:60]}")
 
