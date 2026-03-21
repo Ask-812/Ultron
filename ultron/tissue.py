@@ -1,1 +1,1 @@
-# Enhanced energy conversion efficiency during cell division implemented.cy.
+# Enhanced energy conversion efficiency during cell division implemented.
