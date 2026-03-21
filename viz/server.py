@@ -93,7 +93,7 @@ CONFIG = {
     'energy_leak_rate': 0.04,
     'division_energy_threshold': 10, 'division_cost': 5,
     'apoptosis_threshold': 2.0, 'apoptosis_streak': 200,
-    'cell_mutation_rate': 0.025, 'birth_trait_variation': 0.05,
+    'cell_mutation_rate': 0.03, 'birth_trait_variation': 0.05,
     'phenotype_max_plasticity': 0.06, 'phenotype_lock_tau': 300.0,
     'phenotype_min_plasticity': 0.002,
     'phenotype_emission_coupling': 2.0, 'phenotype_affinity_coupling': 1.5,
