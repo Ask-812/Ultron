@@ -3,7 +3,7 @@
     'model_dim': 64,
     'starting_energy': 50,
     'energy_capacity': 100,
-    'consumption_rate': 0.1,
+    'consumption_rate': 0.08,
     'learning_rate': 0.05,
     'prior_learning_rate': 0.001,
     'precision_learning_rate': 0.001,
