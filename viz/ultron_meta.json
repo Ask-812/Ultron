@@ -1,31 +1,11 @@
 {
   "born": "2026-03-21 01:49:53",
-  "lifetime": 61557,
+  "lifetime": 61657,
   "gen": 4,
   "sessions": 52,
   "alltime_births": 1480,
   "alltime_deaths": 1242,
   "log": [
-    {
-      "t": "2026-03-21 08:44:13",
-      "m": "Created: t25308.json"
-    },
-    {
-      "t": "2026-03-21 08:44:41",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:44:52",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 08:45:08",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:45:37",
-      "m": "Created: t25398.json"
-    },
     {
       "t": "2026-03-21 08:45:38",
       "m": "Git: auto-committed changes"
@@ -805,6 +785,26 @@
     {
       "t": "2026-03-21 09:36:42",
       "m": "Self-tuned: resource_regen_rate nudged by -0.0000"
+    },
+    {
+      "t": "2026-03-21 09:36:54",
+      "m": "Git: auto-committed changes"
+    },
+    {
+      "t": "2026-03-21 09:37:07",
+      "m": "Created: t28913.json"
+    },
+    {
+      "t": "2026-03-21 09:37:32",
+      "m": "Self-tuned: resource_regen_rate nudged by -0.0000"
+    },
+    {
+      "t": "2026-03-21 09:37:38",
+      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
+    },
+    {
+      "t": "2026-03-21 09:37:56",
+      "m": "Created: t28973.json"
     }
   ]
 }
