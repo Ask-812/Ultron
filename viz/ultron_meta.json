@@ -1,31 +1,11 @@
 {
   "born": "2026-03-21 01:49:53",
-  "lifetime": 61157,
+  "lifetime": 61257,
   "gen": 4,
   "sessions": 52,
   "alltime_births": 1468,
   "alltime_deaths": 1240,
   "log": [
-    {
-      "t": "2026-03-21 08:37:52",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:38:19",
-      "m": "Created: t24948.json"
-    },
-    {
-      "t": "2026-03-21 08:38:22",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 08:38:47",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:39:05",
-      "m": "Git: auto-committed changes"
-    },
     {
       "t": "2026-03-21 08:39:15",
       "m": "Self-tuned: env_dim nudged by -0.4503"
@@ -805,6 +785,26 @@
     {
       "t": "2026-03-21 09:31:05",
       "m": "Left trace"
+    },
+    {
+      "t": "2026-03-21 09:31:10",
+      "m": "Git: auto-committed changes"
+    },
+    {
+      "t": "2026-03-21 09:31:34",
+      "m": "Self-tuned: migration_resource_threshold nudged by -0.0241"
+    },
+    {
+      "t": "2026-03-21 09:31:59",
+      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
+    },
+    {
+      "t": "2026-03-21 09:32:02",
+      "m": "Left trace"
+    },
+    {
+      "t": "2026-03-21 09:32:29",
+      "m": "Self-tuned: landscape_patch_richness nudged by -0.0752"
     }
   ]
 }
