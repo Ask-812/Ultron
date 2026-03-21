@@ -1,35 +1,11 @@
 {
   "born": "2026-03-21 01:49:53",
-  "lifetime": 61957,
+  "lifetime": 62057,
   "gen": 4,
   "sessions": 52,
-  "alltime_births": 1484,
-  "alltime_deaths": 1245,
+  "alltime_births": 1487,
+  "alltime_deaths": 1248,
   "log": [
-    {
-      "t": "2026-03-21 08:50:09",
-      "m": "Git: auto-committed changes"
-    },
-    {
-      "t": "2026-03-21 08:50:34",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:50:54",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 08:50:59",
-      "m": "Created: t25758.json"
-    },
-    {
-      "t": "2026-03-21 08:51:25",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:51:33",
-      "m": "Git: auto-committed changes"
-    },
     {
       "t": "2026-03-21 08:51:50",
       "m": "Self-tuned: phenotype_max_plasticity nudged by -0.0038"
@@ -805,6 +781,30 @@
     {
       "t": "2026-03-21 09:42:06",
       "m": "Self-tuned: migration_energy_cost nudged by -0.0944"
+    },
+    {
+      "t": "2026-03-21 09:42:27",
+      "m": "Git: auto-committed changes"
+    },
+    {
+      "t": "2026-03-21 09:42:32",
+      "m": "Left trace"
+    },
+    {
+      "t": "2026-03-21 09:42:56",
+      "m": "Self-tuned: phenotype_min_plasticity nudged by -0.0001"
+    },
+    {
+      "t": "2026-03-21 09:43:11",
+      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
+    },
+    {
+      "t": "2026-03-21 09:43:21",
+      "m": "Left trace"
+    },
+    {
+      "t": "2026-03-21 09:43:50",
+      "m": "Self-tuned: resource_depletion_rate nudged by -0.0000"
     }
   ]
 }
