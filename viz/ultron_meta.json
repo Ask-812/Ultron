@@ -1,35 +1,11 @@
 {
   "born": "2026-03-21 01:49:53",
-  "lifetime": 61057,
+  "lifetime": 61157,
   "gen": 4,
   "sessions": 52,
-  "alltime_births": 1462,
-  "alltime_deaths": 1238,
+  "alltime_births": 1468,
+  "alltime_deaths": 1240,
   "log": [
-    {
-      "t": "2026-03-21 08:35:55",
-      "m": "Git: auto-committed changes"
-    },
-    {
-      "t": "2026-03-21 08:36:24",
-      "m": "Created: t24828.json"
-    },
-    {
-      "t": "2026-03-21 08:36:53",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 08:37:07",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 08:37:22",
-      "m": "Created: t24888.json"
-    },
-    {
-      "t": "2026-03-21 08:37:33",
-      "m": "Git: auto-committed changes"
-    },
     {
       "t": "2026-03-21 08:37:52",
       "m": "Left trace"
@@ -805,6 +781,30 @@
     {
       "t": "2026-03-21 09:29:23",
       "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
+    },
+    {
+      "t": "2026-03-21 09:29:31",
+      "m": "Git: auto-committed changes"
+    },
+    {
+      "t": "2026-03-21 09:29:35",
+      "m": "Self-tuned: drive_decay nudged by -0.0568"
+    },
+    {
+      "t": "2026-03-21 09:30:03",
+      "m": "Left trace"
+    },
+    {
+      "t": "2026-03-21 09:30:35",
+      "m": "Self-tuned: hazard_signal_strength nudged by -0.0195"
+    },
+    {
+      "t": "2026-03-21 09:30:42",
+      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
+    },
+    {
+      "t": "2026-03-21 09:31:05",
+      "m": "Left trace"
     }
   ]
 }
