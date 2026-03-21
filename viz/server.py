@@ -85,7 +85,7 @@ WS_PORT = 8766
 CONFIG = {
     'env_dim': 8, 'signal_dim': 4, 'observation_dim': 12, 'action_dim': 4,
     'starting_energy': 150.0, 'energy_capacity': 300.0,
-    'consumption_rate': 0.06, 'extraction_factor': 0.6,
+    'consumption_rate': 0.06, 'extraction_factor': 0.7,
     'base_signal_ratio': 0.55, 'spatial_gradient': 0.20,
     'signal_hop_decay': 0.9, 'signal_emission_strength': 0.3,
     'signal_noise': 0.01,
