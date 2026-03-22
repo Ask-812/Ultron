@@ -119,9 +119,15 @@ ws.onMessage = async (data) => {
 
     case 'assistant_message':
       hud.setResponse(data.text);
+      // If no voice comes within 2s, go idle
+      clearTimeout(window._voiceWaitTimer);
+      window._voiceWaitTimer = setTimeout(() => {
+        if (currentState === 'thinking') setState('idle');
+      }, 2000);
       break;
 
     case 'voice':
+      clearTimeout(window._voiceWaitTimer);
       setState('speaking');
       await voice.playAudio(data.audio);
       setState('idle');
@@ -188,20 +194,7 @@ if (inputField) {
     }
   });
 
-  // Show/hide input bar on hover at bottom
-  let inputVisible = false;
-  container.addEventListener('mousemove', (e) => {
-    const threshold = window.innerHeight - 60;
-    if (e.clientY > threshold && !inputVisible) {
-      inputBar.style.opacity = '1';
-      inputBar.style.transform = 'translateX(-50%) translateY(0)';
-      inputVisible = true;
-    } else if (e.clientY < threshold - 40 && inputVisible && document.activeElement !== inputField) {
-      inputBar.style.opacity = '0';
-      inputBar.style.transform = 'translateX(-50%) translateY(20px)';
-      inputVisible = false;
-    }
-  });
+  // Input bar is always visible (opacity managed by CSS hover)
 }
 
 // ── Mic button ──────────────────────────────────────────

@@ -85,18 +85,23 @@ async def ws_handler(websocket):
                 response = await ultron.process_message(text)
 
                 if response:
-                    # Generate voice audio
-                    try:
-                        audio_bytes = await voice.speak(response)
-                        if audio_bytes:
-                            audio_b64 = base64.b64encode(audio_bytes).decode('ascii')
-                            broadcast('voice', {'audio': audio_b64})
-                        else:
-                            # No audio — signal done immediately
+                    # Send text immediately so UI shows it fast
+                    broadcast('assistant_message', {'text': response})
+                    
+                    # Generate voice in background — don't block
+                    async def gen_voice(resp_text):
+                        try:
+                            audio_bytes = await voice.speak(resp_text)
+                            if audio_bytes:
+                                audio_b64 = base64.b64encode(audio_bytes).decode('ascii')
+                                broadcast('voice', {'audio': audio_b64})
+                            else:
+                                broadcast('done', {})
+                        except Exception as e:
+                            print(f"[VOICE] Error: {e}")
                             broadcast('done', {})
-                    except Exception as e:
-                        print(f"[VOICE] Error: {e}")
-                        broadcast('done', {})
+                    
+                    asyncio.ensure_future(gen_voice(response))
                 else:
                     broadcast('done', {})
 

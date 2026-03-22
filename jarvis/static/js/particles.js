@@ -13,7 +13,7 @@
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-const PARTICLE_COUNT = 1500;
+const PARTICLE_COUNT = 2500;
 
 export class ParticleSystem {
   constructor(scene) {
@@ -48,8 +48,8 @@ export class ParticleSystem {
       velocities[i3 + 1] = (Math.random() - 0.5) * 0.01;
       velocities[i3 + 2] = (Math.random() - 0.5) * 0.005;
       
-      sizes[i] = 0.02 + Math.random() * 0.04;
-      alphas[i] = 0.1 + Math.random() * 0.5;
+      sizes[i] = 0.03 + Math.random() * 0.06;
+      alphas[i] = 0.15 + Math.random() * 0.6;
       phases[i] = Math.random() * Math.PI * 2;
     }
 
