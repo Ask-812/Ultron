@@ -674,6 +674,15 @@ class Agency:
         if not path:
             return {'success': False, 'error': 'Invalid path'}
 
+        # Protect core source files from full overwrite — use modify_file instead
+        protected_overwrite = [
+            'tissue.py', 'cognition.py', 'agency.py', 'server.py',
+            'index.html', 'config.py', '__init__.py',
+        ]
+        basename = os.path.basename(path)
+        if basename in protected_overwrite and os.path.exists(path):
+            return {'success': False, 'error': f'Cannot overwrite {basename} — use modify_file for surgical edits'}
+
         self._git_checkpoint(f"Before write: {d.get('path')}")
 
         # Create parent dirs if needed
@@ -692,8 +701,14 @@ class Agency:
         new_text = d.get('new', '')
         if not path:
             return {'success': False, 'error': 'Invalid path'}
+        if not old_text:
+            return {'success': False, 'error': 'No old text provided — cannot replace nothing'}
         if not os.path.exists(path):
             return {'success': False, 'error': f'File not found: {d.get("path")}'}
+
+        # Guard: don't allow replacing huge chunks (likely hallucinated)
+        if len(old_text) > 2000:
+            return {'success': False, 'error': 'Old text too long (>2000 chars) — make smaller, targeted edits'}
 
         try:
             with open(path, 'r', encoding='utf-8') as f:
@@ -707,6 +722,10 @@ class Agency:
         self._git_checkpoint(f"Before modify: {d.get('path')}")
 
         new_content = content.replace(old_text, new_text, 1)
+
+        # Guard: resulting file should not be dramatically smaller
+        if len(new_content) < len(content) * 0.5 and len(content) > 100:
+            return {'success': False, 'error': 'Modification would remove >50% of file — rejected for safety'}
         try:
             with open(path, 'w', encoding='utf-8') as f:
                 f.write(new_content)
