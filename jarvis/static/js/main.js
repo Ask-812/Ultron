@@ -21,6 +21,7 @@ import { Waveform } from './waveform.js';
 import { HUD } from './hud.js';
 import { VoiceIO } from './voice.js';
 import { WS } from './ws.js';
+import * as sfx from './sfx.js';
 
 // ── Scene Setup ─────────────────────────────────────────
 const container = document.getElementById('scene-container');
@@ -73,16 +74,19 @@ function setState(newState) {
       waveform.showInput(false);
       waveform.showOutput(false);
       hud.setTranscript('');
+      if (prevState === 'speaking') sfx.sfxDeactivate();
       break;
     case 'listening':
       waveform.showInput(true);
       waveform.showOutput(false);
       reactor.pulse(0.5);
+      sfx.sfxActivate();
       break;
     case 'thinking':
       waveform.showInput(false);
       waveform.showOutput(false);
       reactor.pulse(0.3);
+      sfx.sfxThinking();
       break;
     case 'speaking':
       waveform.showInput(false);
@@ -97,6 +101,7 @@ const ws = new WS(wsUrl);
 
 ws.onConnect = () => {
   hud.addActivity('<span style="color:#0f0">Connected</span>');
+  sfx.sfxConnect();
   ws.send('status');
 };
 
@@ -118,6 +123,8 @@ ws.onMessage = async (data) => {
       break;
 
     case 'assistant_message':
+      sfx.sfxResponse();
+      hud.setTranscript('');  // Clear user input
       hud.setResponse(data.text);
       // Wait for voice — edge-tts can take 5-8s to generate
       clearTimeout(window._voiceWaitTimer);
@@ -143,6 +150,7 @@ ws.onMessage = async (data) => {
     case 'tool_call':
       hud.addActivity(`<span style="color:#fa0">⚡ ${data.name}</span>`);
       reactor.pulse(0.3);
+      sfx.sfxToolCall();
       break;
 
     case 'tool_result':
@@ -187,6 +195,7 @@ if (inputField) {
       if (text) {
         inputField.value = '';
         setState('thinking');
+        hud.setTranscript('');  // Clear any stale transcript
         hud.setTranscript(text);
         ws.send('message', { text });
         setTimeout(() => hud.setTranscript(''), 2000);

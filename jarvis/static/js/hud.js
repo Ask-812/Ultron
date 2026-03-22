@@ -165,19 +165,35 @@ export class HUD {
   }
 
   setResponse(text) {
-    this.elements.response.textContent = text;
-    this.elements.response.style.opacity = text ? '1' : '0';
+    clearTimeout(this._responseFadeTimer);
+    clearInterval(this._typewriterInterval);
     
-    // Stay visible for 30 seconds
-    if (text) {
-      clearTimeout(this._responseFadeTimer);
-      this._responseFadeTimer = setTimeout(() => {
-        this.elements.response.style.opacity = '0.3';
-      }, 30000);
-      this._responseFadeTimer = setTimeout(() => {
-        this.elements.response.style.opacity = '0';
-      }, 10000);
+    if (!text) {
+      this.elements.response.textContent = '';
+      this.elements.response.style.opacity = '0';
+      return;
     }
+
+    // Typewriter effect — characters appear one by one
+    this.elements.response.textContent = '';
+    this.elements.response.style.opacity = '1';
+    
+    let i = 0;
+    const speed = Math.max(15, Math.min(40, 1500 / text.length)); // Adaptive speed
+    
+    this._typewriterInterval = setInterval(() => {
+      if (i < text.length) {
+        this.elements.response.textContent += text[i];
+        i++;
+      } else {
+        clearInterval(this._typewriterInterval);
+        // Fade to dim after 20 seconds
+        this._responseFadeTimer = setTimeout(() => {
+          this.elements.response.style.transition = 'opacity 3s';
+          this.elements.response.style.opacity = '0.25';
+        }, 20000);
+      }
+    }, speed);
   }
 
   notify(text, duration = 5000) {

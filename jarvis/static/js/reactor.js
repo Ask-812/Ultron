@@ -313,4 +313,4 @@ export class ArcReactor {
     // Decay pulse
     this.pulseIntensity *= Math.max(0, 1 - deltaTime * 4);
   }
-}
+}
