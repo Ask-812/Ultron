@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULTRON</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #e0e0e0;
+    font-family: 'Rajdhani', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Animated background ── */
+  .bg-grid {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(0,150,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,150,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+    animation: gridPulse 4s ease-in-out infinite;
+  }
+  @keyframes gridPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  .bg-vignette {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── Main layout ── */
+  .hud-container {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  /* ── Header ── */
+  .header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    border-bottom: 1px solid rgba(0,150,255,0.2);
+  }
+  .header-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 12px;
+    color: #0af;
+    text-shadow: 0 0 20px rgba(0,170,255,0.5);
+  }
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: #8ab;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #0f0;
+    box-shadow: 0 0 10px #0f0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .status-dot.offline { background: #f00; box-shadow: 0 0 10px #f00; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── Panels ── */
+  .panel {
+    background: rgba(5, 15, 30, 0.85);
+    border: 1px solid rgba(0,150,255,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .panel-header {
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #0af;
+    border-bottom: 1px solid rgba(0,150,255,0.1);
+    background: rgba(0,150,255,0.05);
+  }
+  .panel-body {
+    padding: 10px 12px;
+    flex: 1;
+    overflow-y: auto;
+    font-size: 13px;
+  }
+
+  /* ── Left sidebar ── */
+  .left-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── Center ── */
+  .center-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── Chat / Conversation ── */
+  .chat-panel {
+    flex: 1;
+  }
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 10px;
+  }
+  .msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    animation: msgIn 0.3s ease;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: rgba(0,150,255,0.15);
+    border: 1px solid rgba(0,150,255,0.3);
+    color: #cde;
+  }
+  .msg.assistant {
+    align-self: flex-start;
+    background: rgba(0,255,150,0.05);
+    border: 1px solid rgba(0,255,150,0.2);
+    color: #bde;
+  }
+  .msg.system {
+    align-self: center;
+    background: rgba(255,150,0,0.1);
+    border: 1px solid rgba(255,150,0,0.2);
+    color: #da8;
+    font-size: 12px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .msg.thinking {
+    align-self: center;
+    color: #0af;
+    font-style: italic;
+    border: none;
+    background: none;
+    animation: thinkPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes thinkPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ── Input bar ── */
+  .input-bar {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+  }
+  .input-bar input {
+    flex: 1;
+    background: rgba(5, 15, 30, 0.9);
+    border: 1px solid rgba(0,150,255,0.3);
+    border-radius: 4px;
+    padding: 12px 16px;
+    color: #ddd;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .input-bar input:focus {
+    border-color: #0af;
+    box-shadow: 0 0 15px rgba(0,170,255,0.2);
+  }
+  .input-bar input::placeholder { color: #456; }
+
+  .btn {
+    padding: 12px 24px;
+    background: rgba(0,150,255,0.15);
+    border: 1px solid rgba(0,150,255,0.4);
+    border-radius: 4px;
+    color: #0af;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn:hover {
+    background: rgba(0,150,255,0.3);
+    box-shadow: 0 0 20px rgba(0,170,255,0.3);
+  }
+  .btn.active {
+    background: rgba(255,50,50,0.2);
+    border-color: rgba(255,50,50,0.5);
+    color: #f55;
+  }
+  .btn.voice-btn {
+    font-size: 20px;
+    padding: 12px 16px;
+  }
+
+  /* ── Right sidebar ── */
+  .right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── Status items ── */
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-label { color: #567; font-size: 12px; }
+  .stat-value {
+    color: #0af;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* ── Activity log ── */
+  .activity-item {
+    padding: 4px 0;
+    font-size: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: #789;
+  }
+  .activity-item .time { color: #456; }
+  .activity-item .tool { color: #fa0; }
+  .activity-item .ok { color: #0f0; }
+  .activity-item .fail { color: #f00; }
+
+  /* ── Waveform visualizer ── */
+  .waveform {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .wave-bar {
+    width: 3px;
+    background: #0af;
+    border-radius: 2px;
+    transition: height 0.1s;
+    opacity: 0.6;
+  }
+
+  /* ── Arc reactor ── */
+  .arc-reactor {
+    width: 80px; height: 80px;
+    margin: 10px auto;
+    border-radius: 50%;
+    border: 2px solid rgba(0,150,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: reactorSpin 8s linear infinite;
+  }
+  .arc-reactor::before {
+    content: '';
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,150,255,0.5);
+    position: absolute;
+    animation: reactorSpin 4s linear infinite reverse;
+  }
+  .arc-reactor::after {
+    content: '';
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(0,170,255,0.8);
+    box-shadow: 0 0 30px rgba(0,170,255,0.6), 0 0 60px rgba(0,170,255,0.3);
+    position: absolute;
+  }
+  @keyframes reactorSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,150,255,0.3); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-vignette"></div>
+
+<div class="hud-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-title">ULTRON</div>
+    <div class="header-status">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">CONNECTING...</span>
+      <span id="uptimeDisplay">00:00:00</span>
+    </div>
+  </div>
+
+  <!-- Left Sidebar -->
+  <div class="left-sidebar">
+    <div class="panel">
+      <div class="panel-header">Core Status</div>
+      <div class="panel-body">
+        <div class="arc-reactor"></div>
+        <div class="stat-row"><span class="stat-label">Status</span><span class="stat-value" id="sysStatus">ONLINE</span></div>
+        <div class="stat-row"><span class="stat-label">Uptime</span><span class="stat-value" id="sysUptime">--:--:--</span></div>
+        <div class="stat-row"><span class="stat-label">Memories</span><span class="stat-value" id="sysMemories">0</span></div>
+        <div class="stat-row"><span class="stat-label">Messages</span><span class="stat-value" id="sysConversations">0</span></div>
+        <div class="stat-row"><span class="stat-label">Goals</span><span class="stat-value" id="sysGoals">0</span></div>
+      </div>
+    </div>
+    <div class="panel" style="flex:1">
+      <div class="panel-header">Voice</div>
+      <div class="panel-body">
+        <div class="waveform" id="waveform"></div>
+        <div style="text-align:center;margin-top:8px;font-size:11px;color:#567" id="voiceStatus">Idle</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center: Chat -->
+  <div class="center-area">
+    <div class="panel chat-panel">
+      <div class="panel-header">Communication</div>
+      <div class="panel-body">
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg system">ULTRON system initialized. All systems nominal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div class="right-sidebar">
+    <div class="panel" style="flex:1">
+      <div class="panel-header">Activity Log</div>
+      <div class="panel-body" id="activityLog">
+        <div class="activity-item"><span class="time">--:--:--</span> System boot</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Bar -->
+  <div class="input-bar">
+    <button class="btn voice-btn" id="voiceBtn" title="Hold to speak">🎤</button>
+    <input type="text" id="messageInput" placeholder="Speak to ULTRON..." autocomplete="off">
+    <button class="btn" id="sendBtn">SEND</button>
+  </div>
+</div>
+
+<script>
+// ── WebSocket Connection ──
+const WS_URL = `ws://${location.hostname}:3001`;
+let ws = null;
+let reconnectTimer = null;
+
+function connect() {
+  ws = new WebSocket(WS_URL);
+
+  ws.onopen = () => {
+    document.getElementById('statusDot').classList.remove('offline');
+    document.getElementById('statusText').textContent = 'ONLINE';
+    addActivity('Connected to ULTRON core');
+    if (reconnectTimer) { clearInterval(reconnectTimer); reconnectTimer = null; }
+  };
+
+  ws.onclose = () => {
+    document.getElementById('statusDot').classList.add('offline');
+    document.getElementById('statusText').textContent = 'OFFLINE';
+    addActivity('Connection lost — reconnecting...');
+    if (!reconnectTimer) reconnectTimer = setInterval(connect, 3000);
+  };
+
+  ws.onerror = () => {};
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    handleMessage(data);
+  };
+}
+
+function handleMessage(data) {
+  switch (data.type) {
+    case 'status':
+      updateStatus(data);
+      break;
+    case 'user_message':
+      addMessage('user', data.text);
+      break;
+    case 'assistant_message':
+      removeThinking();
+      addMessage('assistant', data.text);
+      break;
+    case 'thinking':
+      showThinking(data.text);
+      break;
+    case 'tool_call':
+      addActivity(`🔧 ${data.name}(${JSON.stringify(data.args).substring(0, 60)}...)`);
+      break;
+    case 'tool_result':
+      const status = data.result.startsWith('[OK]') ? 'ok' : 'fail';
+      addActivity(`<span class="${status}">${data.result.substring(0, 80)}</span>`);
+      break;
+    case 'voice':
+      playVoice(data.audio);
+      break;
+    case 'error':
+      addActivity(`<span class="fail">ERROR: ${data.text}</span>`);
+      break;
+  }
+}
+
+// ── UI Functions ──
+function addMessage(role, text) {
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.textContent = text;
+  const container = document.getElementById('chatMessages');
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showThinking(text) {
+  removeThinking();
+  const div = document.createElement('div');
+  div.className = 'msg thinking';
+  div.id = 'thinkingMsg';
+  div.textContent = text || 'Processing...';
+  const container = document.getElementById('chatMessages');
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeThinking() {
+  const el = document.getElementById('thinkingMsg');
+  if (el) el.remove();
+}
+
+function addActivity(html) {
+  const container = document.getElementById('activityLog');
+  const div = document.createElement('div');
+  div.className = 'activity-item';
+  const time = new Date().toLocaleTimeString();
+  div.innerHTML = `<span class="time">${time}</span> ${html}`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  // Keep max 50 items
+  while (container.children.length > 50) container.removeChild(container.firstChild);
+}
+
+function updateStatus(data) {
+  if (data.uptime) document.getElementById('sysUptime').textContent = data.uptime;
+  if (data.memories !== undefined) document.getElementById('sysMemories').textContent = data.memories;
+  if (data.conversations !== undefined) document.getElementById('sysConversations').textContent = data.conversations;
+  if (data.goals !== undefined) document.getElementById('sysGoals').textContent = data.goals;
+}
+
+// ── Voice Playback ──
+function playVoice(audioB64) {
+  if (!audioB64) return;
+  document.getElementById('voiceStatus').textContent = 'Speaking...';
+  animateWaveform(true);
+
+  const audio = new Audio('data:audio/mp3;base64,' + audioB64);
+  audio.onended = () => {
+    document.getElementById('voiceStatus').textContent = 'Idle';
+    animateWaveform(false);
+  };
+  audio.onerror = () => {
+    document.getElementById('voiceStatus').textContent = 'Idle';
+    animateWaveform(false);
+  };
+  audio.play().catch(() => {
+    document.getElementById('voiceStatus').textContent = 'Click to enable audio';
+  });
+}
+
+// ── Waveform Animation ──
+function initWaveform() {
+  const container = document.getElementById('waveform');
+  for (let i = 0; i < 30; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    bar.style.height = '4px';
+    container.appendChild(bar);
+  }
+}
+
+let waveformActive = false;
+let waveformInterval = null;
+
+function animateWaveform(active) {
+  waveformActive = active;
+  const bars = document.querySelectorAll('.wave-bar');
+  if (active && !waveformInterval) {
+    waveformInterval = setInterval(() => {
+      bars.forEach(bar => {
+        bar.style.height = (4 + Math.random() * 40) + 'px';
+        bar.style.opacity = 0.3 + Math.random() * 0.7;
+      });
+    }, 80);
+  } else if (!active && waveformInterval) {
+    clearInterval(waveformInterval);
+    waveformInterval = null;
+    bars.forEach(bar => { bar.style.height = '4px'; bar.style.opacity = 0.3; });
+  }
+}
+
+// ── Voice Input (Web Speech API) ──
+let recognition = null;
+let isListening = false;
+
+function initVoiceInput() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    document.getElementById('voiceBtn').style.opacity = 0.3;
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = (event) => {
+    let transcript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    document.getElementById('messageInput').value = transcript;
+
+    // If final result, send it
+    if (event.results[event.results.length - 1].isFinal) {
+      sendMessage(transcript);
+      document.getElementById('messageInput').value = '';
+    }
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    document.getElementById('voiceBtn').classList.remove('active');
+    document.getElementById('voiceStatus').textContent = 'Idle';
+  };
+}
+
+function toggleVoice() {
+  if (!recognition) return;
+  if (isListening) {
+    recognition.stop();
+    isListening = false;
+    document.getElementById('voiceBtn').classList.remove('active');
+  } else {
+    recognition.start();
+    isListening = true;
+    document.getElementById('voiceBtn').classList.add('active');
+    document.getElementById('voiceStatus').textContent = 'Listening...';
+  }
+}
+
+// ── Send Message ──
+function sendMessage(text) {
+  if (!text) text = document.getElementById('messageInput').value.trim();
+  if (!text || !ws || ws.readyState !== WebSocket.OPEN) return;
+
+  ws.send(JSON.stringify({ type: 'message', text: text }));
+  document.getElementById('messageInput').value = '';
+}
+
+// ── Event Listeners ──
+document.getElementById('sendBtn').addEventListener('click', () => sendMessage());
+document.getElementById('messageInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendMessage();
+});
+document.getElementById('voiceBtn').addEventListener('click', toggleVoice);
+
+// ── Uptime Counter ──
+let bootTime = null;
+setInterval(() => {
+  if (!bootTime) return;
+  const diff = Math.floor((Date.now() - new Date(bootTime).getTime()) / 1000);
+  const h = String(Math.floor(diff / 3600)).padStart(2, '0');
+  const m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+  const s = String(diff % 60).padStart(2, '0');
+  document.getElementById('uptimeDisplay').textContent = `${h}:${m}:${s}`;
+}, 1000);
+
+// ── Init ──
+initWaveform();
+initVoiceInput();
+connect();
+
+// Set boot time when we get first status
+const origHandle = handleMessage;
+handleMessage = function(data) {
+  origHandle(data);
+  if (data.type === 'status' && data.boot_time && !bootTime) {
+    bootTime = data.boot_time;
+  }
+};
+</script>
+</body>
+</html>
