@@ -49,26 +49,29 @@ export class HUD {
       transition: 'color 0.5s, opacity 0.5s',
     });
 
-    // Transcription — center (user's voice input)
+    // Transcription — above reactor (user's voice input)
     this.elements.transcript = this._createEl('hud-transcript', {
-      position: 'absolute', top: '40%', left: '50%',
+      position: 'absolute', top: '25%', left: '50%',
       transform: 'translate(-50%, -50%)',
       fontFamily: "'Rajdhani', sans-serif",
-      fontSize: '18px', color: 'rgba(100, 200, 255, 0.8)',
+      fontSize: '22px', color: 'rgba(100, 220, 255, 0.9)',
       letterSpacing: '1px', textAlign: 'center',
-      maxWidth: '600px', opacity: '0',
-      transition: 'opacity 0.4s',
+      maxWidth: '700px', opacity: '0',
+      transition: 'opacity 0.3s',
+      textShadow: '0 0 20px rgba(0,150,255,0.4)',
     });
 
-    // Response — below center (Ultron's response)
+    // Response — below reactor, large and clear
     this.elements.response = this._createEl('hud-response', {
-      position: 'absolute', top: '60%', left: '50%',
-      transform: 'translate(-50%, -50%)',
+      position: 'absolute', top: '68%', left: '50%',
+      transform: 'translate(-50%, 0)',
       fontFamily: "'Rajdhani', sans-serif",
-      fontSize: '16px', color: 'rgba(200, 230, 255, 0.7)',
+      fontSize: '20px', fontWeight: '400',
+      color: 'rgba(220, 240, 255, 0.9)',
       letterSpacing: '0.5px', textAlign: 'center',
-      maxWidth: '700px', lineHeight: '1.6',
-      opacity: '0', transition: 'opacity 0.6s',
+      maxWidth: '750px', lineHeight: '1.6',
+      opacity: '0', transition: 'opacity 0.5s',
+      textShadow: '0 0 15px rgba(0,100,200,0.3)',
     });
 
     // Notification — top center
@@ -165,9 +168,12 @@ export class HUD {
     this.elements.response.textContent = text;
     this.elements.response.style.opacity = text ? '1' : '0';
     
-    // Auto-fade after 10 seconds
+    // Stay visible for 30 seconds
     if (text) {
       clearTimeout(this._responseFadeTimer);
+      this._responseFadeTimer = setTimeout(() => {
+        this.elements.response.style.opacity = '0.3';
+      }, 30000);
       this._responseFadeTimer = setTimeout(() => {
         this.elements.response.style.opacity = '0';
       }, 10000);

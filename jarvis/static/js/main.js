@@ -119,11 +119,11 @@ ws.onMessage = async (data) => {
 
     case 'assistant_message':
       hud.setResponse(data.text);
-      // If no voice comes within 2s, go idle
+      // Wait for voice — edge-tts can take 5-8s to generate
       clearTimeout(window._voiceWaitTimer);
       window._voiceWaitTimer = setTimeout(() => {
         if (currentState === 'thinking') setState('idle');
-      }, 2000);
+      }, 12000);
       break;
 
     case 'voice':

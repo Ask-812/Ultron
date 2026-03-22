@@ -143,6 +143,23 @@
     cursor.style.left = (e.clientX - 6) + 'px';
     cursor.style.top = (e.clientY - 6) + 'px';
   });
+
+  // Unlock audio on first interaction (browsers block autoplay)
+  let audioUnlocked = false;
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    const ctx = new AudioContext();
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    audioUnlocked = true;
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+  }
+  document.addEventListener('click', unlockAudio);
+  document.addEventListener('keydown', unlockAudio);
 </script>
 </body>
 </html>
