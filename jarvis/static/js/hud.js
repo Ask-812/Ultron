@@ -74,14 +74,20 @@ export class HUD {
       textShadow: '0 0 15px rgba(0,100,200,0.3)',
     });
 
-    // Notification — top center
+    // Notification — top center (holographic panel style)
     this.elements.notification = this._createEl('hud-notification', {
-      position: 'absolute', top: '60px', left: '50%',
+      position: 'absolute', top: '70px', left: '50%',
       transform: 'translateX(-50%)',
       fontFamily: "'Rajdhani', sans-serif",
-      fontSize: '14px', color: 'rgba(255, 170, 0, 0.8)',
+      fontSize: '15px', color: 'rgba(255, 200, 50, 0.9)',
       letterSpacing: '2px', textAlign: 'center',
-      opacity: '0', transition: 'opacity 0.5s',
+      padding: '10px 30px',
+      background: 'rgba(255, 170, 0, 0.08)',
+      border: '1px solid rgba(255, 170, 0, 0.2)',
+      borderRadius: '3px',
+      opacity: '0', transition: 'opacity 0.5s, transform 0.5s',
+      textShadow: '0 0 10px rgba(255, 150, 0, 0.3)',
+      backdropFilter: 'blur(5px)',
     });
 
     // Title — top left

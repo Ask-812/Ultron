@@ -209,6 +209,7 @@ async def main():
     asyncio.ensure_future(boot_greeting())
     asyncio.ensure_future(proactive_monitor())
     asyncio.ensure_future(system_stats_loop())
+    asyncio.ensure_future(autonomous_thinking_loop())
 
     # Keep alive
     await asyncio.Future()
@@ -350,6 +351,97 @@ async def system_stats_loop():
             pass
 
         await asyncio.sleep(3)  # Every 3 seconds
+
+
+# ── Autonomous Thinking Loop ─────────────────────────────
+async def autonomous_thinking_loop():
+    """ULTRON's own mind — periodically thinks and may act unprompted.
+    
+    This is what makes it JARVIS, not a chatbot.
+    Every 5 minutes, ULTRON evaluates the situation and decides
+    if there's something worth saying or doing.
+    """
+    await asyncio.sleep(120)  # Wait 2 min after boot before first autonomous thought
+
+    while True:
+        try:
+            # Only think if a client is connected (someone is watching)
+            if not clients:
+                await asyncio.sleep(30)
+                continue
+
+            # Gather context for autonomous decision
+            cpu = psutil.cpu_percent(interval=1)
+            ram = psutil.virtual_memory()
+            hour = datetime.now().hour
+            
+            # Build a context-aware autonomous prompt
+            context_parts = [
+                f"Current time: {datetime.now().strftime('%H:%M, %A %B %d')}",
+                f"System: CPU {cpu}%, RAM {ram.percent}% ({ram.available / (1024**3):.1f}GB free)",
+                f"You have {len(ultron.memory.knowledge)} memories stored.",
+                f"Conversation count this session: {len(ultron.memory.conversations)}",
+            ]
+
+            # Check goals
+            active_goals = ultron.memory.get_active_goals()
+            if active_goals:
+                context_parts.append(f"Active goals: {', '.join(g['goal'] for g in active_goals[:3])}")
+
+            # Time-based context
+            if hour >= 22 or hour < 6:
+                context_parts.append("It's late — the user might be tired.")
+            elif hour == 12 or hour == 13:
+                context_parts.append("It's around lunch time.")
+
+            context = '\n'.join(context_parts)
+
+            # Ask the LLM if there's something to say/do
+            autonomous_prompt = f"""You are in autonomous mode. No one has spoken to you.
+Review the current context and decide: is there something worth saying or doing RIGHT NOW?
+
+Context:
+{context}
+
+Rules:
+- Only speak if you have something genuinely useful, interesting, or important
+- Don't be annoying — 80% of the time, say NOTHING (respond with just "IDLE")
+- Good reasons to speak: time-based reminders, system observations, goal progress updates
+- Good reasons to act: optimize something, clean up files, check on a process
+- If you speak, keep it to 1 sentence max
+- If you want to use tools, include tool calls
+
+Respond with "IDLE" if nothing needs attention, or speak/act if something does."""
+
+            # Use the LLM to decide
+            ultron.memory.add_message('system', f'[AUTONOMOUS CHECK] {context}')
+            response = await ultron.process_message(autonomous_prompt)
+
+            # If the LLM said something other than IDLE
+            if response and response.strip().upper() != 'IDLE' and 'IDLE' not in response.upper():
+                broadcast('assistant_message', {'text': response})
+                broadcast('notification', {'text': 'Autonomous thought', 'level': 'info'})
+
+                # Speak it
+                try:
+                    audio = await voice.speak(response)
+                    if audio:
+                        broadcast('voice', {'audio': base64.b64encode(audio).decode('ascii')})
+                    else:
+                        broadcast('done', {})
+                except:
+                    broadcast('done', {})
+            else:
+                # Remove the autonomous check from conversation to not pollute it
+                if ultron.memory.conversations and ultron.memory.conversations[-1].get('role') == 'system':
+                    ultron.memory.conversations.pop()
+                if ultron.memory.conversations and ultron.memory.conversations[-1].get('role') == 'assistant':
+                    ultron.memory.conversations.pop()
+
+        except Exception as e:
+            print(f"[AUTONOMOUS] Error: {e}")
+
+        await asyncio.sleep(300)  # Think every 5 minutes
 
 
 if __name__ == '__main__':
