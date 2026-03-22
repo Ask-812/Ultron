@@ -91,8 +91,14 @@ async def ws_handler(websocket):
                         if audio_bytes:
                             audio_b64 = base64.b64encode(audio_bytes).decode('ascii')
                             broadcast('voice', {'audio': audio_b64})
+                        else:
+                            # No audio — signal done immediately
+                            broadcast('done', {})
                     except Exception as e:
                         print(f"[VOICE] Error: {e}")
+                        broadcast('done', {})
+                else:
+                    broadcast('done', {})
 
                 # Send status update
                 broadcast('status', ultron.get_status())

@@ -127,6 +127,13 @@ ws.onMessage = async (data) => {
       setState('idle');
       break;
 
+    case 'done':
+      // Server signals processing complete (no voice or voice failed)
+      if (currentState !== 'speaking') {
+        setState('idle');
+      }
+      break;
+
     case 'tool_call':
       hud.addActivity(`<span style="color:#fa0">⚡ ${data.name}</span>`);
       reactor.pulse(0.3);
