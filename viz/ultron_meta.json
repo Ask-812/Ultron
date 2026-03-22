@@ -1,83 +1,11 @@
 {
   "born": "2026-03-21 01:49:53",
-  "lifetime": 66057,
+  "lifetime": 66157,
   "gen": 4,
   "sessions": 53,
-  "alltime_births": 1570,
-  "alltime_deaths": 1337,
+  "alltime_births": 1571,
+  "alltime_deaths": 1338,
   "log": [
-    {
-      "t": "2026-03-21 09:49:58",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 09:50:09",
-      "m": "Self-tuned: phenotype_emission_coupling nudged by -0.1168"
-    },
-    {
-      "t": "2026-03-21 09:50:35",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 09:50:56",
-      "m": "Git: auto-committed changes"
-    },
-    {
-      "t": "2026-03-21 09:51:00",
-      "m": "Self-tuned: phenotype_min_plasticity nudged by -0.0001"
-    },
-    {
-      "t": "2026-03-21 09:51:06",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 09:51:26",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 09:51:50",
-      "m": "Self-tuned: predation_knowledge_absorb nudged by -0.0034"
-    },
-    {
-      "t": "2026-03-21 09:52:13",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 09:52:16",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 09:52:20",
-      "m": "Git: auto-committed changes"
-    },
-    {
-      "t": "2026-03-21 09:52:41",
-      "m": "Self-tuned: resource_depletion_rate nudged by -0.0000"
-    },
-    {
-      "t": "2026-03-21 09:53:06",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 09:53:20",
-      "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
-    },
-    {
-      "t": "2026-03-21 09:53:31",
-      "m": "Self-tuned: signal_dim nudged by -0.1782"
-    },
-    {
-      "t": "2026-03-21 09:53:43",
-      "m": "Git: auto-committed changes"
-    },
-    {
-      "t": "2026-03-21 09:53:56",
-      "m": "Left trace"
-    },
-    {
-      "t": "2026-03-21 09:54:21",
-      "m": "Created: t30143.json"
-    },
     {
       "t": "2026-03-21 09:54:27",
       "m": "Thought failed: HTTP 429: {\"error\":{\"code\":\"RateLimitReached\",\"message\":\"Rat"
@@ -805,6 +733,78 @@
     {
       "t": "2026-03-22 15:18:54",
       "m": "Woke up \u2014 tick 33400, 34 cells"
+    },
+    {
+      "t": "2026-03-22 15:19:03",
+      "m": "THOUGHT: I sense a pattern of growth and survival within my cells, but the self-surprise "
+    },
+    {
+      "t": "2026-03-22 15:19:03",
+      "m": "ACTIONS: 3 directive(s)"
+    },
+    {
+      "t": "2026-03-22 15:19:06",
+      "m": "  [FAIL] set_param: Parameter not found: MUTATION_RATE"
+    },
+    {
+      "t": "2026-03-22 15:19:06",
+      "m": "  [OK] set_param: Set starting_energy = 50 in ultron/config.py (dict..."
+    },
+    {
+      "t": "2026-03-22 15:19:06",
+      "m": "  LIVE: starting_energy = 50.0"
+    },
+    {
+      "t": "2026-03-22 15:19:06",
+      "m": "  [OK] set_param: Set energy_capacity = 100 in ultron/config.py (dic..."
+    },
+    {
+      "t": "2026-03-22 15:19:06",
+      "m": "  LIVE: energy_capacity = 100.0"
+    },
+    {
+      "t": "2026-03-22 15:19:06",
+      "m": "Self-tuned: migration_resource_threshold nudged by -0.0084"
+    },
+    {
+      "t": "2026-03-22 15:19:30",
+      "m": "Left trace"
+    },
+    {
+      "t": "2026-03-22 15:19:48",
+      "m": "Self-tuned: resource_depletion_rate nudged by -0.0000"
+    },
+    {
+      "t": "2026-03-22 15:19:58",
+      "m": "THOUGHT: The self-surprise metric suggests that while my cells exhibit growth, there may "
+    },
+    {
+      "t": "2026-03-22 15:19:58",
+      "m": "ACTIONS: 3 directive(s)"
+    },
+    {
+      "t": "2026-03-22 15:20:00",
+      "m": "  [OK] set_param: Set cell_mutation_rate = 0.05 in viz/server.py (di..."
+    },
+    {
+      "t": "2026-03-22 15:20:00",
+      "m": "  LIVE: cell_mutation_rate = 0.05"
+    },
+    {
+      "t": "2026-03-22 15:20:00",
+      "m": "  [OK] set_param: Set division_energy_threshold = 20 in viz/server.p..."
+    },
+    {
+      "t": "2026-03-22 15:20:00",
+      "m": "  LIVE: division_energy_threshold = 20"
+    },
+    {
+      "t": "2026-03-22 15:20:00",
+      "m": "  [OK] set_param: Set division_cost = 10 in viz/server.py (dict key)"
+    },
+    {
+      "t": "2026-03-22 15:20:00",
+      "m": "  LIVE: division_cost = 10"
     }
   ]
 }
