@@ -24,7 +24,7 @@ from jarvis.core import Ultron
 from jarvis.voice import VoiceEngine
 
 ROOT = Path(__file__).parent.resolve()
-STATIC_DIR = ROOT / "jarvis" / "static"
+STATIC_DIR = ROOT / "static"
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
 PORT_HTTP = 3000
