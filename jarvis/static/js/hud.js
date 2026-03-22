@@ -206,11 +206,33 @@ export class HUD {
 
   setSystemStats(stats) {
     const lines = [];
-    if (stats.cpu !== undefined) lines.push(`CPU ${stats.cpu}%`);
-    if (stats.ram !== undefined) lines.push(`RAM ${stats.ram}%`);
+    if (stats.cpu !== undefined) {
+      const cpuColor = stats.cpu > 80 ? '#f44' : stats.cpu > 50 ? '#fa0' : '#0af';
+      lines.push(`<span style="color:${cpuColor}">CPU ${stats.cpu}%</span>`);
+    }
+    if (stats.ram !== undefined) {
+      const ramColor = stats.ram > 85 ? '#f44' : stats.ram > 60 ? '#fa0' : '#0af';
+      lines.push(`<span style="color:${ramColor}">RAM ${stats.ram}%</span>`);
+      if (stats.ram_used_gb) lines.push(`<span style="opacity:0.5">${stats.ram_used_gb}/${stats.ram_total_gb}GB</span>`);
+    }
+    if (stats.disk !== undefined) {
+      lines.push(`DISK ${stats.disk}%`);
+    }
+    if (stats.battery) {
+      const batIcon = stats.battery.charging ? '⚡' : '🔋';
+      lines.push(`${batIcon} ${stats.battery.percent}%`);
+    }
     if (stats.uptime) lines.push(`UP ${stats.uptime}`);
     if (stats.memories !== undefined) lines.push(`MEM ${stats.memories}`);
+    if (stats.conversations !== undefined) lines.push(`CONV ${stats.conversations}`);
     this.elements.system.innerHTML = lines.join('<br>');
+
+    // Store CPU for reactor pulsing
+    this._lastCpu = stats.cpu || 0;
+  }
+
+  getCpuLevel() {
+    return (this._lastCpu || 0) / 100;
   }
 
   setUptime(text) {

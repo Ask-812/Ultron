@@ -118,6 +118,16 @@ ws.onMessage = async (data) => {
       });
       break;
 
+    case 'system_stats':
+      hud.setSystemStats(data);
+      break;
+
+    case 'notification':
+      hud.notify(data.text, 8000);
+      sfx.sfxError();
+      reactor.pulse(0.6);
+      break;
+
     case 'thinking':
       setState('thinking');
       break;
@@ -272,10 +282,11 @@ function animate() {
   const time = clock.getElapsedTime();
   const delta = Math.min(clock.getDelta(), 0.05); // Cap delta
 
-  // Get audio levels
+  // Get audio levels + CPU level for reactor ambience
   const inputLevel = waveform.getInputLevel();
   const outputLevel = waveform.getOutputLevel();
-  const audioLevel = Math.max(inputLevel, outputLevel);
+  const cpuLevel = hud.getCpuLevel() * 0.15; // Subtle CPU-driven pulse
+  const audioLevel = Math.max(inputLevel, outputLevel, cpuLevel);
 
   // Update components
   reactor.update(time, delta, audioLevel);

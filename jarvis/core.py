@@ -210,14 +210,104 @@ class Tools:
     def system_info(self) -> dict:
         """Get system information."""
         import platform
+        import psutil
+        
+        cpu = psutil.cpu_percent(interval=0.5)
+        ram = psutil.virtual_memory()
+        disk = psutil.disk_usage('/')
+        
         info = {
             'os': platform.system(),
             'machine': platform.machine(),
             'python': platform.python_version(),
             'cwd': str(self.root),
             'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'cpu_percent': cpu,
+            'ram_percent': round(ram.percent, 1),
+            'ram_used_gb': round(ram.used / (1024**3), 1),
+            'ram_total_gb': round(ram.total / (1024**3), 1),
+            'disk_percent': round(disk.percent, 1),
+            'disk_free_gb': round(disk.free / (1024**3), 1),
         }
+        
+        # Battery
+        try:
+            bat = psutil.sensors_battery()
+            if bat:
+                info['battery_percent'] = bat.percent
+                info['battery_charging'] = bat.power_plugged
+        except:
+            pass
+        
         return {'success': True, 'output': json.dumps(info, indent=2)}
+
+    def open_app(self, app_name: str) -> dict:
+        """Open an application by name."""
+        import subprocess
+        
+        # Common app mappings for Windows
+        app_map = {
+            'chrome': 'start chrome',
+            'google chrome': 'start chrome', 
+            'browser': 'start chrome',
+            'firefox': 'start firefox',
+            'edge': 'start msedge',
+            'notepad': 'start notepad',
+            'calculator': 'start calc',
+            'calc': 'start calc',
+            'explorer': 'start explorer',
+            'file explorer': 'start explorer',
+            'files': 'start explorer',
+            'terminal': 'start wt',
+            'cmd': 'start cmd',
+            'powershell': 'start powershell',
+            'code': 'start code',
+            'vscode': 'start code',
+            'vs code': 'start code',
+            'spotify': 'start spotify:',
+            'discord': 'start discord:',
+            'slack': 'start slack:',
+            'task manager': 'start taskmgr',
+            'settings': 'start ms-settings:',
+        }
+        
+        cmd = app_map.get(app_name.lower().strip())
+        if not cmd:
+            # Try to run it directly
+            cmd = f'start {app_name}'
+        
+        try:
+            subprocess.Popen(cmd, shell=True, cwd=self.root)
+            return {'success': True, 'output': f'Opened {app_name}'}
+        except Exception as e:
+            return {'success': False, 'output': str(e)}
+
+    def set_volume(self, level: int) -> dict:
+        """Set system volume (0-100)."""
+        try:
+            # Use PowerShell to set volume on Windows
+            level = max(0, min(100, level))
+            cmd = f'powershell -c "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"'
+            # Use nircmd if available, otherwise PowerShell
+            subprocess.run(
+                f'powershell -c "$obj = New-Object -ComObject WScript.Shell; '
+                f'for($i=0;$i -lt 50;$i++){{$obj.SendKeys([char]174)}}; '
+                f'for($i=0;$i -lt {level // 2};$i++){{$obj.SendKeys([char]175)}}"',
+                shell=True, capture_output=True, timeout=10
+            )
+            return {'success': True, 'output': f'Volume set to approximately {level}%'}
+        except Exception as e:
+            return {'success': False, 'output': str(e)}
+
+    def web_search(self, query: str) -> dict:
+        """Open a web search in the default browser."""
+        import urllib.parse
+        url = f'https://www.google.com/search?q={urllib.parse.quote(query)}'
+        try:
+            subprocess.Popen(f'start {url}', shell=True)
+            return {'success': True, 'output': f'Searching for: {query}'}
+        except Exception as e:
+            return {'success': False, 'output': str(e)}
 
     def get_tools_description(self):
         """Return tool descriptions for the LLM."""
@@ -309,6 +399,48 @@ class Tools:
             {
                 "type": "function",
                 "function": {
+                    "name": "open_app",
+                    "description": "Open an application. Works with: chrome, firefox, edge, notepad, calculator, explorer, terminal, vscode, spotify, discord, slack, settings, task manager. Or provide any app name.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "app_name": {"type": "string", "description": "Name of the application to open"}
+                        },
+                        "required": ["app_name"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "web_search",
+                    "description": "Open a Google search in the browser for any query.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "query": {"type": "string", "description": "Search query"}
+                        },
+                        "required": ["query"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "set_volume",
+                    "description": "Set the system audio volume level (0-100).",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "level": {"type": "integer", "description": "Volume level 0-100"}
+                        },
+                        "required": ["level"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
                     "name": "remember",
                     "description": "Store a fact or preference in persistent memory. Use to remember user preferences, important information, learned patterns.",
                     "parameters": {
@@ -351,6 +483,12 @@ class Tools:
             result = self.search_files(args.get('pattern', '*'), args.get('path', '.'))
         elif name == 'system_info':
             result = self.system_info()
+        elif name == 'open_app':
+            result = self.open_app(args.get('app_name', ''))
+        elif name == 'web_search':
+            result = self.web_search(args.get('query', ''))
+        elif name == 'set_volume':
+            result = self.set_volume(args.get('level', 50))
         elif name == 'remember':
             memory.learn(args.get('key', ''), args.get('value', ''))
             result = {'success': True, 'output': f"Remembered: {args.get('key')}"}

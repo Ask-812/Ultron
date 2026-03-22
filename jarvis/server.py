@@ -14,7 +14,10 @@ import json
 import os
 import time
 import base64
+import platform
+import psutil
 from pathlib import Path
+from datetime import datetime
 
 import websockets
 import aiohttp
@@ -202,8 +205,151 @@ async def main():
 ╚══════════════════════════════════════════════════════╝
 """)
 
+    # Start background tasks
+    asyncio.ensure_future(boot_greeting())
+    asyncio.ensure_future(proactive_monitor())
+    asyncio.ensure_future(system_stats_loop())
+
     # Keep alive
     await asyncio.Future()
+
+
+# ── Boot Greeting ────────────────────────────────────────
+async def boot_greeting():
+    """Speak an unprompted greeting when ULTRON boots and a client connects."""
+    # Wait for first client
+    for _ in range(60):
+        if clients:
+            break
+        await asyncio.sleep(1)
+
+    if not clients:
+        return
+
+    await asyncio.sleep(2)  # Let the UI finish loading
+
+    hour = datetime.now().hour
+    if hour < 12:
+        time_greeting = "Good morning"
+    elif hour < 17:
+        time_greeting = "Good afternoon"
+    else:
+        time_greeting = "Good evening"
+
+    boot_count = 1
+    try:
+        pfile = ROOT.parent / "jarvis" / "memory" / "personality.json"
+        if pfile.exists():
+            p = json.loads(pfile.read_text(encoding='utf-8'))
+            boot_count = p.get('boot_count', 1)
+    except:
+        pass
+
+    if boot_count <= 1:
+        greeting = f"{time_greeting}, Sir. All systems are online. I am ULTRON. How may I serve you?"
+    else:
+        greeting = f"{time_greeting}, Sir. Systems online, boot cycle {boot_count}. All nominal."
+
+    broadcast('assistant_message', {'text': greeting})
+
+    try:
+        audio = await voice.speak(greeting)
+        if audio:
+            b64 = base64.b64encode(audio).decode('ascii')
+            broadcast('voice', {'audio': b64})
+    except Exception as e:
+        print(f"[BOOT] Voice error: {e}")
+
+
+# ── Proactive Monitor ────────────────────────────────────
+async def proactive_monitor():
+    """Background loop that monitors the system and proactively notifies."""
+    await asyncio.sleep(30)  # Let everything settle first
+
+    last_cpu_alert = 0
+    last_ram_alert = 0
+    last_disk_alert = 0
+
+    while True:
+        try:
+            now = time.time()
+
+            # CPU check
+            cpu = psutil.cpu_percent(interval=1)
+            if cpu > 90 and now - last_cpu_alert > 300:
+                last_cpu_alert = now
+                msg = f"Sir, CPU usage is critically high at {cpu:.0f}%. You may want to close some applications."
+                broadcast('notification', {'text': msg, 'level': 'warning'})
+                broadcast('assistant_message', {'text': msg})
+                try:
+                    audio = await voice.speak(msg)
+                    if audio:
+                        broadcast('voice', {'audio': base64.b64encode(audio).decode('ascii')})
+                except:
+                    pass
+
+            # RAM check
+            ram = psutil.virtual_memory()
+            ram_pct = ram.percent
+            if ram_pct > 90 and now - last_ram_alert > 300:
+                last_ram_alert = now
+                free_gb = ram.available / (1024**3)
+                msg = f"Memory is running low — {ram_pct:.0f}% used, only {free_gb:.1f}GB free."
+                broadcast('notification', {'text': msg, 'level': 'warning'})
+                broadcast('assistant_message', {'text': msg})
+
+            # Disk check  
+            disk = psutil.disk_usage('/')
+            disk_pct = disk.percent
+            if disk_pct > 95 and now - last_disk_alert > 3600:
+                last_disk_alert = now
+                free_gb = disk.free / (1024**3)
+                msg = f"Disk space critical — {disk_pct:.0f}% full, only {free_gb:.1f}GB remaining."
+                broadcast('notification', {'text': msg, 'level': 'critical'})
+                broadcast('assistant_message', {'text': msg})
+
+        except Exception as e:
+            pass
+
+        await asyncio.sleep(15)  # Check every 15 seconds
+
+
+# ── System Stats Broadcast ───────────────────────────────
+async def system_stats_loop():
+    """Continuously send real system stats to the HUD."""
+    while True:
+        try:
+            cpu = psutil.cpu_percent(interval=0)
+            ram = psutil.virtual_memory()
+            disk = psutil.disk_usage('/')
+            
+            # Get battery if available
+            battery = None
+            try:
+                bat = psutil.sensors_battery()
+                if bat:
+                    battery = {'percent': bat.percent, 'charging': bat.power_plugged}
+            except:
+                pass
+
+            stats = {
+                'cpu': round(cpu),
+                'ram': round(ram.percent),
+                'ram_used_gb': round(ram.used / (1024**3), 1),
+                'ram_total_gb': round(ram.total / (1024**3), 1),
+                'disk': round(disk.percent),
+                'disk_free_gb': round(disk.free / (1024**3), 1),
+                'uptime': ultron.get_status().get('uptime', ''),
+                'memories': len(ultron.memory.knowledge),
+                'conversations': len(ultron.memory.conversations),
+                'goals': len(ultron.memory.get_active_goals()),
+                'battery': battery,
+            }
+            broadcast('system_stats', stats)
+        except:
+            pass
+
+        await asyncio.sleep(3)  # Every 3 seconds
 
 
 if __name__ == '__main__':
