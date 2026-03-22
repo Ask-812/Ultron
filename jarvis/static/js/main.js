@@ -159,6 +159,7 @@ ws.onMessage = async (data) => {
 
     case 'tool_call':
       hud.addActivity(`<span style="color:#fa0">⚡ ${data.name}</span>`);
+      hud.showPanel(`⚡ ${data.name}`, 3000, 'info');
       reactor.pulse(0.3);
       sfx.sfxToolCall();
       break;
@@ -166,6 +167,9 @@ ws.onMessage = async (data) => {
     case 'tool_result':
       const ok = data.result && data.result.startsWith('[OK]');
       const color = ok ? '#0f0' : '#f00';
+      const panelType = ok ? 'success' : 'error';
+      const resultText = (data.result || '').substring(0, 80);
+      hud.showPanel(resultText, 4000, panelType);
       hud.addActivity(`<span style="color:${color}">${data.result?.substring(0, 60) || ''}</span>`);
       break;
 

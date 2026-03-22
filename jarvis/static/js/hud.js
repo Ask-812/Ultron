@@ -31,12 +31,17 @@ export class HUD {
       letterSpacing: '2px', textAlign: 'right',
     });
 
-    // System status — bottom right
+    // System status — bottom right (styled HUD panel)
     this.elements.system = this._createEl('hud-system', {
-      position: 'absolute', bottom: '80px', right: '30px',
+      position: 'absolute', bottom: '75px', right: '20px',
       fontFamily: "'Share Tech Mono', 'Courier New', monospace",
-      fontSize: '11px', color: 'rgba(0, 170, 255, 0.4)',
-      letterSpacing: '1px', textAlign: 'right', lineHeight: '1.8',
+      fontSize: '11px', color: 'rgba(0, 170, 255, 0.5)',
+      letterSpacing: '1px', textAlign: 'right', lineHeight: '1.9',
+      padding: '10px 15px',
+      background: 'rgba(0, 30, 60, 0.3)',
+      border: '1px solid rgba(0, 100, 200, 0.12)',
+      borderRadius: '3px',
+      backdropFilter: 'blur(3px)',
     });
 
     // State indicator — bottom center
@@ -108,11 +113,11 @@ export class HUD {
       letterSpacing: '2px',
     });
 
-    // Activity feed — bottom left
+    // Activity feed — bottom left (styled HUD panel)
     this.elements.activity = this._createEl('hud-activity', {
-      position: 'absolute', bottom: '80px', left: '30px',
+      position: 'absolute', bottom: '75px', left: '20px',
       fontFamily: "'Share Tech Mono', monospace",
-      fontSize: '10px', color: 'rgba(0, 170, 255, 0.3)',
+      fontSize: '10px', color: 'rgba(0, 170, 255, 0.4)',
       lineHeight: '1.8', maxWidth: '300px',
       maxHeight: '120px', overflow: 'hidden',
     });
@@ -250,10 +255,70 @@ export class HUD {
     const time = new Date().toLocaleTimeString('en-US', { hour12: false });
     const line = document.createElement('div');
     line.innerHTML = `<span style="opacity:0.5">${time}</span> ${text}`;
+    line.style.animation = 'fadeSlideIn 0.3s ease forwards';
     el.appendChild(line);
     
     // Keep max 8 lines
     while (el.children.length > 8) el.removeChild(el.firstChild);
+  }
+
+  /**
+   * Show a floating holographic panel near the reactor.
+   * Used for tool execution results, notifications, etc.
+   */
+  showPanel(text, duration = 4000, type = 'info') {
+    const colors = {
+      info: { border: 'rgba(0,150,255,0.3)', bg: 'rgba(0,30,60,0.4)', text: 'rgba(180,220,255,0.9)' },
+      success: { border: 'rgba(0,200,100,0.3)', bg: 'rgba(0,40,20,0.4)', text: 'rgba(150,255,200,0.9)' },
+      warning: { border: 'rgba(255,170,0,0.3)', bg: 'rgba(40,30,0,0.4)', text: 'rgba(255,220,150,0.9)' },
+      error: { border: 'rgba(255,50,50,0.3)', bg: 'rgba(40,0,0,0.4)', text: 'rgba(255,180,180,0.9)' },
+    };
+    const c = colors[type] || colors.info;
+
+    // Position randomly around the reactor
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 180 + Math.random() * 80;
+    const cx = window.innerWidth / 2 + Math.cos(angle) * dist;
+    const cy = window.innerHeight * 0.42 + Math.sin(angle) * dist * 0.5;
+
+    const panel = document.createElement('div');
+    panel.style.cssText = `
+      position: absolute;
+      left: ${cx}px; top: ${cy}px;
+      transform: translate(-50%, -50%) scale(0.8);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: ${c.text};
+      padding: 8px 14px;
+      background: ${c.bg};
+      border: 1px solid ${c.border};
+      border-radius: 3px;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.4s, transform 0.4s;
+      pointer-events: none;
+      user-select: none;
+      z-index: 150;
+      max-width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    `;
+    panel.textContent = text;
+    this.container.appendChild(panel);
+
+    // Animate in
+    requestAnimationFrame(() => {
+      panel.style.opacity = '1';
+      panel.style.transform = 'translate(-50%, -50%) scale(1)';
+    });
+
+    // Animate out and remove
+    setTimeout(() => {
+      panel.style.opacity = '0';
+      panel.style.transform = 'translate(-50%, -50%) scale(0.9)';
+      setTimeout(() => panel.remove(), 500);
+    }, duration);
   }
 
   fadeAll(opacity) {

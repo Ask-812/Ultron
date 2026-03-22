@@ -309,6 +309,55 @@ class Tools:
         except Exception as e:
             return {'success': False, 'output': str(e)}
 
+    def list_processes(self, filter_name: str = '') -> dict:
+        """List running processes, optionally filtered by name."""
+        import psutil
+        try:
+            procs = []
+            for p in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info']):
+                try:
+                    info = p.info
+                    if filter_name and filter_name.lower() not in info['name'].lower():
+                        continue
+                    mem_mb = info['memory_info'].rss / (1024*1024) if info['memory_info'] else 0
+                    procs.append(f"{info['name']} (PID {info['pid']}) — {mem_mb:.0f}MB")
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
+            
+            # Sort by memory, show top 20
+            procs.sort(key=lambda x: float(x.split('—')[1].replace('MB', '').strip()), reverse=True)
+            result = '\n'.join(procs[:20])
+            return {'success': True, 'output': result or 'No processes found'}
+        except Exception as e:
+            return {'success': False, 'output': str(e)}
+
+    def kill_process(self, name_or_pid: str) -> dict:
+        """Kill a process by name or PID."""
+        import psutil
+        try:
+            killed = []
+            # Try as PID first
+            try:
+                pid = int(name_or_pid)
+                p = psutil.Process(pid)
+                p.terminate()
+                killed.append(f"{p.name()} (PID {pid})")
+            except (ValueError, psutil.NoSuchProcess):
+                # Try by name
+                for p in psutil.process_iter(['pid', 'name']):
+                    try:
+                        if name_or_pid.lower() in p.info['name'].lower():
+                            p.terminate()
+                            killed.append(f"{p.info['name']} (PID {p.info['pid']})")
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        pass
+            
+            if killed:
+                return {'success': True, 'output': f"Terminated: {', '.join(killed)}"}
+            return {'success': False, 'output': f'No process found matching: {name_or_pid}'}
+        except Exception as e:
+            return {'success': False, 'output': str(e)}
+
     def get_tools_description(self):
         """Return tool descriptions for the LLM."""
         return [
@@ -441,6 +490,34 @@ class Tools:
             {
                 "type": "function",
                 "function": {
+                    "name": "list_processes",
+                    "description": "List running processes on the system, sorted by memory usage. Optionally filter by name.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "filter_name": {"type": "string", "description": "Filter processes by name (optional)", "default": ""}
+                        },
+                        "required": []
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "kill_process",
+                    "description": "Kill/terminate a process by name or PID.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "name_or_pid": {"type": "string", "description": "Process name or PID to kill"}
+                        },
+                        "required": ["name_or_pid"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
                     "name": "remember",
                     "description": "Store a fact or preference in persistent memory. Use to remember user preferences, important information, learned patterns.",
                     "parameters": {
@@ -489,6 +566,10 @@ class Tools:
             result = self.web_search(args.get('query', ''))
         elif name == 'set_volume':
             result = self.set_volume(args.get('level', 50))
+        elif name == 'list_processes':
+            result = self.list_processes(args.get('filter_name', ''))
+        elif name == 'kill_process':
+            result = self.kill_process(args.get('name_or_pid', ''))
         elif name == 'remember':
             memory.learn(args.get('key', ''), args.get('value', ''))
             result = {'success': True, 'output': f"Remembered: {args.get('key')}"}
