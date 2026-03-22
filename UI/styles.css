@@ -1,0 +1,10 @@
+html, body {
+    overflow: hidden; /* Disable scrolling */
+}
+
+.container {
+    height: 100vh; /* Force the container to fit the viewport height */
+    overflow: auto; /* Handle internal scrolling if necessary */
+    display: flex;
+    flex-direction: column;
+}
